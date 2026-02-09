@@ -1,0 +1,34 @@
+from pydantic_settings import BaseSettings
+
+class Settings(BaseSettings):
+
+    DEVICE: str = "cpu"
+
+
+    VIDEO_SAMPLING_RATE: int = 15
+    
+    # Lower number means more strict. (This value is relatively lenient)
+    PHASH_SIMILARITY_THRESHOLD: int = 12
+    
+    # How many neighbouring frames to consider when merging and making a video.
+    FRAME_NEIGHBOUR_RANGE_BEFORE: int = 30
+    FRAME_NEIGHBOUR_RANGE_AFTER: int = 60
+
+    FRAME_BATCH_SIZE: int = 32
+    
+    
+    MODEL_NAME: str = "ViT-L/14"
+    
+    CLIP_THRESHOLD: float = 0.192
+
+    
+    
+    MAX_NUMBER_OF_MODIFIED_PROMPTS: int =  5  
+    LLM_MODEL_NAME: str = "groq/compound"
+    GROQ_API_KEY: str = ""
+    
+    class Config:
+        env_file = ".env"
+    
+    
+settings = Settings()
