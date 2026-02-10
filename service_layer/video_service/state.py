@@ -7,6 +7,8 @@ class State(TypedDict):
     output_path: str
     
     video_processor: Video_Processor 
+   
+    batch_size: int
     
     sampled_generator_factory: Callable[[], Generator_Image_Range]
     
@@ -19,9 +21,10 @@ class State(TypedDict):
     expanded_frame_range_generator_factory: Callable[[], Generator_Generic_Range]
     
 
-def get_state(output_path: str, video_processor: Video_Processor) -> State:
+def get_state(output_path: str, video_processor: Video_Processor, batch_size: int) -> State:
     
     return State(                              # type: ignore
         output_path=output_path,
         video_processor=video_processor,
+        batch_size=batch_size
     )

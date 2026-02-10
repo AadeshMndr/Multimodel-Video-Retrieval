@@ -56,4 +56,49 @@ def generate_similar_prompts(state: State):
     logging.info("\n") 
     
     return { "modified_prompts": output.modified_prompts }
+   
+   
+def generate_synonyms(state: State):
     
+    template = PromptTemplate(
+        template="""
+        This is the user's prompt: {user_prompt},
+        
+        Now, this prompt will be used to extract frames from a video that has the object described in it, using YOLO.
+        I want you to give some synonyms of the object that is described in the prompt so that I can increase my chance of finding it using YOLO
+       
+        Don't keep things such as: "Find me clips...", "Clips of..." and such things from the prompt.
+        
+        At max generate {max_num_of_modified_prompts} words.
+        You don't always need to generate {max_num_of_modified_prompts} synonyms, sometimes, if there is not many synonyms then, just generate how much you can. 
+        Prefer finding the correct / exact synonyms than having to find {max_num_of_modified_prompts} synonyms.
+        
+        {format_instructions}
+        
+        Just include the answer in the format specified above, don't include any extra fluff or explanations.
+        """,
+        input_variables=["user_prompt", "max_num_of_modified_prompts"],
+        partial_variables={
+            "format_instructions": parser.get_format_instructions()
+        }
+    )    
+    
+    chain = template | llm | parser
+    
+    output: OutputFormat = chain.invoke({ 
+        "user_prompt": state["user_prompt"],
+        "max_num_of_modified_prompts": settings.MAX_NUMBER_OF_MODIFIED_PROMPTS 
+    })
+   
+    logging.info("\n") 
+    logging.info("=" * 60) 
+    logging.info("Modified Prompts: ")
+    
+    
+    for prompt in output.modified_prompts:
+        logging.info(prompt)
+        
+    logging.info("=" * 60) 
+    logging.info("\n") 
+    
+    return { "modified_prompts": output.modified_prompts }

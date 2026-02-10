@@ -15,7 +15,7 @@ def remove_similar_frames(state: State):
 
 def batch_frames(state: State):
     
-    batched_generator_factory = lambda: state["video_processor"].generate_batches_of_frames(state["reduced_generator_factory"]())
+    batched_generator_factory = lambda: state["video_processor"].generate_batches_of_frames(state["reduced_generator_factory"](), batch_size=state["batch_size"])
     
     return { "batched_generator_factory": batched_generator_factory }
 

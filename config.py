@@ -13,13 +13,21 @@ class Settings(BaseSettings):
     # How many neighbouring frames to consider when merging and making a video.
     FRAME_NEIGHBOUR_RANGE_BEFORE: int = 30
     FRAME_NEIGHBOUR_RANGE_AFTER: int = 60
-
     FRAME_BATCH_SIZE: int = 32
     
     
-    MODEL_NAME: str = "ViT-L/14"
     
+    MODEL_NAME: str = "ViT-L/14" 
     CLIP_THRESHOLD: float = 0.192
+    
+    
+    ################# YOLO config ######################
+    
+    YOLO_MODEL_NAME: str = "yoloe-26x-seg.pt"
+    # YOLO_MODEL_NAME: str = "yoloe-11s-seg.pt"
+    YOLO_BATCH_SIZE: int = 32
+    
+    YOLO_THRESHOLD: float = 0.250
 
     
     

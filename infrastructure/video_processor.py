@@ -8,7 +8,6 @@ from config import settings
 from types_and_schemas.video_types import Generator_Generic_Range, Generator_Image_Range, Generator_Batch_Image_Range
 from tqdm import tqdm
 
-
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logging.basicConfig(level=logging.ERROR, format='%(levelname)s: %(message)s')
 
@@ -45,7 +44,8 @@ class Video_Processor:
         frame_number = -1
         
         frames_kept = 0
-        
+       
+        logging.info("\n") 
         pbar = tqdm(total=self.frame_count, bar_format="{l_bar}{bar}| {n_fmt}/{total_fmt} [{elapsed}]")
         
         while True:
