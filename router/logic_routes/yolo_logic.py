@@ -7,13 +7,16 @@ from infrastructure.video_processor import Video_Processor
 from service_layer.video_service.state import get_state as get_video_state
 from infrastructure.yolo_processor import YOLO_Processor
 from config import settings
+from router.main_state import Main_State
 
-
-def yolo_logic(video_path: str, user_text: str, output_path: str):
+def yolo_logic(state: Main_State):
     
-    video_processor = Video_Processor(video_path=video_path)
-    video_state = get_video_state(output_path=output_path, video_processor=video_processor, batch_size=settings.YOLO_BATCH_SIZE)
-    video_state = pre_processing.invoke(video_state)
+    # video_processor = Video_Processor(video_path=video_path)
+    # video_state = get_video_state(output_path=output_path, video_processor=video_processor, batch_size=settings.YOLO_BATCH_SIZE)
+    # video_state = pre_processing.invoke(video_state)
+    
+    user_text = state["user_text"]
+    video_state = state["video_state"]
    
     llm_state = get_llm_for_yolo_state(user_text)
     llm_state = llm_for_yolo_workflow.invoke(llm_state) # type: ignore
@@ -28,8 +31,10 @@ def yolo_logic(video_path: str, user_text: str, output_path: str):
         object_groups=llm_state["object_groups"]
     )
     yolo_state = yolo_workflow.invoke(yolo_state)
+   
+    return { "matched_frames": yolo_state["matched_frames"] }
     
-    video_state["matched_frame_range"] = yolo_state["matched_frames"]
-    post_processing.invoke(video_state) # type: ignore
+    # video_state["matched_frame_range"] = yolo_state["matched_frames"]
+    # post_processing.invoke(video_state) # type: ignore
     
     

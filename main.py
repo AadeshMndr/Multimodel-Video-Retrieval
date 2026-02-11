@@ -1,11 +1,19 @@
-from router.logic_routes.clip_logic import clip_logic
-from router.logic_routes.yolo_logic import yolo_logic
+from router.main_state import Main_State, get_main_state
+from router.main_graph import main_workflow
 
-video_path = "video_storage/roses.mp4"
 
-output_path = "outputs/output_yolo_rose_dummy.mp4"
+video_path = "video_storage/Spiderman.mp4"
 
-user_prompt = "one roses and two person"
+output_path = "outputs/output_clip.mp4"
 
-# clip_logic(video_path=video_path, user_text=user_prompt, output_path=output_path)
-yolo_logic(video_path=video_path, user_text=user_prompt, output_path=output_path)
+
+user_prompt = "find me clips of jet plane flying"
+
+
+main_state = get_main_state(
+    video_path=video_path,
+    output_path=output_path,
+    user_text=user_prompt
+)
+
+main_workflow.invoke(main_state)

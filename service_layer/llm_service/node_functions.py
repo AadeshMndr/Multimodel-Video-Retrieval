@@ -64,7 +64,7 @@ def analyze_the_prompt(state: Analyzer_State):
     logging.info(f"\nThe choosen path: {output.logical_path}\n")
     logging.info("=" * 60)
     
-    return { "logical_path", output.logical_path }
+    return { "logical_path": output.logical_path }
 
 
 
