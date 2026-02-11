@@ -1,6 +1,24 @@
 from langgraph.graph import StateGraph, START, END
-from service_layer.llm_service.state import Modified_Prompts_State, YOLO_State
-from service_layer.llm_service.node_functions import generate_similar_prompts, generate_synonyms
+from service_layer.llm_service.state import Modified_Prompts_State, YOLO_State, Analyzer_State
+from service_layer.llm_service.node_functions import generate_similar_prompts, generate_synonyms, analyze_the_prompt
+
+
+
+###################### Analyzer ################################
+
+
+
+analyzer_graph = StateGraph(Analyzer_State)
+
+analyzer_graph.add_node("analyze", analyze_the_prompt)
+
+analyzer_graph.add_edge(START, "analyze")
+analyzer_graph.add_edge("analyze", END)
+
+analyzer_workflow = analyzer_graph.compile()
+
+
+###################### CLIP ################################
 
 prompt_variation_graph = StateGraph(Modified_Prompts_State)
 
@@ -11,6 +29,8 @@ prompt_variation_graph.add_edge("generate_prompt_variations", END)
 
 prompt_variation_workflow = prompt_variation_graph.compile()
 
+
+###################### YOLO ################################
 
 yolo_graph = StateGraph(YOLO_State)
 

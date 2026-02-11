@@ -1,6 +1,35 @@
 from typing import TypedDict, Literal
 from pydantic import BaseModel, Field
 
+
+#################################### Analyzer ####################################
+
+type All_Path = Literal["clip", "yolo"]
+
+class Analyzer_State(TypedDict):
+    
+    user_prompt: str
+    
+    logical_path: All_Path
+    
+    
+
+def get_analyzer_state(user_text: str):
+    
+    return Analyzer_State( # type: ignore
+        user_prompt=user_text,
+    )
+
+class Analyzer_Output_Format(BaseModel):
+    
+    logical_path: All_Path = Field(description="The name of the path to take")
+
+
+
+###################################### CLIP ####################################3
+
+
+
 class Modified_Prompts_State(TypedDict):
     
     user_prompt: str 

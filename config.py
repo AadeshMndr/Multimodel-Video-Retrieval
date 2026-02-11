@@ -12,9 +12,9 @@ class Settings(BaseSettings):
     
     # How many neighbouring frames to consider when merging and making a video.
     FRAME_NEIGHBOUR_RANGE_BEFORE: int = 30
-    # FRAME_NEIGHBOUR_RANGE_BEFORE: int = 1
+    # FRAME_NEIGHBOUR_RANGE_BEFORE: int = 15
     FRAME_NEIGHBOUR_RANGE_AFTER: int = 60
-    # FRAME_NEIGHBOUR_RANGE_AFTER: int = 1
+    # FRAME_NEIGHBOUR_RANGE_AFTER: int = 15
     FRAME_BATCH_SIZE: int = 32
     
     

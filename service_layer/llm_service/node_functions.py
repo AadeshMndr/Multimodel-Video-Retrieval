@@ -1,4 +1,4 @@
-from service_layer.llm_service.state import Modified_Prompts_State, OutputFormat, YOLO_State, YOLO_OutputFormat
+from service_layer.llm_service.state import Modified_Prompts_State, OutputFormat, YOLO_State, YOLO_OutputFormat, Analyzer_Output_Format, Analyzer_State
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
 from infrastructure.llm import llm
@@ -11,6 +11,66 @@ logging.basicConfig(level=logging.ERROR, format='%(levelname)s: %(message)s')
 
 
 
+######################### analyzer #############################
+
+analyzer_output_parser = PydanticOutputParser(pydantic_object=Analyzer_Output_Format)
+
+def analyze_the_prompt(state: Analyzer_State):
+    
+    template = PromptTemplate(
+        template="""
+        This is the user's prompt: {user_prompt}
+        
+        The user has also provided a video, and now based on the prompt above, we need to find those
+        clips that matches the description.
+        
+        I have the following tools:
+        
+        1) Semantic Video Searcher ("clip"): 
+            This component internally uses clip to find the relevent clips.
+            This component can understand the semantic meaning of each frame,
+            And hence, this is useful for prompts where the user searches for scenes in the video
+            using descriptive texts about the scene or things in the video.
+            like: "a person riding a horse", "a person wearing an orange shirt", "a brown dog with long ears", "etc"
+            
+            If you decide to use this return "clip".
+            
+        2) Object Presence Detector ("yolo"):
+            This component internally uses a YOLO model.
+            This component can detect presence or absence of objects from each frame to find the relevent clips.
+            And hence, this is useful for prompts where the user wants to search for a appearance  / presence of certain objects
+            or even certain combination of objects within the video.
+            like: "one person and one flower", "a dot or a cat", "animal", "horses", etc
+        
+            If you decide to use this return "yolo"
+            
+            {format_instructions}
+            
+            Just include the answer in the format specified above, don't include any extra fluff or explanations.
+        """,
+        input_variables=["user_prompt"],
+        partial_variables={
+            "format_instructions": analyzer_output_parser.get_format_instructions()
+        }
+    )
+    
+    chain = template | llm | analyzer_output_parser
+    
+    output = chain.invoke({
+        "user_prompt": state["user_prompt"],
+    })
+    
+    logging.info("=" * 60)
+    logging.info(f"\nThe choosen path: {output.logical_path}\n")
+    logging.info("=" * 60)
+    
+    return { "logical_path", output.logical_path }
+
+
+
+
+
+########################### CLIP ###############################
 
 modified_prompt_parser = PydanticOutputParser(pydantic_object=OutputFormat)
 
