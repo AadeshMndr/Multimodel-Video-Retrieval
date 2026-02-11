@@ -3,3 +3,5 @@ myvenv/
 .env
 video_storage/
 outputs/
+*.pt
+*_b.ts

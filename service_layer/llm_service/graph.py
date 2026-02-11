@@ -1,12 +1,22 @@
 from langgraph.graph import StateGraph, START, END
-from service_layer.llm_service.state import State
-from service_layer.llm_service.node_functions import generate_similar_prompts
+from service_layer.llm_service.state import Modified_Prompts_State, YOLO_State
+from service_layer.llm_service.node_functions import generate_similar_prompts, generate_synonyms
 
-graph = StateGraph(State)
+prompt_variation_graph = StateGraph(Modified_Prompts_State)
 
-graph.add_node("generate_prompt_variations", generate_similar_prompts)
+prompt_variation_graph.add_node("generate_prompt_variations", generate_similar_prompts)
 
-graph.add_edge(START, "generate_prompt_variations")
-graph.add_edge("generate_prompt_variations", END)
+prompt_variation_graph.add_edge(START, "generate_prompt_variations")
+prompt_variation_graph.add_edge("generate_prompt_variations", END)
 
-workflow = graph.compile()
+prompt_variation_workflow = prompt_variation_graph.compile()
+
+
+yolo_graph = StateGraph(YOLO_State)
+
+yolo_graph.add_node("generate_synonyms_and_boolean_logic", generate_synonyms)
+
+yolo_graph.add_edge(START, "generate_synonyms_and_boolean_logic")
+yolo_graph.add_edge("generate_synonyms_and_boolean_logic", END)
+
+yolo_workflow = yolo_graph.compile()

@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     VIDEO_SAMPLING_RATE: int = 15
     
     # Lower number means more strict. (This value is relatively lenient)
+    # PHASH_SIMILARITY_THRESHOLD: int = 12
     PHASH_SIMILARITY_THRESHOLD: int = 12
     
     # How many neighbouring frames to consider when merging and making a video.
@@ -19,6 +20,7 @@ class Settings(BaseSettings):
     
     MODEL_NAME: str = "ViT-L/14" 
     CLIP_THRESHOLD: float = 0.192
+    MAX_NUMBER_OF_MODIFIED_PROMPTS: int =  5  
     
     
     ################# YOLO config ######################
@@ -30,8 +32,7 @@ class Settings(BaseSettings):
     YOLO_THRESHOLD: float = 0.250
 
     
-    
-    MAX_NUMBER_OF_MODIFIED_PROMPTS: int =  5  
+    MAX_NUM_OF_SYNONYMS: int = 5
     LLM_MODEL_NAME: str = "groq/compound"
     GROQ_API_KEY: str = ""
     

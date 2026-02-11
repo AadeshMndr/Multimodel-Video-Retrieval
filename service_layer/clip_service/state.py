@@ -23,4 +23,5 @@ def get_state(texts: list[str], clip_processor: CLIP_Processor, batch_frames_fac
         clip_processor=clip_processor,
         batch_frames_factory=batch_frames_factory
     )
+   
     

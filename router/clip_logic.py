@@ -1,8 +1,8 @@
 from service_layer.video_service.graph import pre_workflow as pre_processing, post_workflow as post_processing
 from service_layer.clip_service.graph import workflow as clip_workflow
 from service_layer.clip_service.state import get_state as get_clip_state
-from service_layer.llm_service.state import get_state as get_llm_state 
-from service_layer.llm_service.graph import workflow as llm_workflow
+from service_layer.llm_service.state import get_modified_prompt_state as get_llm_state 
+from service_layer.llm_service.graph import prompt_variation_workflow as llm_workflow
 from infrastructure.video_processor import Video_Processor
 from infrastructure.clip_processor import CLIP_Processor
 from service_layer.video_service.state import get_state as get_video_state
