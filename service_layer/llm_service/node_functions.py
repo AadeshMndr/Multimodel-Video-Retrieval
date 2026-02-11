@@ -94,9 +94,9 @@ def generate_synonyms(state: YOLO_State):
             
             "Your answer": 
                 object_details = {{ 
-                    "cat": 3,
-                    "feline": 3,
-                    "pussy cat": 3,
+                    "cat": (3.0, 3.0),
+                    "feline": (3.0, 3.0),
+                    "pussy cat": (3.0, 3.0),
                 }}
                 
             If the number of objects is not specified then just assume at least one.
@@ -125,6 +125,39 @@ def generate_synonyms(state: YOLO_State):
                 object_groups = [ [ "woman", "girl", "mother", "daughter" ] ]
                 
                 and canonical_form = "POS" (Here I assumed (("woman" or "girl" or "mother" or "daugther") and True and True))
+
+        An Example for prompts where we are trying to find clips of things that are not present:
+        
+            "User Prompt": "find me clips with no people"
+            
+             "Your answer":
+            
+                object_groups = [ [ "woman", "girl", "mother", "daughter" ] ]
+                
+                and canonical_form = "SOP" (Here I assumed (("woman" and "girl" and "mother" and "daugther") or False or False))
+                
+                and the object_details dictionary should contain (0.0, 0.0) for each word
+                
+        Another example where the user wants clips where something is not present.
+        
+            "User Prompt": "one woman with no flowers"
+            
+            "Your answer":
+            
+                object_groups = [ [ "woman", "girl", "mother", "daughter" ], ["flower"], ["rose"], ["bouquet"] ]
+                
+                canonical_form = "POS" 
+                
+                aobject_details = {{ 
+                    "woman": (1.0, 1.0),
+                    "girl": (1.0, 1.0),
+                    "mother": (1.0, 1.0),
+                    "daugher": (1.0, 1.0),
+                    "flower": (0.0, 0.0),
+                    "rose": (0.0, 0.0),
+                    "bouquet": (0.0, 0.0),
+                }}
+
        
         Hence, at the end you answer should always contain:
             - object_details dictionary with the information about count of objects

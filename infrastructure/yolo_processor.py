@@ -56,6 +56,7 @@ class YOLO_Processor:
         
         for object_name, ( low_count, high_count ) in object_details.items():
                     
+            # print(object_detections, object_name, low_count, high_count)
             if low_count <= object_detections.get(object_name, 0) <= high_count:
                 return True
       
@@ -69,7 +70,7 @@ class YOLO_Processor:
 
         for object_name, ( low_count, high_count ) in object_details.items():
                     
-            if high_count < object_detections.get(object_name, 0) < low_count:
+            if high_count < object_detections.get(object_name, 0) or object_detections.get(object_name, 0) < low_count:
                 return False
                 
         return True
@@ -114,6 +115,7 @@ class YOLO_Processor:
                 for object_name, ( low_count, high_count ) in object_details.items():
                     
                     if low_count <= object_detections.get(object_name, 0) <= high_count:
+                        # print(each_frame_group_start_last_data, object_detections, object_name, low_count, high_count)
                         matched_frames_data.append(each_frame_group_start_last_data)
                         break
                     
@@ -160,7 +162,8 @@ class YOLO_Processor:
             
                 for object_name, ( low_count, high_count ) in object_details.items():
                     
-                    if high_count < object_detections.get(object_name, 0) < low_count:
+                    # print(each_frame_group_start_last_data, object_detections, object_name, low_count, high_count)
+                    if high_count < object_detections.get(object_name, 0) or object_detections.get(object_name, 0) < low_count:
                         break
                 
                 else:    

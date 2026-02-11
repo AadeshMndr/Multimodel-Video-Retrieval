@@ -13,7 +13,7 @@ def filter_only_matched_frames_that_match_all(state: State):
     return { "matched_frames": matched_frames }
 
 
-def filter_only_matched_frames_in_canonical_form_SOP(state: State):
+def filter_only_matched_frames_in_canonical_form_POS(state: State):
     
     detection_objects_generator = state["yolo_processor"].get_detections_in_frames(state["batch_frames_factory"](), state["object_details"])
     
@@ -31,7 +31,7 @@ def filter_only_matched_frames_in_canonical_form_SOP(state: State):
     return { "matched_frames": matched_frames }
 
 
-def filter_only_matched_frames_in_canonical_form_POS(state: State):
+def filter_only_matched_frames_in_canonical_form_SOP(state: State):
     
     detection_objects_generator = state["yolo_processor"].get_detections_in_frames(state["batch_frames_factory"](), state["object_details"])
     

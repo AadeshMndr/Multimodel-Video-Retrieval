@@ -7,13 +7,14 @@ class Settings(BaseSettings):
 
     VIDEO_SAMPLING_RATE: int = 15
     
-    # Lower number means more strict. (This value is relatively lenient)
-    # PHASH_SIMILARITY_THRESHOLD: int = 12
-    PHASH_SIMILARITY_THRESHOLD: int = 12
+    # Lower number means more strict. 
+    PHASH_SIMILARITY_THRESHOLD: int = 6
     
     # How many neighbouring frames to consider when merging and making a video.
     FRAME_NEIGHBOUR_RANGE_BEFORE: int = 30
+    # FRAME_NEIGHBOUR_RANGE_BEFORE: int = 1
     FRAME_NEIGHBOUR_RANGE_AFTER: int = 60
+    # FRAME_NEIGHBOUR_RANGE_AFTER: int = 1
     FRAME_BATCH_SIZE: int = 32
     
     
