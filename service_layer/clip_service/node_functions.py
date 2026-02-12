@@ -34,7 +34,6 @@ def reassess_scores(state: State):
         # Comment these later
         score_stats["mean"] = mean((score for _, score in state["frames_scores"]))
         score_stats["median"] = median((score for _, score in state["frames_scores"]))
-        score_stats["std"] = stdev((score for _, score in state["frames_scores"]))
         score_stats["max"] = max(((score for _, score in state["frames_scores"])))
         score_stats["min"] = min(((score for _, score in state["frames_scores"])))
         
@@ -55,7 +54,7 @@ def reassess_scores(state: State):
         return { "reassessment_done": True, "score_stats": score_stats }
     
     
-    matched_frames: list[tuple[int, int]] = [ frame_range for frame_range, score in state["frames_scores"] if score >= score_stats["deciles"][settings.REASSESSMENT_DECILE_NUMBER - 1] ]
+    matched_frames: list[tuple[int, int]] = [ frame_range for frame_range, score in state["frames_scores"] if score >= score_stats["deciles"][settings.CLIP_REASSESSMENT_DECILE_NUMBER - 1] ]
     
     return { "matched_frames": matched_frames, "reassessment_done": True, "score_stats": score_stats }
 
