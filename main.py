@@ -7,7 +7,7 @@ video_path = "video_storage/cups.mp4"
 output_path = "outputs/output_cups_person.mp4"
 
 
-user_prompt = "find me clips of person sitting on a chair"
+user_prompt = "find me clips of 2 cups and a bottle"
 
 
 main_state = get_main_state(

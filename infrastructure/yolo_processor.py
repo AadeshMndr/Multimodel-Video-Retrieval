@@ -48,7 +48,7 @@ class YOLO_Processor:
                     
                     conf_score = conf.item()
                     
-                    if class_name not in object_details:
+                    if class_name not in object_scores:
                         object_scores[class_name] = [ conf_score ]
                     else:
                         object_scores[class_name].append(conf_score)
