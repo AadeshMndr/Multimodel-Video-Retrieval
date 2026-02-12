@@ -6,6 +6,11 @@ from service_layer.video_service.state import get_state as get_video_state
 from service_layer.llm_service.graph import analyzer_workflow
 from service_layer.llm_service.state import get_analyzer_state
 from config import settings
+import logging
+
+
+logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+logging.basicConfig(level=logging.ERROR, format='%(levelname)s: %(message)s')
 
 def prompt_analyzer(state: Main_State):
     
@@ -41,6 +46,18 @@ def preprocess(state: Main_State):
 def postprocess(state: Main_State):
     
     video_state = state["video_state"]
+    
+    logging.info("=" * 60)
+    logging.info("The frames that matched are: \n")
+    for start, last in state["matched_frames"]:
+        start_seconds = start / (video_state["video_processor"].fps + 0.0000001)
+        last_seconds = last / (video_state["video_processor"].fps + 0.0000001)
+        start_minutes = int(start_seconds / 60)
+        last_minutes = int(last_seconds / 60)
+        start_seconds = int(start_seconds) % 60
+        last_seconds = int(last_seconds) % 60
+        logging.info(f"Frame: {start}-{last} || Timestamp: {start_minutes}:{start_seconds}-{last_minutes}:{last_seconds}")
+    logging.info("=" * 60)
     
     video_state["matched_frame_range"] = state["matched_frames"]
     

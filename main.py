@@ -2,12 +2,12 @@ from router.main_state import Main_State, get_main_state
 from router.main_graph import main_workflow
 
 
-video_path = "video_storage/Spiderman.mp4"
+video_path = "video_storage/cups.mp4"
 
-output_path = "outputs/output_clip.mp4"
+output_path = "outputs/output_cups_person.mp4"
 
 
-user_prompt = "find me clips of jet plane flying"
+user_prompt = "find me clips of person sitting on a chair"
 
 
 main_state = get_main_state(

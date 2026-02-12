@@ -16,6 +16,6 @@ def generate_video_embeddings(state: State):
 
 def filter_only_matched_frames(state: State):
     
-    matched_frames = state["clip_processor"].get_only_matched_frames(state["video_embeddings_and_range_factory"](), state["text_embeddings"])
+    matched_frames, frames_scores = state["clip_processor"].get_only_matched_frames(state["video_embeddings_and_range_factory"](), state["text_embeddings"])
     
-    return { "matched_frames": matched_frames }
+    return { "matched_frames": matched_frames, "frames_scores": frames_scores }

@@ -58,13 +58,16 @@ class CLIP_Processor:
             yield (self.encode_frame_list(batch_of_frames), start_stop_data)
             
     
-    def match_frames_and_text(self, batch_frame_embeddings: Tensor, batch_text_embeddings: Tensor, batch_frame_start_last: list[tuple[int, int]], threshold: float = settings.CLIP_THRESHOLD) -> list[tuple[int, int]]:
+    def match_frames_and_text(self, batch_frame_embeddings: Tensor, batch_text_embeddings: Tensor, batch_frame_start_last: list[tuple[int, int]], threshold: float = settings.CLIP_THRESHOLD) -> tuple[list[tuple[int, int]], list[float]]:
         
         similarity_scores = batch_frame_embeddings @ batch_text_embeddings.T 
+
+        max_scores = similarity_scores.max(dim=1).values
+        matched_frames = max_scores >= threshold
         
-        matched_frames = similarity_scores >= threshold
         
-        matched_frames = matched_frames.any(dim=1)
+        # matched_frames = similarity_scores >= threshold
+        # matched_frames = matched_frames.any(dim=1)
         
         matched_frame_start_last = []
         
@@ -72,12 +75,14 @@ class CLIP_Processor:
             if matched:
                 matched_frame_start_last.append(batch_frame_start_last[i])
             
-        return matched_frame_start_last 
+        return (matched_frame_start_last, max_scores.tolist())
 
         
-    def get_only_matched_frames(self, embeddings_and_start_last_frame: Generator_Batch_Tensor_Range, text_embeddings: Tensor) -> list[tuple[int, int]]:
+    def get_only_matched_frames(self, embeddings_and_start_last_frame: Generator_Batch_Tensor_Range, text_embeddings: Tensor) -> tuple[list[tuple[int, int]], list[float]]:
         
         logging.info("Processing begins...")
+        
+        frames_scores: list[float] = []
         
         matched_frames_data: list[tuple[int, int]] = []
         
@@ -89,15 +94,16 @@ class CLIP_Processor:
             # logging.info(f"Processing batch {batch_number}")
             # batch_number += 1
             
-            matched_data = self.match_frames_and_text(batch_frame_tensor, text_embeddings, start_last_data)
+            matched_data, max_scores = self.match_frames_and_text(batch_frame_tensor, text_embeddings, start_last_data)
             
             # logging.info(f"Found {len(matched_data)} matching frame ranges")
             # logging.info("\n")
             matched_frames_data.extend(matched_data)
+            frames_scores.extend(max_scores)
             
         logging.info(f"Number of Matched Frame Groups: {len(matched_frames_data)}")
             
-        return matched_frames_data
+        return (matched_frames_data, frames_scores)
             
             
         

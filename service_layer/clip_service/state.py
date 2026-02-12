@@ -13,6 +13,8 @@ class State(TypedDict):
     text_embeddings: Tensor
     
     video_embeddings_and_range_factory: Callable[[], Generator_Batch_Tensor_Range]
+
+    frames_scores: list[float]
     
     matched_frames: list[tuple[int, int]]
     

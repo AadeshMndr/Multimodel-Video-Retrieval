@@ -20,7 +20,8 @@ class Settings(BaseSettings):
     
     
     MODEL_NAME: str = "ViT-L/14" 
-    CLIP_THRESHOLD: float = 0.192
+    CLIP_THRESHOLD: float = 0.260
+    # CLIP_THRESHOLD: float = 0.192
     MAX_NUMBER_OF_MODIFIED_PROMPTS: int =  5  
     
     
