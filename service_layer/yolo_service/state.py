@@ -1,7 +1,7 @@
 from typing import TypedDict, Callable, Literal
 from infrastructure.yolo_processor import YOLO_Processor
 from types_and_schemas.video_types import Generator_Batch_Image_Range
-from types_and_schemas.generic_detection_types import ScoreData
+from types_and_schemas.yolo_detection_types import ScoreData
 
 
 class State(TypedDict):

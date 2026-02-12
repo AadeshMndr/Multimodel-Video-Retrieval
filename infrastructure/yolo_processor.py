@@ -2,7 +2,7 @@ from ultralytics import YOLO # type: ignore
 from config import settings
 import logging
 from types_and_schemas.video_types import Generator_Batch_Image_Range
-from types_and_schemas.yolo_detection_types import Generator_Range_Detection_Count, Detection_Range_Count, ScoreData
+from types_and_schemas.yolo_detection_types import Detection_Range_Count, ScoreData, Generator_Range_Detection_Count_Score
 
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
@@ -16,7 +16,7 @@ class YOLO_Processor:
         self.device = device
     
    
-    def get_detections_in_frames(self, batch_frame_range: Generator_Batch_Image_Range, object_details: dict[str, tuple[float, float]]) -> Generator_Range_Detection_Count:
+    def get_detections_in_frames(self, batch_frame_range: Generator_Batch_Image_Range, object_details: dict[str, tuple[float, float]]) -> Generator_Range_Detection_Count_Score:
        
         logging.info("Processing begins (Detection) ...")
         
@@ -38,18 +38,27 @@ class YOLO_Processor:
             for result, each_start_last_data in zip(results, start_last_data):
                 
                 object_detections = {}
-                # object_scores: dict[str, list[float]] = {}
+                object_scores: dict[str, list[float]] = {}
                 
-                for cls in result.boxes.cls:
+                for conf, cls in zip(result.boxes.conf, result.boxes.cls):
                     
                     cls_index = cls.item()
                     
                     class_name = result.names[cls_index] # type: ignore
                     
-                    object_detections[class_name] = object_detections.get(class_name, 0) + 1
+                    conf_score = conf.item()
                     
+                    if class_name not in object_details:
+                        object_scores[class_name] = [ conf_score ]
+                    else:
+                        object_scores[class_name].append(conf_score)
+                    
+                    if conf_score >= settings.YOLO_MAX_USAGE_THRESHOLD:
+                        object_detections[class_name] = object_detections.get(class_name, 0) + 1
+                    
+                
             
-                yield (object_detections, each_start_last_data)
+                yield ((object_detections, each_start_last_data), (each_start_last_data, object_scores))
                 
                     
     def match_if_any(self, detection_object: Detection_Range_Count,  object_details: dict[str, tuple[float, float]]) -> bool:
