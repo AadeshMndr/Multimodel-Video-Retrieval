@@ -2,6 +2,7 @@ from typing import TypedDict, Callable
 from torch import Tensor
 from infrastructure.clip_processor import CLIP_Processor
 from types_and_schemas.video_types import Generator_Batch_Image_Range, Generator_Batch_Tensor_Range
+from types_and_schemas.generic_detection_types import ScoreData
 
 class State(TypedDict):
     texts: list[str]
@@ -14,7 +15,7 @@ class State(TypedDict):
     
     video_embeddings_and_range_factory: Callable[[], Generator_Batch_Tensor_Range]
 
-    frames_scores: list[float]
+    frames_scores: list[ScoreData]
     
     matched_frames: list[tuple[int, int]]
     

@@ -1,0 +1,1 @@
+type ScoreData = tuple[tuple[int, int], float]

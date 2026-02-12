@@ -1,6 +1,7 @@
 from typing import TypedDict, Callable, Literal
 from infrastructure.yolo_processor import YOLO_Processor
 from types_and_schemas.video_types import Generator_Batch_Image_Range
+from types_and_schemas.generic_detection_types import ScoreData
 
 
 class State(TypedDict):
@@ -14,6 +15,8 @@ class State(TypedDict):
     canonical_form: Literal["SOP", "POS"]
     
     yolo_processor: YOLO_Processor
+
+    frames_scores: list[ScoreData]
     
     matched_frames: list[tuple[int, int]]
 
@@ -32,6 +35,7 @@ def get_state(
         object_groups=object_groups,
         canonical_form=canonical_form,
         matched_frames=[],
+        frames_scores=[]
     )
     
     

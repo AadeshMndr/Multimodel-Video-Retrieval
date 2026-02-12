@@ -2,7 +2,7 @@ from ultralytics import YOLO # type: ignore
 from config import settings
 import logging
 from types_and_schemas.video_types import Generator_Batch_Image_Range
-from types_and_schemas.yolo_detection_types import Generator_Range_Detection_Count, Detection_Range_Count
+from types_and_schemas.yolo_detection_types import Generator_Range_Detection_Count, Detection_Range_Count, ScoreData
 
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
@@ -29,14 +29,16 @@ class YOLO_Processor:
             results = self.model(
                 source=batch_frames,
                 batch=len(batch_frames),
-                conf=settings.YOLO_THRESHOLD,
+                conf=settings.YOLO_MIN_THRESHOLD,
                 device=self.device,
                 verbose=False
             )
             
+            
             for result, each_start_last_data in zip(results, start_last_data):
                 
                 object_detections = {}
+                # object_scores: dict[str, list[float]] = {}
                 
                 for cls in result.boxes.cls:
                     
@@ -78,13 +80,15 @@ class YOLO_Processor:
         
    
     
-    def get_only_matched_frames_that_match_any(self, batch_frame_range: Generator_Batch_Image_Range, object_details: dict[str, tuple[float, float]]) -> list[tuple[int, int]]:
+    def get_only_matched_frames_that_match_any(self, batch_frame_range: Generator_Batch_Image_Range, object_details: dict[str, tuple[float, float]]) -> tuple[list[tuple[int, int]], list[ScoreData]]:
         
         logging.info("Processing begins...")
         
         self.model.set_classes(list(object_details.keys())) # type: ignore
         
         matched_frames_data: list[tuple[int, int]] = []
+
+        frames_scores: list[ScoreData] = []
         
         # batch_number = 1
         
@@ -93,7 +97,7 @@ class YOLO_Processor:
             results = self.model(
                 source=batch_frames,
                 batch=len(batch_frames),
-                conf=settings.YOLO_THRESHOLD,
+                conf=settings.YOLO_MIN_THRESHOLD,
                 device=self.device,
                 verbose=False
             )
@@ -103,14 +107,27 @@ class YOLO_Processor:
                 
                 object_detections = {}
                 
-                for cls in result.boxes.cls:
+                object_scores: dict[str, list[float]] = {}
+                
+                for conf, cls in zip(result.boxes.conf, result.boxes.cls):
                     
                     cls_index = cls.item()
                     
+                    conf_score = conf.item()
+                    
                     class_name = result.names[cls_index] # type: ignore
                     
-                    object_detections[class_name] = object_detections.get(class_name, 0) + 1
+                    if class_name not in object_scores:
+                        object_scores[class_name] = [ conf_score ]
+                    else:
+                        object_scores[class_name].append(conf_score)
                     
+                    
+                    if conf_score >= settings.YOLO_MAX_USAGE_THRESHOLD:
+                        object_detections[class_name] = object_detections.get(class_name, 0) + 1
+                        
+                frames_scores.append((each_frame_group_start_last_data, object_scores))
+                
             
                 for object_name, ( low_count, high_count ) in object_details.items():
                     
@@ -123,16 +140,18 @@ class YOLO_Processor:
             
         logging.info(f"Number of Matched Frame Groups: {len(matched_frames_data)}")
             
-        return matched_frames_data
+        return matched_frames_data, frames_scores
     
     
-    def get_only_matched_frames_that_match_all(self, batch_frame_range: Generator_Batch_Image_Range, object_details: dict[str, tuple[float, float]]) -> list[tuple[int, int]]:
+    def get_only_matched_frames_that_match_all(self, batch_frame_range: Generator_Batch_Image_Range, object_details: dict[str, tuple[float, float]]) -> tuple[list[tuple[int, int]], list[ScoreData]]:
         
         logging.info("Processing begins...")
         
         self.model.set_classes(list(object_details.keys())) # type: ignore
         
         matched_frames_data: list[tuple[int, int]] = []
+        
+        frames_scores: list[ScoreData] = []
         
         # batch_number = 1
         
@@ -141,7 +160,7 @@ class YOLO_Processor:
             results = self.model(
                 source=batch_frames,
                 batch=len(batch_frames),
-                conf=settings.YOLO_THRESHOLD,
+                conf=settings.YOLO_MIN_THRESHOLD,
                 device=self.device,
                 verbose=False
             )
@@ -151,14 +170,26 @@ class YOLO_Processor:
                 
                 object_detections = {}
                 
-                for cls in result.boxes.cls:
+                object_scores = {}
+                
+                for conf, cls in zip(result.boxes.conf, result.boxes.cls):
                     
                     cls_index = cls.item()
                     
+                    conf_score = conf.item()
+                    
                     class_name = result.names[cls_index] # type: ignore
                     
-                    object_detections[class_name] = object_detections.get(class_name, 0) + 1
+                    if class_name not in object_scores:
+                        object_scores[class_name] = [ conf_score ]
+                    else:
+                        object_scores[class_name].append(conf_score)
                     
+                    
+                    if conf_score >= settings.YOLO_MAX_USAGE_THRESHOLD:
+                        object_detections[class_name] = object_detections.get(class_name, 0) + 1
+                    
+                frames_scores.append((each_frame_group_start_last_data, object_scores))
             
                 for object_name, ( low_count, high_count ) in object_details.items():
                     
@@ -172,4 +203,4 @@ class YOLO_Processor:
             
         logging.info(f"Number of Matched Frame Groups: {len(matched_frames_data)}")
             
-        return matched_frames_data
+        return matched_frames_data, frames_scores

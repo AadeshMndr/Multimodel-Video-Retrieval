@@ -31,7 +31,8 @@ class Settings(BaseSettings):
     # YOLO_MODEL_NAME: str = "yoloe-11s-seg.pt"
     YOLO_BATCH_SIZE: int = 32
     
-    YOLO_THRESHOLD: float = 0.250
+    YOLO_MIN_THRESHOLD: float = 0.10
+    YOLO_MAX_USAGE_THRESHOLD: float = 0.350
 
     
     MAX_NUM_OF_SYNONYMS: int = 5

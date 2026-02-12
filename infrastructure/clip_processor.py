@@ -6,6 +6,7 @@ from PIL import Image
 from typing import Generator, Any
 from config import settings
 from types_and_schemas.video_types import Generator_Batch_Image_Range, Generator_Batch_Tensor_Range
+from types_and_schemas.generic_detection_types import ScoreData
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logging.basicConfig(level=logging.ERROR, format='%(levelname)s: %(message)s')
@@ -58,13 +59,16 @@ class CLIP_Processor:
             yield (self.encode_frame_list(batch_of_frames), start_stop_data)
             
     
-    def match_frames_and_text(self, batch_frame_embeddings: Tensor, batch_text_embeddings: Tensor, batch_frame_start_last: list[tuple[int, int]], threshold: float = settings.CLIP_THRESHOLD) -> tuple[list[tuple[int, int]], list[float]]:
+    def match_frames_and_text(self, batch_frame_embeddings: Tensor, batch_text_embeddings: Tensor, batch_frame_start_last: list[tuple[int, int]], threshold: float = settings.CLIP_THRESHOLD) -> tuple[list[tuple[int, int]], list[ScoreData]]:
         
         similarity_scores = batch_frame_embeddings @ batch_text_embeddings.T 
 
         max_scores = similarity_scores.max(dim=1).values
         matched_frames = max_scores >= threshold
         
+        max_scores_list = max_scores.tolist()
+        
+        score_data: list[ScoreData] = []
         
         # matched_frames = similarity_scores >= threshold
         # matched_frames = matched_frames.any(dim=1)
@@ -75,14 +79,16 @@ class CLIP_Processor:
             if matched:
                 matched_frame_start_last.append(batch_frame_start_last[i])
             
-        return (matched_frame_start_last, max_scores.tolist())
+            score_data.append((batch_frame_start_last[i], max_scores_list[i]))
+            
+        return (matched_frame_start_last, score_data)
 
         
-    def get_only_matched_frames(self, embeddings_and_start_last_frame: Generator_Batch_Tensor_Range, text_embeddings: Tensor) -> tuple[list[tuple[int, int]], list[float]]:
+    def get_only_matched_frames(self, embeddings_and_start_last_frame: Generator_Batch_Tensor_Range, text_embeddings: Tensor) -> tuple[list[tuple[int, int]], list[ScoreData]]:
         
         logging.info("Processing begins...")
         
-        frames_scores: list[float] = []
+        frames_scores: list[ScoreData] = []
         
         matched_frames_data: list[tuple[int, int]] = []
         
@@ -99,7 +105,7 @@ class CLIP_Processor:
             # logging.info(f"Found {len(matched_data)} matching frame ranges")
             # logging.info("\n")
             matched_frames_data.extend(matched_data)
-            frames_scores.extend(max_scores)
+            frames_scores.extend((max_scores))
             
         logging.info(f"Number of Matched Frame Groups: {len(matched_frames_data)}")
             
