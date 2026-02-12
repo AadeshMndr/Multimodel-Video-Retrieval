@@ -16,15 +16,23 @@ class State(TypedDict):
     video_embeddings_and_range_factory: Callable[[], Generator_Batch_Tensor_Range]
 
     frames_scores: list[ScoreData]
+
+    score_stats: dict
+
+    reassessment_done: bool
     
     matched_frames: list[tuple[int, int]]
+    
+    
     
 def get_state(texts: list[str], clip_processor: CLIP_Processor, batch_frames_factory: Callable[[], Generator_Batch_Image_Range]):
     
     return State(                      # type: ignore
         texts=texts,
         clip_processor=clip_processor,
-        batch_frames_factory=batch_frames_factory
+        batch_frames_factory=batch_frames_factory,
+        reassessment_done=False,
+        score_stats={}
     )
    
     
