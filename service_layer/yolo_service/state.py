@@ -18,7 +18,7 @@ class State(TypedDict):
 
     frames_scores: list[ScoreData]
     
-    reassessment_done: bool
+    reassessment_count: int
     
     reassess_detection_object_generator_factory: Callable[[], Generator_Range_Detection_Count_Score] | None
 
@@ -43,7 +43,7 @@ def get_state(
         matched_frames=[],
         frames_scores=[],
         score_stats={},
-        reassessment_done=False,
+        reassessment_count=0,
         reassess_detection_object_generator_factory=None
     )
     

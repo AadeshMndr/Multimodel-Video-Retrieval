@@ -29,10 +29,16 @@ class Settings(BaseSettings):
     
     
     # above 70% (not including 70% though) (possible values: 1 to 9)
-    CLIP_REASSESSMENT_DECILE_NUMBER: int = 7
+    CLIP_REASSESSMENT_THRESHOLDS: list[float] = [0.210, 0.192]
+
+    CLIP_REASSESSMENT_DECILE_NUMBER: int | None = 7
+    
+    CLIP_REASSESS_REJECT_THRESHOLD: float = 0.05
+    
+    
+    
     
     FRAME_BATCH_SIZE: int = 32
-    
     
     
     MODEL_NAME: str = "ViT-L/14" 
@@ -40,25 +46,31 @@ class Settings(BaseSettings):
     # CLIP_THRESHOLD: float = 0.192
     MAX_NUMBER_OF_MODIFIED_PROMPTS: int =  5  
     
-    CLIP_REASSESS_REJECT_THRESHOLD: float = 0.05
     
     
     ################# YOLO config ######################
     
-    YOLO_REASSESSMENT_DECILE_NUMBER: int = 4
+    YOLO_REASSESSMENT_THRESHOLDS: list[float] = [0.250, 0.190]
+    
+    YOLO_REASSESSMENT_DECILE_NUMBER: int | None = 4
+    
+    YOLO_REASSESS_REJECT_THRESHOLD: float = 0.01
+    
     
     YOLO_MODEL_NAME: str = "yoloe-26x-seg.pt"
     # YOLO_MODEL_NAME: str = "yoloe-11s-seg.pt"
     YOLO_BATCH_SIZE: int = 32
     
+    # This threshold is used for "conf" in the model itself for detecting items
     YOLO_MIN_THRESHOLD: float = 0.100
+    
+    # This threshold is used for filtering the detected items in the first pass
     YOLO_MAX_USAGE_THRESHOLD: float = 0.350
     # YOLO_MAX_USAGE_THRESHOLD: float = 0.950
 
     
     MAX_NUM_OF_SYNONYMS: int = 5
 
-    YOLO_REASSESS_REJECT_THRESHOLD: float = 0.01
     
     
     #################### LLM config ####################

@@ -1,10 +1,9 @@
 from service_layer.yolo_service.state import State
 from types_and_schemas.yolo_detection_types import ScoreData, Generator_Range_Detection_Count_Score
 from config import settings
-from statistics import mean, median, quantiles, stdev
+from statistics import mean, median, quantiles
 import logging
 from langgraph.graph import END
-from typing import Generator
 
 def filter_only_matched_frames_that_match_any(state: State):
     
@@ -74,7 +73,7 @@ def filter_only_matched_frames_in_canonical_form_SOP(state: State):
 
 def decision_node(state: State):
     
-    if state["reassessment_done"] and state["reassess_detection_object_generator_factory"] is None:
+    if state["reassessment_count"] == (len(settings.YOLO_REASSESSMENT_THRESHOLDS) + 1) and state["reassess_detection_object_generator_factory"] is None:
         return END
         
     if state["canonical_form"] == "POS":
@@ -115,12 +114,14 @@ def reassess_scores(state: State):
         score_stats["done"] = True
         
         
-    logging.info("\n\n")
-    logging.info("=" * 60)
-    logging.info("Reassessing the matched frames....\n\n")
-    for key in score_stats.keys():
-        logging.info(f"{key}: {score_stats[key]}")
-    logging.info("=" * 60)
+        logging.info("\n\n")
+        logging.info("=" * 60)
+        logging.info("Reassessing the matched frames....\n\n")
+        for key in score_stats.keys():
+            logging.info(f"{key}: {score_stats[key]}")
+        logging.info("=" * 60)
+        
+        
         
     if all([score_stats["max"][class_name] < settings.YOLO_REASSESS_REJECT_THRESHOLD for class_name in score_stats["max"].keys()]):
         
@@ -128,25 +129,45 @@ def reassess_scores(state: State):
         
         return { "reassessment_done": True }
 
+    if state["reassessment_count"] < len(settings.YOLO_REASSESSMENT_THRESHOLDS):
+        
+        threshold = settings.YOLO_REASSESSMENT_THRESHOLDS[state["reassessment_count"]]
+        
+        def detection_objects_generator_factory() -> Generator_Range_Detection_Count_Score:
+    
+            for start_last_range, score_dict in state["frames_scores"]:
+                
+                object_detection = { class_name: len([score for score in score_dict[class_name] if score >= threshold]) for class_name in score_dict.keys() }
+                
+                yield ((object_detection, start_last_range), (start_last_range, score_dict))
+                
+                
+        return { "reassessment_count": state["reassessment_count"] + 1, "reassess_detection_object_generator_factory": detection_objects_generator_factory }
+
+
+    if settings.YOLO_REASSESSMENT_DECILE_NUMBER is None:
+        
+        return { "reassessment_count": len(settings.YOLO_REASSESSMENT_THRESHOLDS) + 1, "reassess_detection_object_generator_factory": None }
+    
     
     
     def detection_objects_generator_factory() -> Generator_Range_Detection_Count_Score:
     
         for start_last_range, score_dict in state["frames_scores"]:
             
-            object_detection = { class_name: len([score for score in score_dict[class_name] if score > score_stats["decile"][class_name][settings.YOLO_REASSESSMENT_DECILE_NUMBER - 1]]) for class_name in score_dict.keys() }
+            object_detection = { class_name: len([score for score in score_dict[class_name] if score > score_stats["decile"][class_name][settings.YOLO_REASSESSMENT_DECILE_NUMBER or 0 - 1]]) for class_name in score_dict.keys() }
             
-            yield ((object_detection, start_last_range), (start_last_range, {}))
+            yield ((object_detection, start_last_range), (start_last_range, score_dict))
 
     
     
-    return { "reassessment_done": True, "reassess_detection_object_generator_factory": detection_objects_generator_factory }
+    return { "reassessment_count": len(settings.YOLO_REASSESSMENT_THRESHOLDS) + 1, "reassess_detection_object_generator_factory": detection_objects_generator_factory }
 
 
     
 def is_reassessment_required(state: State):
     
-    reassessment_possible = not state["reassessment_done"] and settings.ENABLE_REASSESSMENT
+    reassessment_possible = state["reassessment_count"] < (len(settings.YOLO_REASSESSMENT_THRESHOLDS) + 1) and settings.ENABLE_REASSESSMENT
     
     if not reassessment_possible:
         return END
