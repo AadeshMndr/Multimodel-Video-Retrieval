@@ -100,7 +100,9 @@ def reassess_scores(state: State):
                 score_dict_list[class_name].extend(score_dict.get(class_name, []))
                 
             if len(score_dict_list[class_name]) == 0:
-                score_dict_list[class_name] = [0] * 10
+                score_dict_list[class_name] = [0] * 2
+            elif len(score_dict_list[class_name]) == 1:
+                score_dict_list[class_name] = score_dict_list[class_name] * 2
                 
         # Comment these later
         score_stats["mean"] = { class_name: mean(score_dict_list[class_name]) for class_name in state["object_details"] }
@@ -132,6 +134,10 @@ def reassess_scores(state: State):
     if state["reassessment_count"] < len(settings.YOLO_REASSESSMENT_THRESHOLDS):
         
         threshold = settings.YOLO_REASSESSMENT_THRESHOLDS[state["reassessment_count"]]
+        
+        # Here, I'm intentionally ignoring the fact that the 'threshold' could be lower than the set decile value of the scores
+        # Because, even when we set one of the quantile as the threshold, the distribution of scores in each class did not align in one case.
+        # So, we still couldn't get it properly. Hence, this still needs to be tested thoughroughly. But this implementation should work good enough for now.
         
         def detection_objects_generator_factory() -> Generator_Range_Detection_Count_Score:
     

@@ -31,7 +31,8 @@ def analyze_the_prompt(state: Analyzer_State):
             This component can understand the semantic meaning of each frame,
             And hence, this is useful for prompts where the user searches for scenes in the video
             using descriptive texts about the scene or things in the video.
-            like: "a person riding a horse", "a person wearing an orange shirt", "a brown dog with long ears", "etc"
+            like: "a person riding a horse", "a person wearing an orange shirt", "a brown dog with long ears", "etc".
+            This can take into account the meaning of an image, so for prompts that require understanding of the image, use this (clip).
             
             If you decide to use this return "clip".
             
@@ -41,6 +42,7 @@ def analyze_the_prompt(state: Analyzer_State):
             And hence, this is useful for prompts where the user wants to search for a appearance  / presence of certain objects
             or even certain combination of objects within the video.
             like: "one person and one flower", "a dot or a cat", "animal", "horses", etc
+            This even works for words with very small single word descriptions like: "white eggs", "red hat", etc. But this cannot take into account the meaning of the image.
         
             If you decide to use this return "yolo"
             

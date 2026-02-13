@@ -28,10 +28,10 @@ class Settings(BaseSettings):
     ################## CLIP config ####################
     
     
-    # above 70% (not including 70% though) (possible values: 1 to 9)
     CLIP_REASSESSMENT_THRESHOLDS: list[float] = [0.210, 0.192]
 
-    CLIP_REASSESSMENT_DECILE_NUMBER: int | None = 7
+    # above 90% (not including 90% though) (possible values: 1 to 9)
+    CLIP_REASSESSMENT_DECILE_NUMBER: int | None = 9
     
     CLIP_REASSESS_REJECT_THRESHOLD: float = 0.05
     
