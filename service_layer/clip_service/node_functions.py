@@ -41,28 +41,51 @@ def reassess_scores(state: State):
         score_stats["deciles"] = quantiles((score for _, score in state["frames_scores"]), n=10)
         
     
-    logging.info("\n\n")
-    logging.info("=" * 60)
-    logging.info("Reassessing the matched frames....\n\n")
-    logging.info(score_stats)
-    logging.info("=" * 60)
+        logging.info("\n\n")
+        logging.info("=" * 60)
+        logging.info("Reassessing the matched frames....\n\n")
+        for key in score_stats.keys():
+            logging.info(f"{key}: {score_stats[key]}")
+        logging.info("=" * 60)
+    
     
     if score_stats["max"] < settings.CLIP_REASSESS_REJECT_THRESHOLD:
         
         logging.info("All scores are below the re-access reject threshold, the scene is probably not present")
         
-        return { "reassessment_done": True, "score_stats": score_stats }
+        return { "reassessment_count": len(settings.CLIP_REASSESSMENT_THRESHOLDS) + 1, "score_stats": score_stats }
     
     
-    matched_frames: list[tuple[int, int]] = [ frame_range for frame_range, score in state["frames_scores"] if score >= score_stats["deciles"][settings.CLIP_REASSESSMENT_DECILE_NUMBER - 1] ]
+    if state["reassessment_count"] < len(settings.CLIP_REASSESSMENT_THRESHOLDS):
+        
+        threshold = settings.CLIP_REASSESSMENT_THRESHOLDS[state["reassessment_count"]]
+        
+        # Again, here I'm intentionally ignoring that threshold could be higher than set quantile,
+        # because, we might need that whole range of frames as well instead of the best top 90% (or whatever value is set)
+
+        logging.info(f"Reassessing with threshold: {threshold}")
+        
+        matched_frames: list[tuple[int, int]] = [ frame_range for frame_range, score in state["frames_scores"] if score >= threshold ]
+        
+        return { "reassessment_count": state["reassessment_count"] + 1, "matched_frames": matched_frames, "score_stats": score_stats }
     
-    return { "matched_frames": matched_frames, "reassessment_done": True, "score_stats": score_stats }
+    
+    if settings.CLIP_REASSESSMENT_DECILE_NUMBER is None:
+        
+        return { "reassessment_count": len(settings.CLIP_REASSESSMENT_THRESHOLDS) + 1, "score_stats": score_stats }
+    
+    
+    logging.info(f"Reassessing with threshold (decile): {score_stats["deciles"][settings.CLIP_REASSESSMENT_DECILE_NUMBER or 0 - 1]}")
+    
+    matched_frames: list[tuple[int, int]] = [ frame_range for frame_range, score in state["frames_scores"] if score >= score_stats["deciles"][settings.CLIP_REASSESSMENT_DECILE_NUMBER or 0 - 1] ]
+    
+    return { "matched_frames": matched_frames, "reassessment_count": len(settings.CLIP_REASSESSMENT_THRESHOLDS) + 1, "score_stats": score_stats }
 
 
     
 def is_reassessment_required(state: State):
     
-    reassessment_possible = not state["reassessment_done"] and settings.ENABLE_REASSESSMENT
+    reassessment_possible = state["reassessment_count"] < (len(settings.CLIP_REASSESSMENT_THRESHOLDS) + 1) and settings.ENABLE_REASSESSMENT
     
     if not reassessment_possible:
         return END

@@ -27,6 +27,9 @@ class Settings(BaseSettings):
     
     ################## CLIP config ####################
     
+    CLIP_THRESHOLD: float = 0.230
+    # CLIP_THRESHOLD: float = 0.192
+    
     
     CLIP_REASSESSMENT_THRESHOLDS: list[float] = [0.210, 0.192]
 
@@ -40,15 +43,21 @@ class Settings(BaseSettings):
     
     FRAME_BATCH_SIZE: int = 32
     
-    
+     
     MODEL_NAME: str = "ViT-L/14" 
-    CLIP_THRESHOLD: float = 0.230
-    # CLIP_THRESHOLD: float = 0.192
     MAX_NUMBER_OF_MODIFIED_PROMPTS: int =  5  
     
     
     
     ################# YOLO config ######################
+    
+    # This threshold is used for "conf" in the model itself for detecting items
+    YOLO_MIN_THRESHOLD: float = 0.100
+    
+    # This threshold is used for filtering the detected items in the first pass
+    YOLO_MAX_USAGE_THRESHOLD: float = 0.350
+    
+    
     
     YOLO_REASSESSMENT_THRESHOLDS: list[float] = [0.250, 0.190]
     
@@ -61,11 +70,6 @@ class Settings(BaseSettings):
     # YOLO_MODEL_NAME: str = "yoloe-11s-seg.pt"
     YOLO_BATCH_SIZE: int = 32
     
-    # This threshold is used for "conf" in the model itself for detecting items
-    YOLO_MIN_THRESHOLD: float = 0.100
-    
-    # This threshold is used for filtering the detected items in the first pass
-    YOLO_MAX_USAGE_THRESHOLD: float = 0.350
     # YOLO_MAX_USAGE_THRESHOLD: float = 0.950
 
     

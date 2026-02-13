@@ -129,11 +129,14 @@ def reassess_scores(state: State):
         
         logging.info("All scores are below the re-access reject threshold, the scene is probably not present")
         
-        return { "reassessment_done": True }
+        return { "reassessment_count": len(settings.YOLO_REASSESSMENT_THRESHOLDS) + 1, "score_stats": score_stats }
+        
 
     if state["reassessment_count"] < len(settings.YOLO_REASSESSMENT_THRESHOLDS):
         
         threshold = settings.YOLO_REASSESSMENT_THRESHOLDS[state["reassessment_count"]]
+        
+        logging.info(f"Reassessing with threshold: {threshold}")
         
         # Here, I'm intentionally ignoring the fact that the 'threshold' could be lower than the set decile value of the scores
         # Because, even when we set one of the quantile as the threshold, the distribution of scores in each class did not align in one case.
@@ -148,14 +151,15 @@ def reassess_scores(state: State):
                 yield ((object_detection, start_last_range), (start_last_range, score_dict))
                 
                 
-        return { "reassessment_count": state["reassessment_count"] + 1, "reassess_detection_object_generator_factory": detection_objects_generator_factory }
+        return { "reassessment_count": state["reassessment_count"] + 1, "reassess_detection_object_generator_factory": detection_objects_generator_factory, "score_stats": score_stats }
 
 
     if settings.YOLO_REASSESSMENT_DECILE_NUMBER is None:
         
-        return { "reassessment_count": len(settings.YOLO_REASSESSMENT_THRESHOLDS) + 1, "reassess_detection_object_generator_factory": None }
+        return { "reassessment_count": len(settings.YOLO_REASSESSMENT_THRESHOLDS) + 1, "reassess_detection_object_generator_factory": None, "score_stats": score_stats }
     
     
+    logging.info(f"Reassessing with threshold set quantile of each class")
     
     def detection_objects_generator_factory() -> Generator_Range_Detection_Count_Score:
     
@@ -167,7 +171,7 @@ def reassess_scores(state: State):
 
     
     
-    return { "reassessment_count": len(settings.YOLO_REASSESSMENT_THRESHOLDS) + 1, "reassess_detection_object_generator_factory": detection_objects_generator_factory }
+    return { "reassessment_count": len(settings.YOLO_REASSESSMENT_THRESHOLDS) + 1, "reassess_detection_object_generator_factory": detection_objects_generator_factory, "score_stats": score_stats }
 
 
     

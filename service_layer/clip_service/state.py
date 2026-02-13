@@ -19,7 +19,7 @@ class State(TypedDict):
 
     score_stats: dict
 
-    reassessment_done: bool
+    reassessment_count: int
     
     matched_frames: list[tuple[int, int]]
     
@@ -31,7 +31,7 @@ def get_state(texts: list[str], clip_processor: CLIP_Processor, batch_frames_fac
         texts=texts,
         clip_processor=clip_processor,
         batch_frames_factory=batch_frames_factory,
-        reassessment_done=False,
+        reassessment_count=0,
         score_stats={}
     )
    
