@@ -1,12 +1,15 @@
 from router.main_state import Main_State
 
-from service_layer.video_service.graph import pre_workflow as pre_processing, post_workflow as post_processing
+from service_layer.video_service.state import State as VideoState
+from service_layer.video_service.graph import pre_workflow as pre_processing, post_workflow as post_processing, refine_timestamps_workflow as timestamp_workflow
 from infrastructure.video_processor import Video_Processor
 from service_layer.video_service.state import get_state as get_video_state
 from service_layer.llm_service.graph import analyzer_workflow
 from service_layer.llm_service.state import get_analyzer_state
 from config import settings
 import logging
+import threading
+from threading import Event
 
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
@@ -62,3 +65,28 @@ def postprocess(state: Main_State):
     video_state["matched_frame_range"] = state["matched_frames"]
     
     post_processing.invoke(video_state) # type: ignore
+
+
+def create_video_in_background(state: VideoState, video_creation_event: Event):
+    
+    post_processing.invoke(state)
+    
+    video_creation_event.set()
+
+
+def parallel_post_process(state: Main_State):
+    
+    video_state = state["video_state"]
+    
+    video_state["matched_frame_range"] = state["matched_frames"]
+    
+    timestamps = timestamp_workflow.invoke(video_state)
+    
+    video_creation_event = Event()
+    
+    # Let the video creation run in the background
+    video_thread = threading.Thread(target=create_video_in_background, args=(video_state, video_creation_event))
+    video_thread.daemon = True 
+    video_thread.start()
+    
+    return { "timestamps": timestamps, "video_state": video_state }
