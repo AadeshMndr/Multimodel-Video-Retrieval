@@ -1,7 +1,8 @@
 from langgraph.graph import StateGraph, START, END
 from service_layer.video_service.state import State
-from service_layer.video_service.node_functions import sample_frames, remove_similar_frames, expand_frame_range, batch_frames, clip_video
+from service_layer.video_service.node_functions import sample_frames, remove_similar_frames, expand_frame_range, batch_frames, clip_video, get_timestamps
 
+########## Preprocessing workflow ##################
 
 pre_graph = StateGraph(State)
 
@@ -16,6 +17,7 @@ pre_graph.add_edge("batch", END)
 
 pre_workflow = pre_graph.compile()
 
+########## Postprocessing workflow ##################
 
 post_graph = StateGraph(State)
 
@@ -27,3 +29,15 @@ post_graph.add_edge("expand", "clip")
 post_graph.add_edge("clip", END)
 
 post_workflow = post_graph.compile()
+
+
+######### Expand / Refine timestamps ################
+
+refine_timestamps_graph = StateGraph(State)
+
+refine_timestamps_graph.add_node("refine_timestamps", get_timestamps)
+
+refine_timestamps_graph.add_edge(START, "refine_timestamps")
+refine_timestamps_graph.add_edge("refine_timestamps", END)
+
+refine_timestamps_workflow = refine_timestamps_graph.compile()

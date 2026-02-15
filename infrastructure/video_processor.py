@@ -199,7 +199,21 @@ class Video_Processor:
                 
         out.release()
         cap.release()
+           
+    def get_timestamps(self, frames: Generator_Generic_Range):
+        
+        timestamps: list[tuple[int, int]] = []
+        
+        for start_frame, end_frame, _ in frames:
             
+            epsilon_plus_fps = (self.fps + 0.000000001)
+            start_seconds = int(start_frame / epsilon_plus_fps)
+            end_seconds = int(end_frame / epsilon_plus_fps)
+            
+            timestamps.append((start_seconds, end_seconds))
+            
+        return timestamps
+             
             
     def generate_batches_of_frames(self, frames: Generator_Image_Range, batch_size=settings.FRAME_BATCH_SIZE) -> Generator_Batch_Image_Range:
         

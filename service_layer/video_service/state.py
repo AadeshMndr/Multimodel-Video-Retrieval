@@ -17,6 +17,8 @@ class State(TypedDict):
     batched_generator_factory: Callable[[], Generator_Batch_Image_Range]
     
     matched_frame_range: list[tuple[int, int]]
+
+    timestamps: list[tuple[int, int]]
     
     expanded_frame_range_generator_factory: Callable[[], Generator_Generic_Range]
     

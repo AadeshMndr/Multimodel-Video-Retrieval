@@ -38,6 +38,13 @@ def clip_video(state: State):
     
     return
     
+
+def get_timestamps(state: State):
+    
+    timestamps = state["video_processor"].get_timestamps(state["expanded_frame_range_generator_factory"]())
+    
+    return { "timestamps": timestamps }
+    
     
 
 
