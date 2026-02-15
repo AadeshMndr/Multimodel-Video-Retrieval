@@ -18,7 +18,8 @@ curl -X POST "http://127.0.0.1:5050/upload" -F "file=@people.mp4"
 ```bash
 curl -X POST "http://127.0.0.1:5050/prompt" \
 -H 'Content-Type: application/json' \
--d '{ "prompt": "Find me clips with exactly two people", "filename": "people.mp4" }'
+-d '{ "prompt": "Find me clips with exactly two people", "filename": "people.mp4" }' \
+--no-buffer
 ```
 
 

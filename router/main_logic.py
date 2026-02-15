@@ -80,7 +80,7 @@ def parallel_post_process(state: Main_State):
     
     video_state["matched_frame_range"] = state["matched_frames"]
     
-    timestamps = timestamp_workflow.invoke(video_state)
+    final_state: Main_State = timestamp_workflow.invoke(video_state) # type: ignore
     
     video_creation_event = Event()
     
@@ -89,4 +89,4 @@ def parallel_post_process(state: Main_State):
     video_thread.daemon = True 
     video_thread.start()
     
-    return { "timestamps": timestamps, "video_state": video_state }
+    return { "timestamps": final_state["timestamps"], "video_state": video_state, "video_creation_event": video_creation_event }

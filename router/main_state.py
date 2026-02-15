@@ -18,5 +18,6 @@ def get_main_state(video_path: str, user_text: str, output_path: str):
     return Main_State( # type: ignore
         video_path=video_path,
         user_text=user_text,
-        output_path=output_path
+        output_path=output_path,
+        video_creation_event=None
     )

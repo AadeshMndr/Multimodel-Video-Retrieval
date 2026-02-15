@@ -1,5 +1,5 @@
 from fastapi import FastAPI, UploadFile, File, Body, HTTPException
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse, FileResponse, StreamingResponse
 import uvicorn
 import logging
 from config import settings
@@ -7,6 +7,7 @@ import shutil
 import os
 from router.main_graph import main_workflow
 from router.main_state import get_main_state, Main_State
+from api.processing_logic import process_the_video
 
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
@@ -32,27 +33,39 @@ async def find_in_video(prompt: str = Body(min_length=1), filename: str = Body(m
         return HTTPException(status_code=400, detail=f"The prompt cannot be empty")
     
     
-    if not os.path.exists(f"upload/{filename}"):
+    video_path = f"upload/{filename}"
+    
+    if not os.path.exists(video_path):
         return HTTPException(status_code=400, detail=f"The file {filename} could not be found, please upload it first.")
     
     os.makedirs("outputs", exist_ok=True)
     
-    initial_state = get_main_state(
-        video_path=f"upload/{filename}",
-        user_text=prompt,
-        output_path=f"outputs/output_{filename}"
+    output_path = f"outputs/output_{filename}"
+    
+    # initial_state = get_main_state(
+    #     video_path=video_path,
+    #     user_text=prompt,
+    #     output_path=output_path
+    # )
+    
+    # final_state: Main_State = main_workflow.invoke(initial_state) # type: ignore
+    
+    # return JSONResponse(
+    #     content={
+    #         "message": f"The output is stored at output_{final_state["output_path"]}",
+    #         "matched_frames" : len(final_state["video_state"]),
+    #         "id": "1",
+    #     }
+    # )
+    
+    return StreamingResponse(
+        process_the_video(
+            video_path=video_path,
+            user_text=prompt,
+            output_path=output_path
+        ),
+        media_type="text/plain"
     )
-    
-    final_state: Main_State = main_workflow.invoke(initial_state) # type: ignore
-    
-    return JSONResponse(
-        content={
-            "message": f"The output is stored at output_{final_state["output_path"]}",
-            "matched_frames" : len(final_state["video_state"]),
-            "id": "1",
-        }
-    )
-    
     
 
 

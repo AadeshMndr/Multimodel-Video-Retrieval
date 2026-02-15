@@ -35,9 +35,11 @@ post_workflow = post_graph.compile()
 
 refine_timestamps_graph = StateGraph(State)
 
+refine_timestamps_graph.add_node("expand", expand_frame_range)
 refine_timestamps_graph.add_node("refine_timestamps", get_timestamps)
 
-refine_timestamps_graph.add_edge(START, "refine_timestamps")
+refine_timestamps_graph.add_edge(START, "expand")
+refine_timestamps_graph.add_edge("expand", "refine_timestamps")
 refine_timestamps_graph.add_edge("refine_timestamps", END)
 
 refine_timestamps_workflow = refine_timestamps_graph.compile()

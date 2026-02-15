@@ -196,6 +196,8 @@ class Video_Processor:
                     out.write(frame)
                     
                 current_frame += 1
+
+        logging.info("Video Creation complete.")
                 
         out.release()
         cap.release()
