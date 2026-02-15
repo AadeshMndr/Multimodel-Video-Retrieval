@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     
     ENABLE_REASSESSMENT: bool = True
 
+    PORT: int = 5050
+
 
     
     ############### Video config ######################

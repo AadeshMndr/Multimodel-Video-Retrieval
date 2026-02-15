@@ -5,3 +5,4 @@ video_storage/
 outputs/
 *.pt
 *_b.ts
+upload/
