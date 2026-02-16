@@ -3,20 +3,23 @@ import logging
 import torch
 from torch import Tensor
 from PIL import Image
-from typing import Generator, Any
 from config import settings
 from types_and_schemas.video_types import Generator_Batch_Image_Range, Generator_Batch_Tensor_Range
 from types_and_schemas.generic_detection_types import ScoreData
+from infrastructure.h5py_storage import Embedding_Store
+import numpy as np
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logging.basicConfig(level=logging.ERROR, format='%(levelname)s: %(message)s')
 
 class CLIP_Processor:
     
-    def __init__(self, model_name: str, device="cpu"):
+    def __init__(self, model_name: str,  embedding_store: Embedding_Store, device="cpu"):
         
         self.model_name = model_name
         self.device = device 
+        self.embedding_store = embedding_store
+        self.embedding_store_has_data: bool = self.embedding_store.is_data_present() if settings.ENABLE_EMBEDDING_STORAGE else False
         
         logging.info(f"Loading model {self.model_name} in {self.device}...")
         
@@ -53,10 +56,36 @@ class CLIP_Processor:
             
         
     def encode_frames(self, frame_generator: Generator_Batch_Image_Range) ->  Generator_Batch_Tensor_Range:
-           
-        for batch_of_frames, start_stop_data in frame_generator:
+        
+        if settings.ENABLE_EMBEDDING_STORAGE and self.embedding_store_has_data:
+
+            logging.info("Using stored embeddings...")
             
-            yield (self.encode_frame_list(batch_of_frames), start_stop_data)
+            for batch_of_frames, start_last_data in self.embedding_store.generate_batch_embeddings(settings.FRAME_BATCH_SIZE):
+                
+                batch_frames_tensor = torch.from_numpy(batch_of_frames).to(settings.DEVICE)
+                
+                start_last_tuples = [ tuple(row) for row in start_last_data ]
+                
+                yield (batch_frames_tensor, start_last_tuples)
+
+        else:                
+           
+            for batch_of_frames, start_last_data in frame_generator:
+                
+                batch_frame_encodings = self.encode_frame_list(batch_of_frames)
+
+                if settings.CALCULATE_EMBEDDINGS_ON_PROCESSING:
+                
+                    batch_frames_numpy = batch_frame_encodings.to("cpu").numpy()
+                    start_last_data_numpy = np.array(start_last_data)
+                    
+                    self.embedding_store.store_batch_embeddings(batch_frames_numpy, start_last_data_numpy)
+                
+                yield (batch_frame_encodings, start_last_data)
+                
+            if settings.CALCULATE_EMBEDDINGS_ON_PROCESSING:    
+                self.embedding_store_has_data = True
             
     
     def match_frames_and_text(self, batch_frame_embeddings: Tensor, batch_text_embeddings: Tensor, batch_frame_start_last: list[tuple[int, int]], threshold: float = settings.CLIP_THRESHOLD) -> tuple[list[tuple[int, int]], list[ScoreData]]:

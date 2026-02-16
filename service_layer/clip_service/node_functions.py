@@ -2,7 +2,7 @@ from service_layer.clip_service.state import State
 from langgraph.graph import END
 import logging
 from config import settings
-from statistics import mean, stdev, median, quantiles
+from statistics import mean, median, quantiles
 
 def generate_text_embeddings(state: State):
     

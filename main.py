@@ -23,8 +23,6 @@ async def introduce():
 
 
 
-
-
 @app.post("/prompt")
 async def find_in_video(prompt: str = Body(min_length=1), filename: str = Body(min_length=1)):
 

@@ -9,6 +9,16 @@ class Settings(BaseSettings):
 
     PORT: int = 5050
 
+    ############### Embedding store config ###############
+   
+   
+    ENABLE_EMBEDDING_STORAGE: bool = True
+    
+    EMBEDDING_STORE_FILEPATH: str = "embeddings"
+    CHUNKING_SIZE: int = 256
+
+    CALCULATE_EMBEDDINGS_ON_PROCESSING: bool = False
+    CALCULATE_EMBEDDINGS_ON_UPLOAD: bool = False
 
     
     ############### Video config ######################
@@ -17,6 +27,7 @@ class Settings(BaseSettings):
     VIDEO_SAMPLING_RATE: int = 15
     
     # Lower number means more strict. 
+    # PHASH_SIMILARITY_THRESHOLD: int = 12
     PHASH_SIMILARITY_THRESHOLD: int = 6
     
     # How many neighbouring frames to consider when merging and making a video.
@@ -46,9 +57,13 @@ class Settings(BaseSettings):
     FRAME_BATCH_SIZE: int = 32
     
      
-    MODEL_NAME: str = "ViT-L/14" 
+    MODEL_NAME: str = "ViT-L/14" # has embedding dimension -> 768
+    # MODEL_NAME: str = "ViT-B/32" # has embedding dimension -> 512
+    
     MAX_NUMBER_OF_MODIFIED_PROMPTS: int =  5  
     
+    # This variable is not used by clip itself, but needs to be specified for Embedding to get stored.
+    EMBEDDING_DIMENSION: int = 768 # Make sure this is correct as per the model choosen
     
     
     ################# YOLO config ######################

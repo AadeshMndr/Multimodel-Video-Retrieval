@@ -6,3 +6,4 @@ outputs/
 *.pt
 *_b.ts
 upload/
+*.h5

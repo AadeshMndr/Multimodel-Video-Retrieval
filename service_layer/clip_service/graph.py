@@ -14,7 +14,7 @@ graph.add_edge(START, "embed_frames")
 graph.add_edge("embed_texts", "match")
 graph.add_edge("embed_frames", "match")
 graph.add_conditional_edges("match", is_reassessment_required)
-graph.add_edge("re-assess", END)
+graph.add_conditional_edges("re-assess", is_reassessment_required)
 
 workflow = graph.compile()
 
