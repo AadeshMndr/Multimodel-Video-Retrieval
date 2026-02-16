@@ -5,7 +5,7 @@ import logging
 from config import settings
 import shutil
 import os
-from router.main_graph import main_workflow
+from router.main_graph import upload_workflow
 from router.main_state import get_main_state, Main_State
 from api.processing_logic import process_the_video
 
@@ -72,8 +72,24 @@ async def upload_video(file: UploadFile = File()):
     
     os.makedirs("upload", exist_ok=True)
     
-    with open(f"upload/{file.filename}", "wb") as buffer:
+    upload_path = f"upload/{file.filename}"
+    
+    with open(upload_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
+
+    if settings.CALCULATE_EMBEDDINGS_ON_UPLOAD:
+        
+        logging.info("Generating and storing the embeddings during upload...")
+
+        main_state = get_main_state(
+            video_path=upload_path,
+            user_text="",
+            output_path=""
+        )
+
+        main_state["logical_path_choosen"] = "clip"
+        
+        upload_workflow.invoke(main_state)
         
     return { "message": f"{file.filename} Upload Complete!" }
 

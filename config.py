@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     CHUNKING_SIZE: int = 256
 
     CALCULATE_EMBEDDINGS_ON_PROCESSING: bool = False
-    CALCULATE_EMBEDDINGS_ON_UPLOAD: bool = False
+    CALCULATE_EMBEDDINGS_ON_UPLOAD: bool = True
 
     
     ############### Video config ######################

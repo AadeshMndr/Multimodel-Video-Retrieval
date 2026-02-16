@@ -3,6 +3,7 @@ from langgraph.graph import END
 import logging
 from config import settings
 from statistics import mean, median, quantiles
+import numpy as np
 
 def generate_text_embeddings(state: State):
     
@@ -102,3 +103,16 @@ def is_reassessment_required(state: State):
             logging.error("There was no values in 'frames_scores', the scores were not being stored, so skipping reassessment")
             
     return END
+        
+def store_video_embeddings(state: State):
+    
+    for batch_frame_embedding, batch_start_last_data in state["video_embeddings_and_range_factory"]():
+        
+        batch_frame_embedding_numpy = batch_frame_embedding.to("cpu").numpy()
+        
+        batch_start_last_numpy = np.array(batch_start_last_data)
+        
+        state["clip_processor"].embedding_store.store_batch_embeddings(batch_frame_embedding_numpy, batch_start_last_numpy)
+        
+    
+    

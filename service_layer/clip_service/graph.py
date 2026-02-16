@@ -1,6 +1,6 @@
 from langgraph.graph import StateGraph, START, END
 from service_layer.clip_service.state import State
-from service_layer.clip_service.node_functions import generate_text_embeddings, generate_video_embeddings, filter_only_matched_frames, is_reassessment_required, reassess_scores
+from service_layer.clip_service.node_functions import generate_text_embeddings, generate_video_embeddings, filter_only_matched_frames, is_reassessment_required, reassess_scores, store_video_embeddings
 
 graph = StateGraph(State)
 
@@ -17,5 +17,20 @@ graph.add_conditional_edges("match", is_reassessment_required)
 graph.add_conditional_edges("re-assess", is_reassessment_required)
 
 workflow = graph.compile()
+
+
+
+
+generate_and_store_embeddings_graph = StateGraph(State)
+
+generate_and_store_embeddings_graph.add_node("embed_frames", generate_video_embeddings)
+generate_and_store_embeddings_graph.add_node("store_embeddings", store_video_embeddings)
+
+generate_and_store_embeddings_graph.add_edge(START, "embed_frames")
+generate_and_store_embeddings_graph.add_edge("embed_frames", "store_embeddings")
+generate_and_store_embeddings_graph.add_edge("store_embeddings", END)
+
+generate_and_store_embeddings_workflow = generate_and_store_embeddings_graph.compile()
+
 
 

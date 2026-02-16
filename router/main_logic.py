@@ -90,3 +90,8 @@ def parallel_post_process(state: Main_State):
     video_thread.start()
     
     return { "timestamps": final_state["timestamps"], "video_state": video_state, "video_creation_event": video_creation_event }
+
+
+
+    
+  
