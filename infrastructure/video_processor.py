@@ -4,6 +4,10 @@ from PIL import Image
 from imagehash import ImageHash
 import logging
 import numpy as np
+import os
+import subprocess
+import tempfile
+from typing import Optional
 from config import settings
 from types_and_schemas.video_types import Generator_Generic_Range, Generator_Image_Range, Generator_Batch_Image_Range
 from tqdm import tqdm
@@ -173,12 +177,25 @@ class Video_Processor:
         yield (current_start, current_last, None)
             
         
-    def create_video(self, frames: Generator_Generic_Range, output_path: str):
+    def create_video(
+        self,
+        frames: Generator_Generic_Range,
+        output_path: str,
+        audio_timestamps: Optional[list[tuple[int, int]]] = None,
+    ):
         
         cap = cv2.VideoCapture(filename=self.video_path)
         
         fourcc = cv2.VideoWriter_fourcc(*'mp4v') # type: ignore
-        out = cv2.VideoWriter(filename=output_path, fps=self.fps, fourcc=fourcc, frameSize=self.frame_size)
+        
+        output_dir = os.path.dirname(output_path)
+        if output_dir:
+            os.makedirs(output_dir, exist_ok=True)
+        
+        with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as temp_file:
+            temp_output_path = temp_file.name
+        
+        out = cv2.VideoWriter(filename=temp_output_path, fps=self.fps, fourcc=fourcc, frameSize=self.frame_size)
         
         logging.info("Creating the video...")
         
@@ -201,6 +218,125 @@ class Video_Processor:
                 
         out.release()
         cap.release()
+        
+        self._mux_audio_with_ffmpeg(
+            temp_output_path=temp_output_path,
+            final_output_path=output_path,
+            audio_timestamps=audio_timestamps,
+        )
+
+    def _build_audio_segments_file(self, timestamps: list[tuple[int, int]]) -> Optional[str]:
+        valid_timestamps = [
+            (max(0, int(start_seconds)), max(0, int(end_seconds)))
+            for start_seconds, end_seconds in timestamps
+            if int(end_seconds) > int(start_seconds)
+        ]
+        if not valid_timestamps:
+            return None
+
+        filter_parts = []
+        concat_inputs = []
+        for idx, (start_seconds, end_seconds) in enumerate(valid_timestamps):
+            filter_parts.append(
+                f"[0:a]atrim=start={start_seconds}:end={end_seconds},asetpts=PTS-STARTPTS[a{idx}]"
+            )
+            concat_inputs.append(f"[a{idx}]")
+
+        concat_filter = "".join(concat_inputs) + f"concat=n={len(valid_timestamps)}:v=0:a=1[outa]"
+        filter_complex = ";".join(filter_parts + [concat_filter])
+
+        with tempfile.NamedTemporaryFile(suffix=".m4a", delete=False) as temp_audio_file:
+            temp_audio_path = temp_audio_file.name
+
+        extract_audio_command = [
+            "ffmpeg",
+            "-y",
+            "-i",
+            self.video_path,
+            "-filter_complex",
+            filter_complex,
+            "-map",
+            "[outa]",
+            "-c:a",
+            "aac",
+            temp_audio_path,
+        ]
+
+        try:
+            subprocess.run(
+                extract_audio_command,
+                check=True,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+            )
+            return temp_audio_path
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            try:
+                os.remove(temp_audio_path)
+            except OSError:
+                pass
+            return None
+
+    def _mux_audio_with_ffmpeg(
+        self,
+        temp_output_path: str,
+        final_output_path: str,
+        audio_timestamps: Optional[list[tuple[int, int]]] = None,
+    ):
+        temp_audio_path = None
+        if audio_timestamps:
+            temp_audio_path = self._build_audio_segments_file(audio_timestamps)
+
+        audio_input = temp_audio_path if temp_audio_path is not None else self.video_path
+        ffmpeg_command = [
+            "ffmpeg",
+            "-y",
+            "-i",
+            temp_output_path,
+            "-i",
+            audio_input,
+            "-c:v",
+            "copy",
+            "-map",
+            "0:v:0",
+            "-map",
+            "1:a:0?",
+            "-shortest",
+            final_output_path,
+        ]
+
+        try:
+            subprocess.run(ffmpeg_command, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            logging.warning("Could not mux audio with ffmpeg, falling back to silent video output.")
+            os.replace(temp_output_path, final_output_path)
+            if temp_audio_path is not None:
+                try:
+                    os.remove(temp_audio_path)
+                except OSError:
+                    pass
+            return
+
+        try:
+            os.remove(temp_output_path)
+        except OSError:
+            pass
+
+        if temp_audio_path is not None:
+            try:
+                os.remove(temp_audio_path)
+            except OSError:
+                pass
+
+    def create_video_from_timestamps(self, timestamps: list[tuple[int, int]], output_path: str):
+        def frames_generator():
+            for start_seconds, end_seconds in timestamps:
+                start_frame = max(0, int(start_seconds * self.fps))
+                end_frame = min(self.frame_count - 1, int(end_seconds * self.fps))
+                if end_frame >= start_frame:
+                    yield (start_frame, end_frame, None)
+
+        self.create_video(frames_generator(), output_path, audio_timestamps=timestamps)
            
     def get_timestamps(self, frames: Generator_Generic_Range):
         

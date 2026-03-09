@@ -41,7 +41,9 @@ def preprocess(state: Main_State):
     
     video_processor = Video_Processor(video_path=video_path)
     video_state = get_video_state(output_path=output_path, video_processor=video_processor, batch_size=batch_size)
-    video_state = pre_processing.invoke(video_state)
+
+    if state["logical_path_choosen"] != "audio":
+        video_state = pre_processing.invoke(video_state)
     
     return { "video_state": video_state }
 
@@ -68,15 +70,33 @@ def postprocess(state: Main_State):
 
 
 def create_video_in_background(state: VideoState, video_creation_event: Event):
-    
-    post_processing.invoke(state)
-    
-    video_creation_event.set()
+    try:
+        post_processing.invoke(state)
+    finally:
+        video_creation_event.set()
+
+
+def create_video_from_timestamps_in_background(video_state: VideoState, timestamps: list[tuple[int, int]], output_path: str, video_creation_event: Event):
+    try:
+        video_state["video_processor"].create_video_from_timestamps(timestamps=timestamps, output_path=output_path)
+    finally:
+        video_creation_event.set()
 
 
 def parallel_post_process(state: Main_State):
     
     video_state = state["video_state"]
+
+    if state["logical_path_choosen"] == "audio":
+        timestamps = list(state.get("timestamps", []))
+        video_creation_event = Event()
+        video_thread = threading.Thread(
+            target=create_video_from_timestamps_in_background,
+            args=(video_state, timestamps, state["output_path"], video_creation_event),
+        )
+        video_thread.daemon = True
+        video_thread.start()
+        return {"timestamps": timestamps, "video_state": video_state, "video_creation_event": video_creation_event}
     
     video_state["matched_frame_range"] = state["matched_frames"]
     

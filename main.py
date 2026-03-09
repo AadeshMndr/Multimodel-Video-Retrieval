@@ -8,6 +8,7 @@ import os
 from router.main_graph import upload_workflow
 from router.main_state import get_main_state, Main_State
 from api.processing_logic import process_the_video
+from infrastructure.audio_video_indexer import Audio_Video_Indexer
 
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
@@ -90,6 +91,20 @@ async def upload_video(file: UploadFile = File()):
         main_state["logical_path_choosen"] = "clip"
         
         upload_workflow.invoke(main_state)
+
+    if settings.CALCULATE_AUDIO_INDEX_ON_UPLOAD:
+        logging.info("Transcribing and indexing audio during upload...")
+
+        video_name = os.path.splitext(os.path.basename(upload_path))[0]
+        index_dir = settings.AUDIO_INDEX_DIR
+        index_path = os.path.join(index_dir, f"{video_name}.faiss")
+        meta_path = os.path.join(index_dir, f"{video_name}.pkl")
+
+        Audio_Video_Indexer().ensure_index(
+            video_path=upload_path,
+            index_path=index_path,
+            meta_path=meta_path,
+        )
         
     return { "message": f"{file.filename} Upload Complete!" }
 

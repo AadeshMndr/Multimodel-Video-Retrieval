@@ -7,3 +7,7 @@ outputs/
 *_b.ts
 upload/
 *.h5
+*.mp4
+*.png
+*.jpg
+experiments/

@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field
 
 #################################### Analyzer ####################################
 
-type All_Path = Literal["clip", "yolo"]
+All_Path = Literal["clip", "yolo", "audio"]
 
 class Analyzer_State(TypedDict):
     
@@ -13,7 +13,6 @@ class Analyzer_State(TypedDict):
     logical_path: All_Path
     
     
-
 def get_analyzer_state(user_text: str):
     
     return Analyzer_State( # type: ignore
@@ -24,6 +23,26 @@ class Analyzer_Output_Format(BaseModel):
     
     logical_path: All_Path = Field(description="The name of the path to take")
 
+
+###################################### AUDIO ####################################
+
+class Audio_State(TypedDict):
+
+    user_prompt: str
+
+    refined_query: str
+
+
+def get_audio_state(user_prompt: str) -> Audio_State:
+
+    return Audio_State(  # type: ignore
+        user_prompt=user_prompt
+    )
+
+
+class Audio_OutputFormat(BaseModel):
+
+    refined_query: str = Field(description="A concise query focused on spoken content semantics")
 
 
 ###################################### CLIP ####################################3
@@ -48,7 +67,6 @@ class OutputFormat(BaseModel):
     
     modified_prompts: list[str] = Field(description="list of modified prompts")
 
-    
     
     
 
@@ -79,10 +97,3 @@ class YOLO_OutputFormat(BaseModel):
     object_groups: list[list[str]] = Field(description="The object names grouped according to their boolean logic")
     
     canonical_form: Literal["SOP", "POS"] = Field(description="The name of the canonical form the boolean logic is in, i.e POS or SOP")
-    
-
-    
-
-    
-    
-    

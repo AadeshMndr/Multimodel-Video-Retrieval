@@ -89,7 +89,15 @@ class CLIP_Processor:
             
     
     def match_frames_and_text(self, batch_frame_embeddings: Tensor, batch_text_embeddings: Tensor, batch_frame_start_last: list[tuple[int, int]], threshold: float = settings.CLIP_THRESHOLD) -> tuple[list[tuple[int, int]], list[ScoreData]]:
-        
+        if (
+            batch_frame_embeddings.dtype != batch_text_embeddings.dtype
+            or batch_frame_embeddings.device != batch_text_embeddings.device
+        ):
+            batch_text_embeddings = batch_text_embeddings.to(
+                device=batch_frame_embeddings.device,
+                dtype=batch_frame_embeddings.dtype,
+            )
+
         similarity_scores = batch_frame_embeddings @ batch_text_embeddings.T 
 
         max_scores = similarity_scores.max(dim=1).values

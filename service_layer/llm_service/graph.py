@@ -1,6 +1,6 @@
 from langgraph.graph import StateGraph, START, END
-from service_layer.llm_service.state import Modified_Prompts_State, YOLO_State, Analyzer_State
-from service_layer.llm_service.node_functions import generate_similar_prompts, generate_synonyms, analyze_the_prompt
+from service_layer.llm_service.state import Modified_Prompts_State, YOLO_State, Analyzer_State, Audio_State
+from service_layer.llm_service.node_functions import generate_similar_prompts, generate_synonyms, analyze_the_prompt, refine_audio_prompt
 
 
 
@@ -16,6 +16,18 @@ analyzer_graph.add_edge(START, "analyze")
 analyzer_graph.add_edge("analyze", END)
 
 analyzer_workflow = analyzer_graph.compile()
+
+
+###################### AUDIO ################################
+
+audio_graph = StateGraph(Audio_State)
+
+audio_graph.add_node("refine_audio_prompt", refine_audio_prompt)
+
+audio_graph.add_edge(START, "refine_audio_prompt")
+audio_graph.add_edge("refine_audio_prompt", END)
+
+audio_workflow = audio_graph.compile()
 
 
 ###################### CLIP ################################

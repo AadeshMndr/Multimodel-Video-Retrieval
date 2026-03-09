@@ -3,7 +3,7 @@ from typing import Literal
 
 class Settings(BaseSettings):
 
-    DEVICE: str = "cpu"
+    DEVICE: str = "cuda"
     
     ENABLE_REASSESSMENT: bool = True
 
@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     CHUNKING_SIZE: int = 256
 
     CALCULATE_EMBEDDINGS_ON_PROCESSING: bool = False
-    CALCULATE_EMBEDDINGS_ON_UPLOAD: bool = True
+    CALCULATE_EMBEDDINGS_ON_UPLOAD: bool = False
 
     
     ############### Video config ######################
@@ -99,6 +99,18 @@ class Settings(BaseSettings):
     
     LLM_MODEL_NAME: str = "groq/compound"
     GROQ_API_KEY: str = ""
+
+    #################### Audio Retrieval ####################
+
+    AUDIO_INDEX_DIR: str = "audio_indexes"
+    AUDIO_WHISPER_MODEL_SIZE: str = "small"
+    AUDIO_EMBEDDING_MODEL: str = "BAAI/bge-base-en-v1.5"
+    AUDIO_CHUNK_WINDOW_SIZE: int = 20
+    AUDIO_CHUNK_OVERLAP_SIZE: int = 5
+    AUDIO_TOP_K: int = 10
+    AUDIO_MERGE_GAP: float = 8.0
+    AUDIO_FORCE_REINDEX: bool = False
+    CALCULATE_AUDIO_INDEX_ON_UPLOAD: bool = False
     
     class Config:
         env_file = ".env"

@@ -1,4 +1,4 @@
-from service_layer.llm_service.state import Modified_Prompts_State, OutputFormat, YOLO_State, YOLO_OutputFormat, Analyzer_Output_Format, Analyzer_State
+from service_layer.llm_service.state import Modified_Prompts_State, OutputFormat, YOLO_State, YOLO_OutputFormat, Analyzer_Output_Format, Analyzer_State, Audio_State, Audio_OutputFormat
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
 from infrastructure.llm import llm
@@ -45,6 +45,13 @@ def analyze_the_prompt(state: Analyzer_State):
             This even works for words with very small single word descriptions like: "white eggs", "red hat", etc. But this cannot take into account the meaning of the image.
         
             If you decide to use this return "yolo"
+
+        3) Speech/Dialogue Retriever ("audio"):
+            This component transcribes the video's spoken audio and finds relevant moments from the transcript.
+            This is useful when the user query is about what is being said, narrated, or discussed in the video.
+            Use this when the prompt is primarily language/audio-centric rather than visual appearance-centric.
+
+            If you decide to use this return "audio"
             
             {format_instructions}
             
@@ -70,6 +77,47 @@ def analyze_the_prompt(state: Analyzer_State):
 
 
 
+
+
+########################### AUDIO ###############################
+
+audio_output_parser = PydanticOutputParser(pydantic_object=Audio_OutputFormat)
+
+def refine_audio_prompt(state: Audio_State):
+
+    template = PromptTemplate(
+        template="""
+        This is the user's prompt: {user_prompt}
+
+        The prompt will be used for semantic search over transcribed spoken audio from a video.
+        Rewrite it into one concise search query focused only on what is spoken.
+
+        Rules:
+        - Remove instruction words like "find", "extract audio", "speaker tells/says", "show me clips", etc.
+        - Keep only the core spoken-content meaning.
+        - Return plain query text suitable for semantic retrieval.
+        - Do not add explanations.
+
+        {format_instructions}
+        """,
+        input_variables=["user_prompt"],
+        partial_variables={
+            "format_instructions": audio_output_parser.get_format_instructions()
+        }
+    )
+
+    chain = template | llm | audio_output_parser
+
+    output: Audio_OutputFormat = chain.invoke({
+        "user_prompt": state["user_prompt"],
+    })
+
+    logging.info("=" * 60)
+    logging.info("Refined audio prompt:")
+    logging.info(output.refined_query)
+    logging.info("=" * 60)
+
+    return {"refined_query": output.refined_query}
 
 
 ########################### CLIP ###############################
