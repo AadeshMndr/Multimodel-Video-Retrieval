@@ -3,7 +3,7 @@ from typing import Literal
 
 class Settings(BaseSettings):
 
-    DEVICE: str = "cuda"
+    DEVICE: str = "cpu"
     
     ENABLE_REASSESSMENT: bool = True
 
@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     CHUNKING_SIZE: int = 256
 
     CALCULATE_EMBEDDINGS_ON_PROCESSING: bool = False
-    CALCULATE_EMBEDDINGS_ON_UPLOAD: bool = False
+    CALCULATE_EMBEDDINGS_ON_UPLOAD: bool = True
 
     
     ############### Video config ######################
@@ -46,8 +46,8 @@ class Settings(BaseSettings):
     
     CLIP_REASSESSMENT_THRESHOLDS: list[float] = [0.210, 0.192]
 
-    # above 90% (not including 90% though) (possible values: 1 to 9)
-    CLIP_REASSESSMENT_DECILE_NUMBER: int | None = 9
+    # above 90% (not including 90% though) (possible values: 0 to 8) -> 8 means: above 90%
+    CLIP_REASSESSMENT_DECILE_NUMBER: int | None = 8
     
     CLIP_REASSESS_REJECT_THRESHOLD: float = 0.05
     
