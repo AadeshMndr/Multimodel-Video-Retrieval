@@ -9,10 +9,14 @@ from router.main_graph import upload_workflow
 from router.main_state import get_main_state, Main_State
 from api.processing_logic import process_the_video
 from infrastructure.audio_video_indexer import Audio_Video_Indexer
+from infrastructure.mac_gpu_utils import setup_mac_gpu_environment, print_device_info
 
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logging.basicConfig(level=logging.ERROR, format='%(levelname)s: %(message)s')
+
+# Setup Mac GPU environment if running on Apple Silicon
+setup_mac_gpu_environment()
 
 app = FastAPI()
 
@@ -118,5 +122,8 @@ async def download_clip(filename: str):
     return FileResponse(path=f"outputs/output_{filename}", filename=f"output-for-{filename}", media_type="application/octet-stream")
 
 if __name__ == "__main__":
+    # Print device information at startup
+    print_device_info()
+    logging.info(f"Using device: {settings.DEVICE}")
     logging.info(f"Starting the web server at port {settings.PORT}")
     uvicorn.run("main:app", reload=True, host="0.0.0.0", port=settings.PORT)

@@ -27,8 +27,12 @@ class Audio_Video_Indexer:
     def _get_torch_device() -> str:
         try:
             import torch
-
-            return "cuda" if torch.cuda.is_available() else "cpu"
+            if torch.cuda.is_available():
+                return "cuda"
+            elif hasattr(torch.backends, 'mps') and torch.backends.mps.is_available():
+                return "mps"  # Apple Silicon Mac GPU support
+            else:
+                return "cpu"
         except Exception:
             return "cpu"
 

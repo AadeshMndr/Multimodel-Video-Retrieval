@@ -12,16 +12,43 @@ import numpy as np
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logging.basicConfig(level=logging.ERROR, format='%(levelname)s: %(message)s')
 
+def handle_mps_operation(operation_func, *args, **kwargs):
+    """Handle operations that might need CPU fallback on MPS"""
+    try:
+        return operation_func(*args, **kwargs)
+    except Exception as e:
+        if "mps" in str(e).lower() and settings.DEVICE == "mps":
+            logging.warning(f"MPS operation failed, falling back to CPU: {e}")
+            # Move tensors to CPU, perform operation, then back to MPS
+            cpu_args = []
+            for arg in args:
+                if hasattr(arg, 'cpu'):
+                    cpu_args.append(arg.cpu())
+                else:
+                    cpu_args.append(arg)
+            
+            result = operation_func(*cpu_args, **kwargs)
+            return result.to("mps") if hasattr(result, 'to') else result
+        else:
+            raise e
+
 class CLIP_Processor:
     
-    def __init__(self, model_name: str,  embedding_store: Embedding_Store, device="cpu"):
+    def __init__(self, model_name: str,  embedding_store: Embedding_Store, device=None):
         
         self.model_name = model_name
-        self.device = device 
+        self.device = device or settings.DEVICE
         self.embedding_store = embedding_store
         self.embedding_store_has_data: bool = self.embedding_store.is_data_present() if settings.ENABLE_EMBEDDING_STORAGE else False
         
-        logging.info(f"Loading model {self.model_name} in {self.device}...")
+        # Handle MPS device setup
+        if self.device == "mps":
+            logging.info(f"Using Apple Silicon GPU (MPS) with potential CPU fallbacks for unsupported operations...")
+            # Set MPS fallback environment variable if not already set
+            import os
+            os.environ.setdefault('PYTORCH_ENABLE_MPS_FALLBACK', '1')
+        
+        logging.info(f"Loading model {self.model_name} on {self.device}...")
         
         self.model, self.preprocessor = clip.load(self.model_name, device=self.device)
         self.model.eval()
@@ -34,11 +61,23 @@ class CLIP_Processor:
         with torch.no_grad():
             
             text_tokens = clip.tokenize(text_list).to(self.device)
-            text_embeddings: Tensor = self.model.encode_text(text_tokens)
+            text_embeddings: Tensor = handle_mps_operation(
+                self.model.encode_text, text_tokens
+            )
             
             text_embeddings /= text_embeddings.norm(dim=-1, keepdim=True)
             
         return text_embeddings
+    
+    def _clear_mps_cache(self):
+        """Clear MPS memory cache to prevent memory issues on Apple Silicon"""
+        if self.device == "mps":
+            try:
+                torch.mps.empty_cache()
+                import gc
+                gc.collect()
+            except Exception as e:
+                logging.debug(f"MPS cache clearing failed: {e}")
     
     def encode_frame_list(self, frame_list: list[Image.Image]) -> Tensor:
         
@@ -48,9 +87,16 @@ class CLIP_Processor:
             processed_frames: list[Tensor] = [ torch.as_tensor(self.preprocessor(frame)) for frame in frame_list ]
             frame_tensor = torch.stack(processed_frames, dim=0).to(self.device)
             
-            frame_embeddings: Tensor = self.model.encode_image(frame_tensor)
+            # Use MPS-safe operation handling
+            frame_embeddings: Tensor = handle_mps_operation(
+                self.model.encode_image, frame_tensor
+            )
         
             frame_embeddings /= frame_embeddings.norm(dim=-1, keepdim=True)
+            
+            # Clear MPS cache periodically if using Apple Silicon
+            if self.device == "mps" and len(frame_list) > 16:
+                self._clear_mps_cache()
             
         return frame_embeddings
             

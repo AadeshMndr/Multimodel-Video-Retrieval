@@ -1,9 +1,19 @@
 from pydantic_settings import BaseSettings
 from typing import Literal
+import torch
+
+def get_optimal_device() -> str:
+    """Detect the best available device for GPU acceleration"""
+    if torch.cuda.is_available():
+        return "cuda"  # For NVIDIA GPUs
+    elif hasattr(torch.backends, 'mps') and torch.backends.mps.is_available():
+        return "mps"   # For Apple Silicon Mac GPUs
+    else:
+        return "cpu"
 
 class Settings(BaseSettings):
 
-    DEVICE: str = "cpu"
+    DEVICE: str = get_optimal_device()
     
     ENABLE_REASSESSMENT: bool = True
 
@@ -54,7 +64,7 @@ class Settings(BaseSettings):
     
     
     
-    FRAME_BATCH_SIZE: int = 32
+    FRAME_BATCH_SIZE: int = 64 if get_optimal_device() != "cpu" else 32
     
      
     MODEL_NAME: str = "ViT-L/14" # has embedding dimension -> 768
@@ -85,7 +95,7 @@ class Settings(BaseSettings):
     
     YOLO_MODEL_NAME: str = "yoloe-26x-seg.pt"
     # YOLO_MODEL_NAME: str = "yoloe-11s-seg.pt"
-    YOLO_BATCH_SIZE: int = 32
+    YOLO_BATCH_SIZE: int = 64 if get_optimal_device() != "cpu" else 32
     
     # YOLO_MAX_USAGE_THRESHOLD: float = 0.950
 
