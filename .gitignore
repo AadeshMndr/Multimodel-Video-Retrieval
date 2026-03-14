@@ -11,3 +11,4 @@ upload/
 *.png
 *.jpg
 experiments/
+*.DS_Store
