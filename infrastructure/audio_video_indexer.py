@@ -41,6 +41,12 @@ class Audio_Video_Indexer:
         return "float16" if device == "cuda" else "int8"
 
     @staticmethod
+    def _get_whisper_device(device: str) -> str:
+        if device == "cuda":
+            return "cuda"
+        return "cpu"
+
+    @staticmethod
     def _ensure_dependencies():
         try:
             from faster_whisper import WhisperModel  # noqa: F401
@@ -56,10 +62,18 @@ class Audio_Video_Indexer:
         self._ensure_dependencies()
         from faster_whisper import WhisperModel
 
+        whisper_device = self._get_whisper_device(self.device)
+        if self.device != whisper_device:
+            logging.info(
+                "Audio transcription device '%s' is not supported by faster-whisper. Falling back to '%s'.",
+                self.device,
+                whisper_device,
+            )
+
         model = WhisperModel(
             self.whisper_model_size,
-            device=self.device,
-            compute_type=self._compute_type_for_device(self.device),
+            device=whisper_device,
+            compute_type=self._compute_type_for_device(whisper_device),
         )
 
         logging.info("Transcribing audio for semantic indexing...")

@@ -27,8 +27,10 @@ class Settings(BaseSettings):
     EMBEDDING_STORE_FILEPATH: str = "embeddings"
     CHUNKING_SIZE: int = 256
 
-    CALCULATE_EMBEDDINGS_ON_PROCESSING: bool = False
-    CALCULATE_EMBEDDINGS_ON_UPLOAD: bool = True
+    # CALCULATE_EMBEDDINGS_ON_PROCESSING: bool = False
+    CALCULATE_EMBEDDINGS_ON_PROCESSING: bool = True
+    # CALCULATE_EMBEDDINGS_ON_UPLOAD: bool = True
+    CALCULATE_EMBEDDINGS_ON_UPLOAD: bool = False 
 
     
     ############### Video config ######################
