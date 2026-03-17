@@ -31,4 +31,11 @@ def audio_logic(state: Main_State):
     )
     audio_state = audio_workflow.invoke(audio_state)
 
-    return {"timestamps": audio_state["timestamps"]}
+    return {
+        "timestamps": audio_state["timestamps"],
+        "route_details": {
+            "path": "audio",
+            "refined_query": llm_audio_state.get("refined_query", ""),
+            "timestamp_count": len(audio_state.get("timestamps", [])),
+        },
+    }

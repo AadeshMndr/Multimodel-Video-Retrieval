@@ -32,7 +32,18 @@ def yolo_logic(state: Main_State):
     )
     yolo_state = yolo_workflow.invoke(yolo_state)
    
-    return { "matched_frames": yolo_state["matched_frames"] }
+    return {
+        "matched_frames": yolo_state["matched_frames"],
+        "route_details": {
+            "path": "yolo",
+            "canonical_form": llm_state.get("canonical_form"),
+            "object_groups": llm_state.get("object_groups", []),
+            "object_details": llm_state.get("object_details", {}),
+            "score_stats": yolo_state.get("score_stats", {}),
+            "reassessment_count": yolo_state.get("reassessment_count", 0),
+            "matched_frame_count": len(yolo_state.get("matched_frames", [])),
+        },
+    }
     
     # video_state["matched_frame_range"] = yolo_state["matched_frames"]
     # post_processing.invoke(video_state) # type: ignore

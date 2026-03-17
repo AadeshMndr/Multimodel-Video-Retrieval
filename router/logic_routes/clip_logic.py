@@ -20,7 +20,16 @@ def clip_logic(state: Main_State):
     clip_state = get_clip_state(texts=llm_state["modified_prompts"], clip_processor=clip_processor, batch_frames_factory=video_state["batched_generator_factory"])
     clip_state = clip_workflow.invoke(clip_state)
     
-    return {"matched_frames": clip_state["matched_frames"]}
+    return {
+        "matched_frames": clip_state["matched_frames"],
+        "route_details": {
+            "path": "clip",
+            "modified_prompts": llm_state.get("modified_prompts", []),
+            "score_stats": clip_state.get("score_stats", {}),
+            "reassessment_count": clip_state.get("reassessment_count", 0),
+            "matched_frame_count": len(clip_state.get("matched_frames", [])),
+        },
+    }
     
     
 def generate_and_store_embeddings(state: Main_State):

@@ -3,7 +3,7 @@ from router.main_state import get_main_state, Main_State
 from router.main_graph import main_workflow
 import asyncio
 
-async def process_the_video(video_path: str, user_text: str, output_path: str):
+async def process_the_video(video_path: str, user_text: str, output_path: str, generate_output_video: bool = True):
     
     stream_data = StreamOutput(status="initiating", timestamps=[])
     yield f"data: {stream_data.model_dump_json()} \n\n"
@@ -11,7 +11,8 @@ async def process_the_video(video_path: str, user_text: str, output_path: str):
     initial_state = get_main_state(
         video_path=video_path,
         user_text=user_text,
-        output_path=output_path
+        output_path=output_path,
+        generate_output_video=generate_output_video,
     )
     
     stream_data = StreamOutput(status="processing", timestamps=[])

@@ -86,9 +86,13 @@ def create_video_from_timestamps_in_background(video_state: VideoState, timestam
 def parallel_post_process(state: Main_State):
     
     video_state = state["video_state"]
+    should_create_video = state.get("generate_output_video", True)
 
     if state["logical_path_choosen"] == "audio":
         timestamps = list(state.get("timestamps", []))
+        if not should_create_video:
+            return {"timestamps": timestamps, "video_state": video_state, "video_creation_event": None}
+
         video_creation_event = Event()
         video_thread = threading.Thread(
             target=create_video_from_timestamps_in_background,
@@ -101,6 +105,9 @@ def parallel_post_process(state: Main_State):
     video_state["matched_frame_range"] = state["matched_frames"]
     
     final_state: Main_State = timestamp_workflow.invoke(video_state) # type: ignore
+
+    if not should_create_video:
+        return {"timestamps": final_state["timestamps"], "video_state": video_state, "video_creation_event": None}
     
     video_creation_event = Event()
     

@@ -29,7 +29,7 @@ async def introduce():
 
 
 @app.post("/prompt")
-async def find_in_video(prompt: str = Body(min_length=1), filename: str = Body(min_length=1)):
+async def find_in_video(prompt: str = Body(min_length=1), filename: str = Body(min_length=1), generate_output_video: bool = Body(default=True)):
 
     
     if prompt.strip() == "":
@@ -65,7 +65,8 @@ async def find_in_video(prompt: str = Body(min_length=1), filename: str = Body(m
         process_the_video(
             video_path=video_path,
             user_text=prompt,
-            output_path=output_path
+            output_path=output_path,
+            generate_output_video=generate_output_video,
         ),
         media_type="text/plain"
     )

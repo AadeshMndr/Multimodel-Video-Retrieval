@@ -1,4 +1,4 @@
-from typing import TypedDict
+from typing import TypedDict, Any
 from service_layer.video_service.state import State as VideoState
 from service_layer.llm_service.state import All_Path
 from threading import Event
@@ -14,11 +14,13 @@ class Main_State(TypedDict):
     matched_frames: list[tuple[int, int]]
     timestamps: list[tuple[int, int]]
     embedding_store: Embedding_Store
+    route_details: dict[str, Any]
+    generate_output_video: bool
 
     
     video_creation_event: Event | None
     
-def get_main_state(video_path: str, user_text: str, output_path: str, embedding_store_name: str = settings.EMBEDDING_STORE_FILEPATH, chunking_size: int = settings.CHUNKING_SIZE, embedding_dimension: int = settings.EMBEDDING_DIMENSION):
+def get_main_state(video_path: str, user_text: str, output_path: str, embedding_store_name: str = settings.EMBEDDING_STORE_FILEPATH, chunking_size: int = settings.CHUNKING_SIZE, embedding_dimension: int = settings.EMBEDDING_DIMENSION, generate_output_video: bool = True):
     embedding_store = Embedding_Store(
         file_name=embedding_store_name,
         chunking_size=chunking_size,
@@ -31,5 +33,7 @@ def get_main_state(video_path: str, user_text: str, output_path: str, embedding_
         user_text=user_text,
         output_path=output_path,
         embedding_store=embedding_store,
+        route_details={},
+        generate_output_video=generate_output_video,
         video_creation_event=None
     )
