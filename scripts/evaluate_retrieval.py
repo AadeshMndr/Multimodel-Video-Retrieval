@@ -43,6 +43,7 @@ from router.main_state import Main_State, get_main_state
 VIDEO_EXTENSIONS = {".mp4", ".mov", ".mkv", ".avi", ".m4v", ".webm"}
 CUMULATIVE_RESULTS_FILENAME = "cumulative_prompt_results.jsonl"
 CUMULATIVE_SUMMARY_FILENAME = "cumulative_summary.json"
+RECALL_IOU_THRESHOLD = 0.5
 
 
 @dataclass
@@ -85,6 +86,12 @@ def parse_args() -> argparse.Namespace:
         type=int,
         default=None,
         help="Optional cap for number of prompts to evaluate (debug use).",
+    )
+    parser.add_argument(
+        "--recall-iou-threshold",
+        type=float,
+        default=RECALL_IOU_THRESHOLD,
+        help="IoU threshold used by recall@IoU (default: 0.5).",
     )
     return parser.parse_args()
 
@@ -178,12 +185,15 @@ def interval_iou(first: tuple[int, int], second: tuple[int, int]) -> float:
 def compare_timestamps(
     predicted: list[tuple[int, int]],
     target: list[tuple[int, int]],
+    recall_iou_threshold: float,
 ) -> dict[str, Any]:
     if not predicted and not target:
         return {
             "best_iou": 1.0,
             "mean_target_best_iou": 1.0,
             "mean_predicted_best_iou": 1.0,
+            "recall": 1.0,
+            "recall_iou_threshold": recall_iou_threshold,
             "pairwise_ious": [],
         }
 
@@ -192,6 +202,8 @@ def compare_timestamps(
             "best_iou": 0.0,
             "mean_target_best_iou": 0.0,
             "mean_predicted_best_iou": 0.0,
+            "recall": 0.0,
+            "recall_iou_threshold": recall_iou_threshold,
             "pairwise_ious": [],
         }
 
@@ -217,10 +229,15 @@ def compare_timestamps(
         best = max(interval_iou(predicted_range, each_target) for each_target in target)
         predicted_bests.append(best)
 
+    recall_hits = sum(1 for each_best in target_bests if each_best >= recall_iou_threshold)
+    recall = recall_hits / len(target_bests)
+
     return {
         "best_iou": max((each["iou"] for each in pairwise), default=0.0),
         "mean_target_best_iou": sum(target_bests) / len(target_bests),
         "mean_predicted_best_iou": sum(predicted_bests) / len(predicted_bests),
+        "recall": recall,
+        "recall_iou_threshold": recall_iou_threshold,
         "pairwise_ious": pairwise,
     }
 
@@ -251,19 +268,21 @@ def load_existing_keys(cumulative_jsonl: Path) -> set[str]:
     return keys
 
 
-def summarize_results(records: list[dict[str, Any]]) -> dict[str, Any]:
+def summarize_results(records: list[dict[str, Any]], recall_iou_threshold: float) -> dict[str, Any]:
     if not records:
         return {
             "prompt_count": 0,
             "avg_best_iou": 0.0,
             "avg_mean_target_best_iou": 0.0,
             "avg_mean_predicted_best_iou": 0.0,
+            "avg_recall": 0.0,
             "path_counts": {},
         }
 
     avg_best_iou = sum(each["iou"]["best_iou"] for each in records) / len(records)
     avg_target = sum(each["iou"]["mean_target_best_iou"] for each in records) / len(records)
     avg_predicted = sum(each["iou"]["mean_predicted_best_iou"] for each in records) / len(records)
+    avg_recall = sum(each["iou"]["recall"] for each in records) / len(records)
 
     path_counts: dict[str, int] = defaultdict(int)
     for each in records:
@@ -274,18 +293,24 @@ def summarize_results(records: list[dict[str, Any]]) -> dict[str, Any]:
         "avg_best_iou": avg_best_iou,
         "avg_mean_target_best_iou": avg_target,
         "avg_mean_predicted_best_iou": avg_predicted,
+        "avg_recall": avg_recall,
+        "recall_iou_threshold": recall_iou_threshold,
         "path_counts": dict(path_counts),
     }
 
 
-def write_per_video_reports(per_video_records: dict[str, list[dict[str, Any]]], run_dir: Path) -> None:
+def write_per_video_reports(
+    per_video_records: dict[str, list[dict[str, Any]]],
+    run_dir: Path,
+    recall_iou_threshold: float,
+) -> None:
     per_video_dir = run_dir / "per_video"
     per_video_dir.mkdir(parents=True, exist_ok=True)
 
     for video_name, records in per_video_records.items():
         payload = {
             "video": video_name,
-            "summary": summarize_results(records),
+            "summary": summarize_results(records, recall_iou_threshold),
             "prompt_results": records,
         }
         report_path = per_video_dir / f"{Path(video_name).stem}.json"
@@ -297,14 +322,15 @@ def upsert_cumulative_summary(
     all_existing_records: list[dict[str, Any]],
     new_records: list[dict[str, Any]],
     skipped_existing: int,
+    recall_iou_threshold: float,
 ) -> None:
     payload = {
         "last_updated_utc": datetime.now(UTC).isoformat(),
-        "cumulative": summarize_results(all_existing_records),
+        "cumulative": summarize_results(all_existing_records, recall_iou_threshold),
         "last_run": {
             "new_prompt_count": len(new_records),
             "skipped_existing_count": skipped_existing,
-            "summary": summarize_results(new_records),
+            "summary": summarize_results(new_records, recall_iou_threshold),
         },
     }
 
@@ -312,7 +338,12 @@ def upsert_cumulative_summary(
     summary_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
 
-def evaluate_task(task: PromptTask, reports_dir: Path, generate_output_video: bool) -> dict[str, Any]:
+def evaluate_task(
+    task: PromptTask,
+    reports_dir: Path,
+    generate_output_video: bool,
+    recall_iou_threshold: float,
+) -> dict[str, Any]:
     output_filename = f"eval_{task.video_path.stem}_{hashlib.md5(task.prompt.encode('utf-8')).hexdigest()[:10]}.mp4"
     output_path = str(reports_dir / "generated_clips" / output_filename)
 
@@ -329,7 +360,11 @@ def evaluate_task(task: PromptTask, reports_dir: Path, generate_output_video: bo
         (int(start), int(end)) for start, end in final_state.get("timestamps", [])
     ]
 
-    iou_scores = compare_timestamps(predicted_timestamps, task.target_timestamps)
+    iou_scores = compare_timestamps(
+        predicted_timestamps,
+        task.target_timestamps,
+        recall_iou_threshold,
+    )
     route_details = dict(final_state.get("route_details", {}))
     route_details.pop("frames_scores", None)
 
@@ -352,6 +387,9 @@ def evaluate_task(task: PromptTask, reports_dir: Path, generate_output_video: bo
 
 def main() -> None:
     args = parse_args()
+
+    if not 0.0 <= args.recall_iou_threshold <= 1.0:
+        raise ValueError("--recall-iou-threshold must be between 0.0 and 1.0.")
 
     videos_dir = Path(args.videos_dir)
     labels_dir = Path(args.labels_dir)
@@ -390,7 +428,13 @@ def main() -> None:
                 for each in cumulative_jsonl.read_text(encoding="utf-8").splitlines()
                 if each.strip()
             ]
-            upsert_cumulative_summary(reports_dir, all_records, [], skipped_existing)
+            upsert_cumulative_summary(
+                reports_dir,
+                all_records,
+                [],
+                skipped_existing,
+                args.recall_iou_threshold,
+            )
         return
 
     pending_tasks.sort(key=lambda each: (each.video_path.as_posix(), each.prompt_id))
@@ -404,12 +448,17 @@ def main() -> None:
 
     with tqdm(total=len(pending_tasks), desc="Evaluating prompts", unit="prompt") as progress_bar:
         for task in pending_tasks:
-            record = evaluate_task(task, reports_dir, generate_output_video=args.generate_video)
+            record = evaluate_task(
+                task,
+                reports_dir,
+                generate_output_video=args.generate_video,
+                recall_iou_threshold=args.recall_iou_threshold,
+            )
             run_records.append(record)
             per_video_records[task.video_path.name].append(record)
             progress_bar.update(1)
 
-    write_per_video_reports(per_video_records, run_dir)
+    write_per_video_reports(per_video_records, run_dir, args.recall_iou_threshold)
 
     run_summary_payload = {
         "run_id": run_id,
@@ -421,13 +470,14 @@ def main() -> None:
             "generate_video": bool(args.generate_video),
             "force_recompute": bool(args.force_recompute),
             "max_prompts": args.max_prompts,
+            "recall_iou_threshold": args.recall_iou_threshold,
         },
         "counts": {
             "total_label_tasks": len(all_tasks),
             "evaluated_new": len(run_records),
             "skipped_existing": skipped_existing,
         },
-        "summary": summarize_results(run_records),
+        "summary": summarize_results(run_records, args.recall_iou_threshold),
     }
     (run_dir / "run_summary.json").write_text(
         json.dumps(run_summary_payload, indent=2), encoding="utf-8"
@@ -442,7 +492,13 @@ def main() -> None:
         for each in cumulative_jsonl.read_text(encoding="utf-8").splitlines()
         if each.strip()
     ]
-    upsert_cumulative_summary(reports_dir, all_records, run_records, skipped_existing)
+    upsert_cumulative_summary(
+        reports_dir,
+        all_records,
+        run_records,
+        skipped_existing,
+        args.recall_iou_threshold,
+    )
 
     print(
         f"Evaluation complete. New records: {len(run_records)}, skipped existing: {skipped_existing}. "

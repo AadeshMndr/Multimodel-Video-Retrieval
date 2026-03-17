@@ -1,4 +1,4 @@
-# Batch Evaluation Runner (Timestamp IoU)
+# Batch Evaluation Runner (Timestamp IoU + Recall)
 
 Use `scripts/evaluate_retrieval.py` to batch-evaluate prompt-to-timestamp retrieval over a video folder + labels folder.
 
@@ -8,6 +8,7 @@ Use `scripts/evaluate_retrieval.py` to batch-evaluate prompt-to-timestamp retrie
 - Loads prompts and manually labeled target timestamps from JSON files.
 - Runs the existing retrieval workflow per prompt.
 - Compares predicted timestamps vs target timestamps using interval IoU.
+- Computes recall per prompt as `recall@IoU>=0.5` (fraction of target intervals matched by at least one prediction).
 - Writes:
   - **Per-run detailed reports** (including path chosen and route scores)
   - **Per-video detailed reports**
@@ -25,6 +26,14 @@ python scripts/evaluate_retrieval.py \
 ```
 
 By default, this **does not create output clip videos**.
+
+By default, recall is computed as `recall@IoU>=0.5`.
+
+To change the recall IoU threshold, add:
+
+```bash
+--recall-iou-threshold 0.3
+```
 
 If you want output videos as well, add:
 
