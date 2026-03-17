@@ -59,11 +59,11 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Batch evaluate video-text retrieval timestamps with IoU scoring."
     )
-    parser.add_argument("--videos-dir", required=True, help="Directory containing videos.")
-    parser.add_argument("--labels-dir", required=True, help="Directory containing prompt label JSON files.")
+    parser.add_argument("--videos-dir", default="evaluation/test_videos", help="Directory containing videos.")
+    parser.add_argument("--labels-dir", default="evaluation/test_labels", help="Directory containing prompt label JSON files.")
     parser.add_argument(
         "--reports-dir",
-        default="outputs/evaluation",
+        default="evaluation/reports",
         help="Directory where detailed and cumulative reports are stored.",
     )
     parser.add_argument(

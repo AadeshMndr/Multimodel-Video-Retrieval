@@ -1,0 +1,25 @@
+{
+  "video": "Winter.mp4",
+  "prompts": [
+    {
+      "id": "p1",
+      "prompt": "Find me clips of a tiger",
+      "target_timestamp": [[213, 249], [254, 295], [346, 352], [356, 365], [376, 408]]
+    },
+    {
+      "id": "p2",
+      "prompt": "Find me clips of a wild boar",
+      "target_timestamps": [[322, 325], [330, 346], [352, 353]]
+    },
+    {
+      "id": "p3",
+      "prompt": "Find me clips of white birds flying",
+      "target_timestamps": [[477, 483]]
+    },
+    {
+      "id": "p4",
+      "prompt": "Find me clips of salmon swimming up a river",
+      "target_timestamps": [[495, 502]]
+    }
+  ]
+}

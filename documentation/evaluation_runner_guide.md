@@ -20,10 +20,12 @@ Use `scripts/evaluate_retrieval.py` to batch-evaluate prompt-to-timestamp retrie
 
 ```bash
 python scripts/evaluate_retrieval.py \
-  --videos-dir video_storage \
-  --labels-dir documentation/eval_labels \
-  --reports-dir outputs/evaluation
+  --videos-dir evaluation/test_videos \
+  --labels-dir evaluation/test_labels \
+  --reports-dir evaluation/reports
 ```
+
+All three directories default to the above values if omitted.
 
 By default, this **does not create output clip videos**.
 

@@ -12,3 +12,4 @@ upload/
 *.jpg
 experiments/
 *.DS_Store
+evaluation/test_videos
