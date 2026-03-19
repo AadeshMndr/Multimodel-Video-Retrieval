@@ -1,0 +1,29 @@
+{
+  "last_updated_utc": "2026-03-17T17:51:36.643389+00:00",
+  "cumulative": {
+    "prompt_count": 4,
+    "avg_best_iou": 0.1388888888888889,
+    "avg_mean_target_best_iou": 0.02777777777777778,
+    "avg_mean_predicted_best_iou": 0.0154320987654321,
+    "avg_recall": 0.05,
+    "recall_iou_threshold": 0.5,
+    "path_counts": {
+      "clip": 4
+    }
+  },
+  "last_run": {
+    "new_prompt_count": 4,
+    "skipped_existing_count": 0,
+    "summary": {
+      "prompt_count": 4,
+      "avg_best_iou": 0.1388888888888889,
+      "avg_mean_target_best_iou": 0.02777777777777778,
+      "avg_mean_predicted_best_iou": 0.0154320987654321,
+      "avg_recall": 0.05,
+      "recall_iou_threshold": 0.5,
+      "path_counts": {
+        "clip": 4
+      }
+    }
+  }
+}
