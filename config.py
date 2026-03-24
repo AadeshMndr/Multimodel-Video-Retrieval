@@ -78,6 +78,23 @@ class Settings(BaseSettings):
     
     # This variable is not used by clip itself, but needs to be specified for Embedding to get stored.
     EMBEDDING_DIMENSION: int = 768 # Make sure this is correct as per the model choosen
+
+
+    ################## XCLIP config ####################
+
+    XCLIP_MODEL_NAME: str = "microsoft/xclip-base-patch16"
+    XCLIP_THRESHOLD: float = 0.350
+    XCLIP_REASSESSMENT_THRESHOLDS: list[float] = [0.320, 0.290, 0.260, 0.230]
+    XCLIP_WINDOW_SECONDS: float = 5.0
+    XCLIP_STEP_SECONDS: float = 1.0
+    XCLIP_FRAMES_PER_CLIP: int = 8
+    XCLIP_MERGE_GAP_SECONDS: float = 2.0
+    XCLIP_USE_REDUCED_FRAMES: bool = True
+    ENABLE_XCLIP_EMBEDDING_STORAGE: bool = True
+    XCLIP_EMBEDDING_STORE_FILEPATH: str = "xclip_embeddings"
+    XCLIP_EMBEDDING_DIMENSION: int = 512
+    XCLIP_EMBEDDING_CHUNK_SIZE: int = 256
+    CALCULATE_XCLIP_EMBEDDINGS_ON_UPLOAD: bool = False
     
     
     ################# YOLO config ######################

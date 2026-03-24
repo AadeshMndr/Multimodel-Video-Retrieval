@@ -83,7 +83,7 @@ async def upload_video(file: UploadFile = File()):
     with open(upload_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    if settings.CALCULATE_EMBEDDINGS_ON_UPLOAD:
+    if settings.CALCULATE_EMBEDDINGS_ON_UPLOAD or settings.CALCULATE_XCLIP_EMBEDDINGS_ON_UPLOAD:
         
         logging.info("Generating and storing the embeddings during upload...")
 

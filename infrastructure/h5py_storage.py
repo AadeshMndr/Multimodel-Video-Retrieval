@@ -3,6 +3,9 @@ import numpy as np
 from numpy.typing import NDArray
 from typing import Generator
 from h5py import Dataset
+import os
+import logging
+from datetime import datetime
 
 
 class Embedding_Store:
@@ -14,7 +17,7 @@ class Embedding_Store:
         self.dataset_name = dataset_name
         self.chunking_size = chunking_size
         
-        self.f = h5py.File(self.file_name, "a")
+        self.f = self._open_file_with_recovery(self.file_name)
         
         group = self.f.require_group(dataset_name)
             
@@ -39,6 +42,38 @@ class Embedding_Store:
                 compression="gzip",
                 dtype="int"
             )
+
+    def _open_file_with_recovery(self, file_name: str) -> h5py.File:
+        try:
+            return h5py.File(file_name, "a")
+        except OSError as error:
+            error_message = str(error).lower()
+            is_recoverable = (
+                "truncated file" in error_message
+                or "unable to synchronously open file" in error_message
+                or "file signature not found" in error_message
+            )
+
+            if not is_recoverable:
+                raise
+
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            corrupt_backup = f"{file_name}.corrupt_{timestamp}"
+
+            try:
+                os.replace(file_name, corrupt_backup)
+                logging.warning(
+                    "Corrupted H5 file detected at %s. Backed up to %s and recreated a clean store.",
+                    file_name,
+                    corrupt_backup,
+                )
+            except OSError:
+                logging.warning(
+                    "Corrupted H5 file detected at %s but backup rename failed. Recreating store in place.",
+                    file_name,
+                )
+
+            return h5py.File(file_name, "a")
 
 
     def close(self):

@@ -33,6 +33,8 @@ def clip_logic(state: Main_State):
     
     
 def generate_and_store_embeddings(state: Main_State):
+    if not settings.CALCULATE_EMBEDDINGS_ON_UPLOAD:
+        return
     
     video_state = state["video_state"]
     

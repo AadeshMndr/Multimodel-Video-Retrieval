@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field
 
 #################################### Analyzer ####################################
 
-All_Path = Literal["clip", "yolo", "audio"]
+All_Path = Literal["clip", "xclip", "yolo", "audio"]
 
 class Analyzer_State(TypedDict):
     

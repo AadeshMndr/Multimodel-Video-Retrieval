@@ -35,6 +35,27 @@ def analyze_the_prompt(state: Analyzer_State):
             This can take into account the meaning of an image, so for prompts that require understanding of the image, use this (clip).
             
             If you decide to use this return "clip".
+
+        1.5) Temporal Semantic Video Searcher ("xclip"):
+            This component internally uses XCLIP to match text against short video clips (multiple frames together),
+            so it captures temporal context across a sequence, not just single-frame appearance.
+
+            Select this ONLY when the prompt is clearly action/temporal-centric and requires motion understanding,
+            similar to Kinetics / Something-Something style action descriptions (verb-driven events over time).
+
+            Good examples for xclip:
+            - "person sits, then stands and waves"
+            - "car approaches, slows down, then turns left"
+            - "someone opens a door and walks in"
+            - "player jumps and lands"
+
+            Do NOT choose xclip for:
+            - purely static appearance/object prompts (prefer clip/yolo)
+            - audio/dialogue prompts (prefer audio)
+            - OCR/text-reading or very fine-grained tiny object details
+            - prompts about identity-specific recognition (exact person identity)
+
+            If you decide to use this return "xclip".
             
         2) Object Presence Detector ("yolo"):
             This component internally uses a YOLO model.
@@ -52,6 +73,9 @@ def analyze_the_prompt(state: Analyzer_State):
             Use this when the prompt is primarily language/audio-centric rather than visual appearance-centric.
 
             If you decide to use this return "audio"
+
+
+        Exceptional Instructions: If the prompt itself specifies which route to use then just return the keyword for that route.
             
             {format_instructions}
             
