@@ -45,18 +45,20 @@ class Settings(BaseSettings):
     # How many neighbouring frames to consider when merging and making a video.
     FRAME_NEIGHBOUR_RANGE_BEFORE: int = 30
     # FRAME_NEIGHBOUR_RANGE_BEFORE: int = 15
-    FRAME_NEIGHBOUR_RANGE_AFTER: int = 60
+    FRAME_NEIGHBOUR_RANGE_AFTER: int = 30
     # FRAME_NEIGHBOUR_RANGE_AFTER: int = 15
     
     
     
     ################## CLIP config ####################
     
-    CLIP_THRESHOLD: float = 0.230
+
+    CLIP_THRESHOLD: float = 0.250
+    # CLIP_THRESHOLD: float = 0.230
     # CLIP_THRESHOLD: float = 0.192
     
     
-    CLIP_REASSESSMENT_THRESHOLDS: list[float] = [0.210, 0.192]
+    CLIP_REASSESSMENT_THRESHOLDS: list[float] = [0.230, 210, 0.192]
 
     # above 90% (not including 90% though) (possible values: 0 to 8) -> 8 means: above 90%
     CLIP_REASSESSMENT_DECILE_NUMBER: int | None = 8
@@ -84,11 +86,11 @@ class Settings(BaseSettings):
     YOLO_MIN_THRESHOLD: float = 0.100
     
     # This threshold is used for filtering the detected items in the first pass
-    YOLO_MAX_USAGE_THRESHOLD: float = 0.350
+    YOLO_MAX_USAGE_THRESHOLD: float = 0.700
     
     
     
-    YOLO_REASSESSMENT_THRESHOLDS: list[float] = [0.250, 0.190]
+    YOLO_REASSESSMENT_THRESHOLDS: list[float] = [0.500, 0.350, 0.250, 0.190]
     
     YOLO_REASSESSMENT_DECILE_NUMBER: int | None = 4
     
