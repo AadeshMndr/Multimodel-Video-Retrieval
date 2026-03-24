@@ -84,7 +84,7 @@ class Settings(BaseSettings):
 
     XCLIP_MODEL_NAME: str = "microsoft/xclip-base-patch16"
     XCLIP_THRESHOLD: float = 0.350
-    XCLIP_REASSESSMENT_THRESHOLDS: list[float] = [0.320, 0.290, 0.260, 0.230]
+    XCLIP_REASSESSMENT_THRESHOLDS: list[float] = [0.320, 0.290, 0.265, 0.260, 0.240, 0.230]
     XCLIP_WINDOW_SECONDS: float = 5.0
     XCLIP_STEP_SECONDS: float = 1.0
     XCLIP_FRAMES_PER_CLIP: int = 8
@@ -95,6 +95,11 @@ class Settings(BaseSettings):
     XCLIP_EMBEDDING_DIMENSION: int = 512
     XCLIP_EMBEDDING_CHUNK_SIZE: int = 256
     CALCULATE_XCLIP_EMBEDDINGS_ON_UPLOAD: bool = False
+
+    XCLIP_INCLUDE_WINDOW_SCORES_IN_ROUTE_DETAILS: bool = False
+    XCLIP_ROUTE_SCORE_MAX_ITEMS: int = 200
+    XCLIP_LOG_ALL_WINDOW_SCORES: bool = False
+    XCLIP_SCORE_LOG_MAX_ITEMS: int = 40
     
     
     ################# YOLO config ######################

@@ -1,7 +1,12 @@
+import logging
+
 from langgraph.graph import END
 
 from config import settings
 from service_layer.xclip_service.state import State
+
+
+logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
 
 def _filter_and_merge_by_threshold(state: State, threshold: float) -> list[tuple[int, int]]:
@@ -29,6 +34,15 @@ def find_temporal_matches(state: State):
 
     score_stats["used_threshold"] = settings.XCLIP_THRESHOLD
 
+    logging.info("=" * 60)
+    logging.info("XCLIP initial matching complete")
+    logging.info("Initial threshold: %.3f", settings.XCLIP_THRESHOLD)
+    logging.info("Window count: %s", len(frame_ranges))
+    logging.info("Matched windows: %s", score_stats.get("matched_window_count", 0))
+    logging.info("Matched merged ranges: %s", len(merged_matches))
+    logging.info("Score stats: mean=%s median=%s max=%s min=%s", score_stats.get("mean"), score_stats.get("median"), score_stats.get("max"), score_stats.get("min"))
+    logging.info("=" * 60)
+
     return {
         "frame_ranges": frame_ranges,
         "window_scores": window_scores,
@@ -51,6 +65,11 @@ def reassess_matches(state: State):
     score_stats["used_threshold"] = threshold
     score_stats["matched_window_count"] = matched_window_count
 
+    logging.info("Reassessing XCLIP with threshold: %.3f", threshold)
+    logging.info("Reassessment pass: %s/%s", state["reassessment_count"] + 1, len(settings.XCLIP_REASSESSMENT_THRESHOLDS))
+    logging.info("Matched windows after reassessment: %s", matched_window_count)
+    logging.info("Matched merged ranges after reassessment: %s", len(matched_frames))
+
     return {
         "matched_frames": matched_frames,
         "reassessment_count": state["reassessment_count"] + 1,
@@ -65,9 +84,14 @@ def is_reassessment_required(state: State):
     )
 
     if not reassessment_possible:
+        logging.info("XCLIP reassessment complete or disabled. Proceeding without further reassessment.")
         return END
 
     if len(state["matched_frames"]) == 0 and len(state["window_scores"]) > 0:
+        logging.info("No XCLIP matches found at threshold %.3f, triggering reassessment.", state["score_stats"].get("used_threshold", settings.XCLIP_THRESHOLD))
         return "re-assess"
+
+    if len(state["matched_frames"]) > 0:
+        logging.info("XCLIP produced matches at threshold %.3f, no reassessment needed.", state["score_stats"].get("used_threshold", settings.XCLIP_THRESHOLD))
 
     return END

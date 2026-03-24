@@ -1,3 +1,5 @@
+import logging
+
 from config import settings
 from infrastructure.h5py_storage import Embedding_Store
 from infrastructure.xclip_processor import XCLIP_Processor
@@ -6,6 +8,9 @@ from service_layer.llm_service.graph import prompt_variation_workflow as llm_wor
 from service_layer.llm_service.state import get_modified_prompt_state as get_llm_state
 from service_layer.xclip_service.graph import workflow as xclip_workflow
 from service_layer.xclip_service.state import get_state as get_xclip_state
+
+
+logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
 
 def xclip_logic(state: Main_State):
@@ -48,6 +53,43 @@ def xclip_logic(state: Main_State):
 
         matched_frames = xclip_state.get("matched_frames", [])
         score_stats = xclip_state.get("score_stats", {})
+        frame_ranges = xclip_state.get("frame_ranges", [])
+        window_scores = xclip_state.get("window_scores", [])
+
+        score_items = [
+            {
+                "frame_range": [start_frame, end_frame],
+                "score": float(score),
+            }
+            for (start_frame, end_frame), score in zip(frame_ranges, window_scores)
+        ]
+
+        route_score_limit = max(0, settings.XCLIP_ROUTE_SCORE_MAX_ITEMS)
+        include_scores_in_route = settings.XCLIP_INCLUDE_WINDOW_SCORES_IN_ROUTE_DETAILS
+        route_score_items = score_items[:route_score_limit] if include_scores_in_route else []
+        route_scores_truncated = include_scores_in_route and len(score_items) > route_score_limit
+
+        if len(score_items) > 0:
+            if settings.XCLIP_LOG_ALL_WINDOW_SCORES:
+                for idx, item in enumerate(score_items):
+                    logging.info(
+                        "XCLIP window[%s] frames=%s-%s score=%.6f",
+                        idx,
+                        item["frame_range"][0],
+                        item["frame_range"][1],
+                        item["score"],
+                    )
+            else:
+                top_n = max(0, settings.XCLIP_SCORE_LOG_MAX_ITEMS)
+                top_score_items = sorted(score_items, key=lambda item: item["score"], reverse=True)[:top_n]
+                for idx, item in enumerate(top_score_items):
+                    logging.info(
+                        "XCLIP top_score[%s] frames=%s-%s score=%.6f",
+                        idx,
+                        item["frame_range"][0],
+                        item["frame_range"][1],
+                        item["score"],
+                    )
 
         return {
             "matched_frames": matched_frames,
@@ -58,6 +100,9 @@ def xclip_logic(state: Main_State):
                 "matched_frame_count": len(matched_frames),
                 "temporal_analysis": True,
                 "frame_source": frame_source,
+                "window_score_count": len(score_items),
+                "window_scores": route_score_items,
+                "window_scores_truncated": route_scores_truncated,
             },
         }
     finally:
