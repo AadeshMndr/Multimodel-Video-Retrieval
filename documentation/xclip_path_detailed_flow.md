@@ -36,6 +36,9 @@ It does **not** use:
 
 So XCLIP currently receives sampled frames (after frame sampling), but not the deduplicated frame stream and not prebuilt frame batches.
 
+Using the ` XCLIP_USE_REDUCED_FRAMES: bool = True` config, we can make it use the `reduced_generator_factory` which is recommended.
+But using `batched_generator_factory` is not useful in case of xclip because of the way it works. (It already has it's internal cache and giving it data in batches is not how it should be used) 
+
 ## 3) How frames are received in `xclip_logic`
 
 Inside `router/logic_routes/xclip_logic.py`:
