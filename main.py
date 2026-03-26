@@ -1,4 +1,5 @@
 from fastapi import FastAPI, UploadFile, File, Body, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, FileResponse, StreamingResponse
 import uvicorn
 import logging
@@ -20,6 +21,13 @@ logging.basicConfig(level=logging.ERROR, format='%(levelname)s: %(message)s')
 setup_mac_gpu_environment()
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 async def introduce():
