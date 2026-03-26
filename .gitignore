@@ -15,3 +15,5 @@ experiments/
 evaluation/test_videos
 audio_indexes/
 progress_report_info.md
+ocr_indexes/
+ocr_transcripts/
