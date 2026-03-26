@@ -9,6 +9,7 @@ from router.main_graph import upload_workflow
 from router.main_state import get_main_state, Main_State
 from api.processing_logic import process_the_video
 from infrastructure.audio_video_indexer import Audio_Video_Indexer
+from infrastructure.ocr_indexer import OCR_Indexer
 from infrastructure.mac_gpu_utils import setup_mac_gpu_environment, print_device_info
 
 
@@ -109,6 +110,23 @@ async def upload_video(file: UploadFile = File()):
             video_path=upload_path,
             index_path=index_path,
             meta_path=meta_path,
+        )
+
+    if settings.CALCULATE_OCR_INDEX_ON_UPLOAD:
+        logging.info("Indexing OCR text during upload...")
+
+        video_name = os.path.splitext(os.path.basename(upload_path))[0]
+        index_dir = settings.OCR_INDEX_DIR
+        index_path = os.path.join(index_dir, f"{video_name}.faiss")
+        meta_path = os.path.join(index_dir, f"{video_name}.pkl")
+        transcript_dir = settings.OCR_TRANSCRIPT_DIR
+        transcript_path = os.path.join(transcript_dir, f"{video_name}.txt")
+
+        OCR_Indexer().ensure_index(
+            video_path=upload_path,
+            index_path=index_path,
+            meta_path=meta_path,
+            transcript_path=transcript_path,
         )
         
     return { "message": f"{file.filename} Upload Complete!" }

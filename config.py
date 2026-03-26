@@ -147,6 +147,22 @@ class Settings(BaseSettings):
     AUDIO_MERGE_GAP: float = 8.0
     AUDIO_FORCE_REINDEX: bool = False
     CALCULATE_AUDIO_INDEX_ON_UPLOAD: bool = False
+
+    #################### OCR Retrieval ####################
+
+    OCR_INDEX_DIR: str = "ocr_indexes"
+    OCR_TRANSCRIPT_DIR: str = "ocr_transcripts"
+    OCR_TEXT_DETECTOR_MODEL: str = "text_detector_yolov8.pt"
+    OCR_TEXT_DETECTOR_CONF: float = 0.80
+    OCR_EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
+    OCR_QUERY_PREFIX: str = "Represent this sentence for searching relevant passages: "
+    OCR_BATCH_SIZE: int = 16
+    OCR_TOP_K: int = 10
+    OCR_MERGE_GAP: float = 2.0
+    OCR_MIN_SCORE: float = 0.20
+    OCR_FORCE_REINDEX: bool = False
+    OCR_WRITE_TRANSCRIPT: bool = True
+    CALCULATE_OCR_INDEX_ON_UPLOAD: bool = False
     
     class Config:
         env_file = ".env"

@@ -38,6 +38,8 @@ def preprocess(state: Main_State):
     
     if state["logical_path_choosen"] == "yolo":
         batch_size = settings.YOLO_BATCH_SIZE
+    if state["logical_path_choosen"] == "ocr":
+        batch_size = settings.OCR_BATCH_SIZE
     
     video_processor = Video_Processor(video_path=video_path)
     video_state = get_video_state(output_path=output_path, video_processor=video_processor, batch_size=batch_size)
@@ -88,7 +90,7 @@ def parallel_post_process(state: Main_State):
     video_state = state["video_state"]
     should_create_video = state.get("generate_output_video", True)
 
-    if state["logical_path_choosen"] == "audio":
+    if state["logical_path_choosen"] in ("audio", "ocr"):
         timestamps = list(state.get("timestamps", []))
         if not should_create_video:
             return {"timestamps": timestamps, "video_state": video_state, "video_creation_event": None}

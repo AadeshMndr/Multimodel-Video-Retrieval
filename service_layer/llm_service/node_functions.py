@@ -1,4 +1,4 @@
-from service_layer.llm_service.state import Modified_Prompts_State, OutputFormat, YOLO_State, YOLO_OutputFormat, Analyzer_Output_Format, Analyzer_State, Audio_State, Audio_OutputFormat
+from service_layer.llm_service.state import Modified_Prompts_State, OutputFormat, YOLO_State, YOLO_OutputFormat, Analyzer_Output_Format, Analyzer_State, Audio_State, Audio_OutputFormat, OCR_State, OCR_OutputFormat
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
 from infrastructure.llm import llm
@@ -74,6 +74,13 @@ def analyze_the_prompt(state: Analyzer_State):
 
             If you decide to use this return "audio"
 
+        4) On-screen Text Retriever ("ocr"):
+            This component reads text that appears visually in the video (titles, subtitles, signs, labels).
+            Use this when the prompt is about words or numbers shown on screen rather than spoken audio or scenic description.
+            Examples: "the slide where it says revenue", "a sign that says exit", "the timestamp 12:45","the score is 2-1","text called 'xyz' is shown",etc.
+
+            If you decide to use this return "ocr"
+
 
         Exceptional Instructions: If the prompt itself specifies which route to use then just return the keyword for that route.
             
@@ -142,6 +149,57 @@ def refine_audio_prompt(state: Audio_State):
     logging.info("=" * 60)
 
     return {"refined_query": output.refined_query}
+
+
+########################### OCR ###############################
+
+ocr_output_parser = PydanticOutputParser(pydantic_object=OCR_OutputFormat)
+
+
+def refine_ocr_prompt(state: OCR_State):
+
+    template = PromptTemplate(
+        template="""
+        This is the user's prompt: {user_prompt}
+
+        The prompt will be used to find on-screen text (OCR) inside a video.
+        Produce:
+        1) `regex_keywords`: short keywords/numbers likely to literally appear on the screen. Identify keywords from the user prompt and create this list.
+        2) `semantic_query`: a concise literal phrase suitable for semantic OCR search.
+
+        Rules:
+        - Remove instruction words or generic words like "find", "show me", "clip", "where", "slides", "text" etc.
+        - Keep only literal text that could appear in the video.
+        - If the prompt is long, pick the most distinctive words/numbers.
+        - Include a few close synonyms or common variants in `regex_keywords` when helpful.
+          Example: "memory" -> ["memory", "mem", "storage"].
+        - Output must match the schema exactly.
+
+        {format_instructions}
+        """,
+        input_variables=["user_prompt"],
+        partial_variables={
+            "format_instructions": ocr_output_parser.get_format_instructions()
+        }
+    )
+
+    chain = template | llm | ocr_output_parser
+
+    output: OCR_OutputFormat = chain.invoke({
+        "user_prompt": state["user_prompt"],
+    })
+
+    logging.info("=" * 60)
+    logging.info("OCR regex keywords:")
+    logging.info(output.regex_keywords)
+    logging.info("OCR semantic query:")
+    logging.info(output.semantic_query)
+    logging.info("=" * 60)
+
+    return {
+        "regex_keywords": output.regex_keywords,
+        "semantic_query": output.semantic_query,
+    }
 
 
 ########################### CLIP ###############################

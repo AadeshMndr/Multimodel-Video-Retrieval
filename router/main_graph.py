@@ -5,6 +5,7 @@ from router.logic_routes.clip_logic import clip_logic, generate_and_store_embedd
 from router.logic_routes.xclip_logic import xclip_logic, generate_and_store_xclip_embeddings
 from router.logic_routes.yolo_logic import yolo_logic
 from router.logic_routes.audio_logic import audio_logic
+from router.logic_routes.ocr_logic import ocr_logic
 
 main_graph = StateGraph(Main_State)
 
@@ -17,6 +18,7 @@ main_graph.add_node("clip", clip_logic)
 main_graph.add_node("xclip", xclip_logic)
 main_graph.add_node("yolo", yolo_logic)
 main_graph.add_node("audio", audio_logic)
+main_graph.add_node("ocr", ocr_logic)
 
 main_graph.add_edge(START, "prompt analyzer")
 main_graph.add_edge("prompt analyzer", "preprocess")
@@ -25,6 +27,7 @@ main_graph.add_edge("clip", "postprocess")
 main_graph.add_edge("xclip", "postprocess")
 main_graph.add_edge("yolo", "postprocess")
 main_graph.add_edge("audio", "postprocess")
+main_graph.add_edge("ocr", "postprocess")
 main_graph.add_edge("postprocess", END)
 
 main_workflow = main_graph.compile()

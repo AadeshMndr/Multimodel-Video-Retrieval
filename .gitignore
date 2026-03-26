@@ -13,3 +13,5 @@ upload/
 experiments/
 *.DS_Store
 evaluation/test_videos
+audio_indexes/
+progress_report_info.md

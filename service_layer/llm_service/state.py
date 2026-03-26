@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field
 
 #################################### Analyzer ####################################
 
-All_Path = Literal["clip", "xclip", "yolo", "audio"]
+All_Path = Literal["clip", "xclip", "yolo", "audio", "ocr"]
 
 class Analyzer_State(TypedDict):
     
@@ -44,6 +44,33 @@ class Audio_OutputFormat(BaseModel):
 
     refined_query: str = Field(description="A concise query focused on spoken content semantics")
 
+
+###################################### OCR ####################################
+
+class OCR_State(TypedDict):
+
+    user_prompt: str
+
+    regex_keywords: list[str]
+
+    semantic_query: str
+
+
+def get_ocr_state(user_prompt: str) -> OCR_State:
+
+    return OCR_State(  # type: ignore
+        user_prompt=user_prompt
+    )
+
+
+class OCR_OutputFormat(BaseModel):
+
+    regex_keywords: list[str] = Field(
+        description="Keywords or numbers likely to appear as on-screen text for regex search"
+    )
+    semantic_query: str = Field(
+        description="Short literal phrase suitable for semantic OCR search"
+    )
 
 ###################################### CLIP ####################################3
 

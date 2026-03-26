@@ -1,6 +1,6 @@
 from langgraph.graph import StateGraph, START, END
-from service_layer.llm_service.state import Modified_Prompts_State, YOLO_State, Analyzer_State, Audio_State
-from service_layer.llm_service.node_functions import generate_similar_prompts, generate_synonyms, analyze_the_prompt, refine_audio_prompt
+from service_layer.llm_service.state import Modified_Prompts_State, YOLO_State, Analyzer_State, Audio_State, OCR_State
+from service_layer.llm_service.node_functions import generate_similar_prompts, generate_synonyms, analyze_the_prompt, refine_audio_prompt, refine_ocr_prompt
 
 
 
@@ -28,6 +28,18 @@ audio_graph.add_edge(START, "refine_audio_prompt")
 audio_graph.add_edge("refine_audio_prompt", END)
 
 audio_workflow = audio_graph.compile()
+
+
+###################### OCR ################################
+
+ocr_graph = StateGraph(OCR_State)
+
+ocr_graph.add_node("refine_ocr_prompt", refine_ocr_prompt)
+
+ocr_graph.add_edge(START, "refine_ocr_prompt")
+ocr_graph.add_edge("refine_ocr_prompt", END)
+
+ocr_workflow = ocr_graph.compile()
 
 
 ###################### CLIP ################################
