@@ -181,7 +181,7 @@ class Video_Processor:
         self,
         frames: Generator_Generic_Range,
         output_path: str,
-        audio_timestamps: Optional[list[tuple[int, int]]] = None,
+        audio_timestamps: Optional[list[tuple[float, float]]] = None,
     ):
         
         cap = cv2.VideoCapture(filename=self.video_path)
@@ -198,10 +198,13 @@ class Video_Processor:
         out = cv2.VideoWriter(filename=temp_output_path, fps=self.fps, fourcc=fourcc, frameSize=self.frame_size)
         
         logging.info("Creating the video...")
+
+        segment_frame_ranges: list[tuple[int, int]] = []
         
         for start_frame, end_frame, _ in frames:
             
             logging.info(f"Adding frames: {start_frame}-{end_frame}")
+            segment_frame_ranges.append((start_frame, end_frame))
             
             cap.set(cv2.CAP_PROP_POS_FRAMES, start_frame)
             current_frame = start_frame
@@ -218,18 +221,30 @@ class Video_Processor:
                 
         out.release()
         cap.release()
+
+        derived_audio_timestamps: Optional[list[tuple[float, float]]] = audio_timestamps
+        if derived_audio_timestamps is None:
+            epsilon_plus_fps = self.fps + 0.000000001
+            derived_audio_timestamps = [
+                (
+                    max(0.0, start_frame / epsilon_plus_fps),
+                    min(self.frame_count / epsilon_plus_fps, (end_frame + 1) / epsilon_plus_fps),
+                )
+                for start_frame, end_frame in segment_frame_ranges
+                if end_frame >= start_frame
+            ]
         
         self._mux_audio_with_ffmpeg(
             temp_output_path=temp_output_path,
             final_output_path=output_path,
-            audio_timestamps=audio_timestamps,
+            audio_timestamps=derived_audio_timestamps,
         )
 
-    def _build_audio_segments_file(self, timestamps: list[tuple[int, int]]) -> Optional[str]:
+    def _build_audio_segments_file(self, timestamps: list[tuple[float, float]]) -> Optional[str]:
         valid_timestamps = [
-            (max(0, int(start_seconds)), max(0, int(end_seconds)))
+            (max(0.0, float(start_seconds)), max(0.0, float(end_seconds)))
             for start_seconds, end_seconds in timestamps
-            if int(end_seconds) > int(start_seconds)
+            if float(end_seconds) > float(start_seconds)
         ]
         if not valid_timestamps:
             return None
@@ -281,7 +296,7 @@ class Video_Processor:
         self,
         temp_output_path: str,
         final_output_path: str,
-        audio_timestamps: Optional[list[tuple[int, int]]] = None,
+        audio_timestamps: Optional[list[tuple[float, float]]] = None,
     ):
         temp_audio_path = None
         if audio_timestamps:
@@ -336,7 +351,11 @@ class Video_Processor:
                 if end_frame >= start_frame:
                     yield (start_frame, end_frame, None)
 
-        self.create_video(frames_generator(), output_path, audio_timestamps=timestamps)
+        self.create_video(
+            frames_generator(),
+            output_path,
+            audio_timestamps=[(float(start), float(end)) for start, end in timestamps],
+        )
            
     def get_timestamps(self, frames: Generator_Generic_Range):
         
