@@ -148,6 +148,30 @@ async def download_clip(filename: str):
 
     return FileResponse(path=f"outputs/output_{filename}", filename=f"output-for-{filename}", media_type="application/octet-stream")
 
+
+@app.get("/get_video")
+async def get_uploaded_video(video_name: str):
+
+    # Avoid path traversal by allowing only the basename in path construction.
+    safe_video_name = os.path.basename(video_name)
+
+    if safe_video_name != video_name:
+        raise HTTPException(status_code=400, detail="Invalid video name")
+
+    uploaded_video_path = os.path.join("upload", safe_video_name)
+
+    if not os.path.exists(uploaded_video_path):
+        raise HTTPException(
+            status_code=404,
+            detail=f"The file {safe_video_name} could not be found in uploaded videos"
+        )
+
+    return FileResponse(
+        path=uploaded_video_path,
+        filename=safe_video_name,
+        media_type="application/octet-stream"
+    )
+
 if __name__ == "__main__":
     # Print device information at startup
     print_device_info()
