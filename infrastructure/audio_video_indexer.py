@@ -194,9 +194,10 @@ class Audio_Video_Indexer:
         return video_mtime > os.path.getmtime(index_path) or video_mtime > os.path.getmtime(meta_path)
 
     def ensure_index(self, video_path: str, index_path: str, meta_path: str):
-        if not settings.AUDIO_FORCE_REINDEX and not self.should_reindex(video_path, index_path, meta_path):
-            logging.info("Audio semantic index found. Reusing existing index.")
-            return
+        if not settings.AUDIO_FORCE_REINDEX:
+            if os.path.exists(index_path) and os.path.exists(meta_path):
+                logging.info("Audio semantic index found. Reusing existing index.")
+                return
 
         transcript = self.transcribe(video_path)
         chunks = self.chunk_by_time(transcript)

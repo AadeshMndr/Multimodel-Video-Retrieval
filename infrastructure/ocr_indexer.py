@@ -311,10 +311,12 @@ class OCR_Indexer:
         batched_generator_factory: Optional[Callable[[], Generator_Batch_Image_Range]] = None,
         fps: Optional[float] = None,
     ):
-        self._ensure_dependencies()
+        if not settings.OCR_FORCE_REINDEX:
+            if os.path.exists(index_path) and os.path.exists(meta_path):
+                logging.info("OCR index found. Reusing existing index.")
+                return
 
-        if not settings.OCR_FORCE_REINDEX and not self.should_reindex(video_path, index_path, meta_path):
-            return
+        self._ensure_dependencies()
 
         pipeline_start = time.perf_counter()
         if batched_generator_factory is None or fps is None:
