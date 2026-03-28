@@ -50,9 +50,33 @@ class OCR_Indexer:
 
         from ultralytics import YOLO
         import easyocr
+        import torch
 
         self._text_detector = YOLO(model=self.text_detector_model)
-        self._ocr_reader = easyocr.Reader(["en"], gpu=(self.device == "cuda"))
+        self._yolo_device = self._resolve_yolo_device(self.device, torch)
+        try:
+            self._text_detector.to(self._yolo_device)
+        except Exception:
+            # Fall back to predict-time device selection if model.to is not available.
+            pass
+
+        easyocr_gpu = self.device == "cuda" and torch.cuda.is_available()
+        self._ocr_reader = easyocr.Reader(["en"], gpu=easyocr_gpu)
+        logging.info("EasyOCR device: %s", "cuda" if easyocr_gpu else "cpu")
+        logging.info("OCR YOLO device: %s", self._yolo_device)
+
+    @staticmethod
+    def _resolve_yolo_device(requested: str, torch_module) -> str:
+        requested_lower = (requested or "cpu").lower()
+        if requested_lower.startswith("cuda"):
+            if torch_module.cuda.is_available():
+                return "cuda:0"
+            return "cpu"
+        if requested_lower.startswith("mps"):
+            if hasattr(torch_module.backends, "mps") and torch_module.backends.mps.is_available():
+                return "mps"
+            return "cpu"
+        return "cpu"
 
     @staticmethod
     def _default_frame_generator(video_processor: Video_Processor) -> Generator_Image_Range:
@@ -90,7 +114,7 @@ class OCR_Indexer:
                 source=frames_bgr,
                 batch=min(len(frames_bgr), max_yolo_batch),
                 conf=settings.OCR_TEXT_DETECTOR_CONF,
-                device=self.device,
+                device=getattr(self, "_yolo_device", self.device),
                 verbose=False,
             )
 
@@ -120,7 +144,7 @@ class OCR_Indexer:
                 source=frames_bgr,
                 batch=min(len(frames_bgr), max_yolo_batch),
                 conf=settings.OCR_TEXT_DETECTOR_CONF,
-                device=self.device,
+                device=getattr(self, "_yolo_device", self.device),
                 verbose=False,
             )
 
@@ -162,15 +186,6 @@ class OCR_Indexer:
         last_norm = ""
         last_end_seconds: float | None = None
 
-        logging.info("Detecting text regions and running OCR...")
-        logging.info(
-            "OCR batch sizes -> frame_batch=%s, yolo_batch=%s, easyocr_batch=%s",
-            settings.OCR_BATCH_SIZE,
-            settings.OCR_TEXT_DETECTOR_BATCH,
-            settings.OCR_EASYOCR_BATCH,
-        )
-        start_time = time.perf_counter()
-
         for batch_frames, start_last_data in batched_generator_factory():
             ocr_frame_ranges: list[tuple[int, int]] = []
             ocr_frames_bgr: list[np.ndarray] = []
@@ -210,12 +225,6 @@ class OCR_Indexer:
                 if chunks:
                     last_norm = self._normalize_text(str(chunks[-1]["text"]))
                     last_end_seconds = float(chunks[-1]["end"])
-
-        logging.info(
-            "OCR pass complete in %.2fs (%s chunks).",
-            time.perf_counter() - start_time,
-            len(chunks),
-        )
         return chunks, transcript_lines
 
     def _consume_ocr_results(
@@ -263,8 +272,6 @@ class OCR_Indexer:
 
         embedder = SentenceTransformer(self.embedding_model, device=self.device)
         texts = [settings.OCR_QUERY_PREFIX + str(chunk["text"]) for chunk in chunks]
-
-        logging.info("Encoding %s OCR chunks...", len(texts))
         embeddings = embedder.encode(
             texts,
             convert_to_numpy=True,
@@ -307,9 +314,9 @@ class OCR_Indexer:
         self._ensure_dependencies()
 
         if not settings.OCR_FORCE_REINDEX and not self.should_reindex(video_path, index_path, meta_path):
-            logging.info("OCR index found. Reusing existing index.")
             return
 
+        pipeline_start = time.perf_counter()
         if batched_generator_factory is None or fps is None:
             video_processor = Video_Processor(video_path=video_path)
             batched_generator_factory = lambda: self._batch_generator(
@@ -324,11 +331,10 @@ class OCR_Indexer:
         if settings.OCR_WRITE_TRANSCRIPT and transcript_path:
             Path(transcript_path).parent.mkdir(parents=True, exist_ok=True)
             Path(transcript_path).write_text("\n".join(transcript_lines), encoding="utf-8")
-            logging.info("OCR transcript saved to %s", transcript_path)
 
         if not chunks:
-            logging.warning("No OCR chunks were created. Skipping index build.")
+            logging.info("OCR pipeline total time: %.2fs", time.perf_counter() - pipeline_start)
             return
 
         self._build_and_save_index(chunks, index_path=index_path, meta_path=meta_path)
-        logging.info("OCR semantic index built successfully.")
+        logging.info("OCR pipeline total time: %.2fs", time.perf_counter() - pipeline_start)

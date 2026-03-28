@@ -157,7 +157,7 @@ class Settings(BaseSettings):
     OCR_EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
     OCR_QUERY_PREFIX: str = "Represent this sentence for searching relevant passages: "
     OCR_BATCH_SIZE: int = 16
-    OCR_TEXT_DETECTOR_BATCH: int = 64
+    OCR_TEXT_DETECTOR_BATCH: int = 16
     OCR_EASYOCR_BATCH: int = 8
     OCR_TOP_K: int = 10
     OCR_MERGE_GAP: float = 2.0
