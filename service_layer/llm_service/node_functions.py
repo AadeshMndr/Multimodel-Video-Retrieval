@@ -168,11 +168,12 @@ def refine_ocr_prompt(state: OCR_State):
         2) `semantic_query`: a concise literal phrase suitable for semantic OCR search.
 
         Rules:
-        - Remove instruction words or generic words like "find", "show me", "clip", "where", "slides", "text" etc.
+        - Remove instruction words or generic words like "find", "show me", "clip", "where", "slides", "text", "words" etc.
         - Keep only literal text that could appear in the video.
         - If the prompt is long, pick the most distinctive words/numbers.
         - Include a few close synonyms or common variants in `regex_keywords` when helpful.
-          Example: "memory" -> ["memory", "mem", "storage"].
+          Example: "memory" -> ["memory", "mem", "storage"]
+        - If the prompt contains "(exact text search)", `regex_keywords` MUST contain exactly ONE item representing the exact literal text from the prompt. Do NOT include multiple keywords, variants, or synonyms.
         - Output must match the schema exactly.
 
         {format_instructions}

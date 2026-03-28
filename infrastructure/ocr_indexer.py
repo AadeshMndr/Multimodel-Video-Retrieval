@@ -78,29 +78,73 @@ class OCR_Indexer:
         if not batch_frames:
             return []
 
-        frames_bgr = [cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR) for frame in batch_frames]
-
-        results = self._text_detector.predict(  # type: ignore[union-attr]
-            source=frames_bgr,
-            batch=len(frames_bgr),
-            conf=settings.OCR_TEXT_DETECTOR_CONF,
-            device=self.device,
-            verbose=False,
-        )
-
+        max_yolo_batch = max(1, int(settings.OCR_TEXT_DETECTOR_BATCH))
         filtered: list[tuple[tuple[int, int], np.ndarray]] = []
-        for result, frame_bgr, frame_range in zip(results, frames_bgr, start_last_data):
-            if result.boxes is not None and len(result.boxes) > 0:
-                filtered.append((frame_range, frame_bgr))
+
+        for batch_start in range(0, len(batch_frames), max_yolo_batch):
+            frame_slice = batch_frames[batch_start : batch_start + max_yolo_batch]
+            range_slice = start_last_data[batch_start : batch_start + max_yolo_batch]
+            frames_bgr = [cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR) for frame in frame_slice]
+
+            results = self._text_detector.predict(  # type: ignore[union-attr]
+                source=frames_bgr,
+                batch=min(len(frames_bgr), max_yolo_batch),
+                conf=settings.OCR_TEXT_DETECTOR_CONF,
+                device=self.device,
+                verbose=False,
+            )
+
+            for result, frame_bgr, frame_range in zip(results, frames_bgr, range_slice):
+                if result.boxes is not None and len(result.boxes) > 0:
+                    filtered.append((frame_range, frame_bgr))
         return filtered
+
+    def _iter_text_frames(
+        self,
+        batch_frames: list,
+        start_last_data: list[tuple[int, int]],
+    ):
+        import cv2
+
+        if not batch_frames:
+            return
+
+        max_yolo_batch = max(1, int(settings.OCR_TEXT_DETECTOR_BATCH))
+
+        for batch_start in range(0, len(batch_frames), max_yolo_batch):
+            frame_slice = batch_frames[batch_start : batch_start + max_yolo_batch]
+            range_slice = start_last_data[batch_start : batch_start + max_yolo_batch]
+            frames_bgr = [cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR) for frame in frame_slice]
+
+            results = self._text_detector.predict(  # type: ignore[union-attr]
+                source=frames_bgr,
+                batch=min(len(frames_bgr), max_yolo_batch),
+                conf=settings.OCR_TEXT_DETECTOR_CONF,
+                device=self.device,
+                verbose=False,
+            )
+
+            for result, frame_bgr, frame_range in zip(results, frames_bgr, range_slice):
+                if result.boxes is not None and len(result.boxes) > 0:
+                    yield frame_range, frame_bgr
 
     def _run_ocr(self, frames_bgr: list[np.ndarray]) -> list[list[str]]:
         if not frames_bgr:
             return []
         import cv2
 
-        frames_rgb = [cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) for frame in frames_bgr]
-        return self._ocr_reader.readtext_batched(frames_rgb, detail=0)  # type: ignore[union-attr]
+        max_ocr_batch = max(1, int(settings.OCR_EASYOCR_BATCH))
+        results: list[list[str]] = []
+        for batch_start in range(0, len(frames_bgr), max_ocr_batch):
+            frame_slice = frames_bgr[batch_start : batch_start + max_ocr_batch]
+            frames_rgb = [cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) for frame in frame_slice]
+            batch_texts = self._ocr_reader.readtext_batched(  # type: ignore[union-attr]
+                frames_rgb,
+                detail=0,
+                batch_size=len(frames_rgb),
+            )
+            results.extend(batch_texts)
+        return results
 
     @staticmethod
     def _normalize_text(text: str) -> str:
@@ -119,44 +163,53 @@ class OCR_Indexer:
         last_end_seconds: float | None = None
 
         logging.info("Detecting text regions and running OCR...")
+        logging.info(
+            "OCR batch sizes -> frame_batch=%s, yolo_batch=%s, easyocr_batch=%s",
+            settings.OCR_BATCH_SIZE,
+            settings.OCR_TEXT_DETECTOR_BATCH,
+            settings.OCR_EASYOCR_BATCH,
+        )
         start_time = time.perf_counter()
 
         for batch_frames, start_last_data in batched_generator_factory():
-            filtered = self._filter_text_frames(batch_frames, start_last_data)
-            if not filtered:
-                continue
+            ocr_frame_ranges: list[tuple[int, int]] = []
+            ocr_frames_bgr: list[np.ndarray] = []
 
-            frame_ranges, frames_bgr = zip(*filtered)
-            ocr_texts = self._run_ocr(list(frames_bgr))
+            for frame_range, frame_bgr in self._iter_text_frames(batch_frames, start_last_data):
+                ocr_frame_ranges.append(frame_range)
+                ocr_frames_bgr.append(frame_bgr)
 
-            for (start_frame, end_frame), text_list in zip(frame_ranges, ocr_texts):
-                text = " ".join(text_list).strip()
-                if not text:
-                    continue
+                if len(ocr_frames_bgr) >= settings.OCR_EASYOCR_BATCH:
+                    ocr_texts = self._run_ocr(ocr_frames_bgr)
+                    self._consume_ocr_results(
+                        ocr_frame_ranges,
+                        ocr_texts,
+                        fps,
+                        chunks,
+                        transcript_lines,
+                        last_norm,
+                        last_end_seconds,
+                    )
+                    if chunks:
+                        last_norm = self._normalize_text(str(chunks[-1]["text"]))
+                        last_end_seconds = float(chunks[-1]["end"])
+                    ocr_frame_ranges = []
+                    ocr_frames_bgr = []
 
-                normalized = self._normalize_text(text)
-                if (
-                    normalized == last_norm
-                    and last_end_seconds is not None
-                    and (start_seconds - last_end_seconds) <= settings.OCR_MERGE_GAP
-                ):
-                    continue
-
-                start_seconds = float(start_frame / (fps + 1e-9))
-                end_seconds = float(end_frame / (fps + 1e-9))
-
-                chunks.append(
-                    {
-                        "start": start_seconds,
-                        "end": max(start_seconds, end_seconds),
-                        "text": text,
-                    }
+            if ocr_frames_bgr:
+                ocr_texts = self._run_ocr(ocr_frames_bgr)
+                self._consume_ocr_results(
+                    ocr_frame_ranges,
+                    ocr_texts,
+                    fps,
+                    chunks,
+                    transcript_lines,
+                    last_norm,
+                    last_end_seconds,
                 )
-
-                time_str = time.strftime("%H:%M:%S", time.gmtime(start_seconds))
-                transcript_lines.append(f"[{time_str}] {text}")
-                last_norm = normalized
-                last_end_seconds = max(start_seconds, end_seconds)
+                if chunks:
+                    last_norm = self._normalize_text(str(chunks[-1]["text"]))
+                    last_end_seconds = float(chunks[-1]["end"])
 
         logging.info(
             "OCR pass complete in %.2fs (%s chunks).",
@@ -164,6 +217,45 @@ class OCR_Indexer:
             len(chunks),
         )
         return chunks, transcript_lines
+
+    def _consume_ocr_results(
+        self,
+        frame_ranges: list[tuple[int, int]],
+        ocr_texts: list[list[str]],
+        fps: float,
+        chunks: list[dict[str, float | str]],
+        transcript_lines: list[str],
+        last_norm: str,
+        last_end_seconds: float | None,
+    ) -> None:
+        for (start_frame, end_frame), text_list in zip(frame_ranges, ocr_texts):
+            text = " ".join(text_list).strip()
+            if not text:
+                continue
+
+            start_seconds = float(start_frame / (fps + 1e-9))
+            end_seconds = float(end_frame / (fps + 1e-9))
+
+            normalized = self._normalize_text(text)
+            if (
+                normalized == last_norm
+                and last_end_seconds is not None
+                and (start_seconds - last_end_seconds) <= settings.OCR_MERGE_GAP
+            ):
+                continue
+
+            chunks.append(
+                {
+                    "start": start_seconds,
+                    "end": max(start_seconds, end_seconds),
+                    "text": text,
+                }
+            )
+
+            time_str = time.strftime("%H:%M:%S", time.gmtime(start_seconds))
+            transcript_lines.append(f"[{time_str}] {text}")
+            last_norm = normalized
+            last_end_seconds = max(start_seconds, end_seconds)
 
     def _build_and_save_index(self, chunks: list[dict[str, float | str]], index_path: str, meta_path: str):
         import faiss
