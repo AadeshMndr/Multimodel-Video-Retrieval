@@ -352,6 +352,62 @@ def interval_iou(first: tuple[int, int], second: tuple[int, int]) -> float:
     return float(intersection) / float(union)
 
 
+def normalize_and_merge_intervals(intervals: list[tuple[int, int]]) -> list[tuple[int, int]]:
+    cleaned: list[tuple[int, int]] = []
+    for start, end in intervals:
+        if end <= start:
+            continue
+        cleaned.append((start, end))
+
+    if not cleaned:
+        return []
+
+    cleaned.sort(key=lambda each: (each[0], each[1]))
+    merged: list[tuple[int, int]] = [cleaned[0]]
+    for current_start, current_end in cleaned[1:]:
+        last_start, last_end = merged[-1]
+        if current_start <= last_end:
+            merged[-1] = (last_start, max(last_end, current_end))
+        else:
+            merged.append((current_start, current_end))
+    return merged
+
+
+def total_interval_duration(intervals: list[tuple[int, int]]) -> float:
+    merged = normalize_and_merge_intervals(intervals)
+    return float(sum(end - start for start, end in merged))
+
+
+def intersection_duration(
+    first_intervals: list[tuple[int, int]],
+    second_intervals: list[tuple[int, int]],
+) -> float:
+    first_merged = normalize_and_merge_intervals(first_intervals)
+    second_merged = normalize_and_merge_intervals(second_intervals)
+    if not first_merged or not second_merged:
+        return 0.0
+
+    first_index = 0
+    second_index = 0
+    overlap = 0.0
+
+    while first_index < len(first_merged) and second_index < len(second_merged):
+        first_start, first_end = first_merged[first_index]
+        second_start, second_end = second_merged[second_index]
+
+        start = max(first_start, second_start)
+        end = min(first_end, second_end)
+        if end > start:
+            overlap += float(end - start)
+
+        if first_end <= second_end:
+            first_index += 1
+        else:
+            second_index += 1
+
+    return overlap
+
+
 def read_video_duration_seconds(video_path: Path) -> float | None:
     try:
         import cv2  # type: ignore
@@ -380,12 +436,29 @@ def compare_timestamps(
     target: list[tuple[int, int]],
     recall_iou_threshold: float,
 ) -> dict[str, Any]:
+    predicted_total_duration = total_interval_duration(predicted)
+    target_total_duration = total_interval_duration(target)
+    overlap_duration = intersection_duration(predicted, target)
+    union_duration = predicted_total_duration + target_total_duration - overlap_duration
+
+    temporal_set_iou = overlap_duration / union_duration if union_duration > 0 else 1.0
+    overlap_over_max = overlap_duration / max(predicted_total_duration, target_total_duration) if max(predicted_total_duration, target_total_duration) > 0 else 1.0
+    duration_precision = overlap_duration / predicted_total_duration if predicted_total_duration > 0 else (1.0 if target_total_duration == 0 else 0.0)
+    duration_recall = overlap_duration / target_total_duration if target_total_duration > 0 else (1.0 if predicted_total_duration == 0 else 0.0)
+
     if not predicted and not target:
         return {
             "best_iou": 1.0,
             "mean_target_best_iou": 1.0,
             "mean_predicted_best_iou": 1.0,
             "recall": 1.0,
+            "temporal_set_iou": temporal_set_iou,
+            "overlap_over_max": overlap_over_max,
+            "duration_precision": duration_precision,
+            "duration_recall": duration_recall,
+            "overlap_duration_seconds": overlap_duration,
+            "predicted_total_duration_seconds": predicted_total_duration,
+            "target_total_duration_seconds": target_total_duration,
             "recall_iou_threshold": recall_iou_threshold,
             "pairwise_ious": [],
         }
@@ -396,6 +469,13 @@ def compare_timestamps(
             "mean_target_best_iou": 0.0,
             "mean_predicted_best_iou": 0.0,
             "recall": 0.0,
+            "temporal_set_iou": temporal_set_iou,
+            "overlap_over_max": overlap_over_max,
+            "duration_precision": duration_precision,
+            "duration_recall": duration_recall,
+            "overlap_duration_seconds": overlap_duration,
+            "predicted_total_duration_seconds": predicted_total_duration,
+            "target_total_duration_seconds": target_total_duration,
             "recall_iou_threshold": recall_iou_threshold,
             "pairwise_ious": [],
         }
@@ -430,6 +510,13 @@ def compare_timestamps(
         "mean_target_best_iou": sum(target_bests) / len(target_bests),
         "mean_predicted_best_iou": sum(predicted_bests) / len(predicted_bests),
         "recall": recall,
+        "temporal_set_iou": temporal_set_iou,
+        "overlap_over_max": overlap_over_max,
+        "duration_precision": duration_precision,
+        "duration_recall": duration_recall,
+        "overlap_duration_seconds": overlap_duration,
+        "predicted_total_duration_seconds": predicted_total_duration,
+        "target_total_duration_seconds": target_total_duration,
         "recall_iou_threshold": recall_iou_threshold,
         "pairwise_ious": pairwise,
     }
@@ -469,6 +556,10 @@ def summarize_results(records: list[dict[str, Any]], recall_iou_threshold: float
             "avg_mean_target_best_iou": 0.0,
             "avg_mean_predicted_best_iou": 0.0,
             "avg_recall": 0.0,
+            "avg_temporal_set_iou": 0.0,
+            "avg_overlap_over_max": 0.0,
+            "avg_duration_precision": 0.0,
+            "avg_duration_recall": 0.0,
             "total_processing_seconds": 0.0,
             "avg_processing_seconds": 0.0,
             "unique_video_count": 0,
@@ -480,6 +571,10 @@ def summarize_results(records: list[dict[str, Any]], recall_iou_threshold: float
     avg_target = sum(each["iou"]["mean_target_best_iou"] for each in records) / len(records)
     avg_predicted = sum(each["iou"]["mean_predicted_best_iou"] for each in records) / len(records)
     avg_recall = sum(each["iou"]["recall"] for each in records) / len(records)
+    avg_temporal_set_iou = sum(each["iou"].get("temporal_set_iou", 0.0) for each in records) / len(records)
+    avg_overlap_over_max = sum(each["iou"].get("overlap_over_max", 0.0) for each in records) / len(records)
+    avg_duration_precision = sum(each["iou"].get("duration_precision", 0.0) for each in records) / len(records)
+    avg_duration_recall = sum(each["iou"].get("duration_recall", 0.0) for each in records) / len(records)
     total_processing_seconds = sum(float(each.get("processing_seconds", 0.0) or 0.0) for each in records)
     avg_processing_seconds = total_processing_seconds / len(records)
 
@@ -500,6 +595,10 @@ def summarize_results(records: list[dict[str, Any]], recall_iou_threshold: float
         "avg_mean_target_best_iou": avg_target,
         "avg_mean_predicted_best_iou": avg_predicted,
         "avg_recall": avg_recall,
+        "avg_temporal_set_iou": avg_temporal_set_iou,
+        "avg_overlap_over_max": avg_overlap_over_max,
+        "avg_duration_precision": avg_duration_precision,
+        "avg_duration_recall": avg_duration_recall,
         "total_processing_seconds": total_processing_seconds,
         "avg_processing_seconds": avg_processing_seconds,
         "unique_video_count": len(video_durations),

@@ -4,7 +4,7 @@ set -euo pipefail
 
 # Defaults can be overridden via env vars.
 # Prefer minute-based knobs; keep second-based overrides for compatibility.
-RUN_MINUTES="${RUN_MINUTES:-10}"
+RUN_MINUTES="${RUN_MINUTES:-7}"
 WAIT_MINUTES="${WAIT_MINUTES:-10}"
 RUN_SECONDS="${RUN_SECONDS:-$((RUN_MINUTES * 60))}"
 WAIT_SECONDS="${WAIT_SECONDS:-$((WAIT_MINUTES * 60))}"

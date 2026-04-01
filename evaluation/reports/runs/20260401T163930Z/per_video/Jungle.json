@@ -1,0 +1,367 @@
+{
+  "video": "Jungle.mp4",
+  "video_duration_seconds": 303.295,
+  "summary": {
+    "prompt_count": 2,
+    "avg_best_iou": 0.4222222222222222,
+    "avg_mean_target_best_iou": 0.4222222222222222,
+    "avg_mean_predicted_best_iou": 0.4222222222222222,
+    "avg_recall": 0.0,
+    "total_processing_seconds": 67.00235012496705,
+    "avg_processing_seconds": 33.501175062483526,
+    "unique_video_count": 1,
+    "unique_video_duration_seconds_total": 303.295,
+    "recall_iou_threshold": 0.5,
+    "path_counts": {
+      "xclip": 1,
+      "clip": 1
+    }
+  },
+  "summary_by_path": [
+    {
+      "path_taken": "clip",
+      "summary": {
+        "prompt_count": 1,
+        "avg_best_iou": 0.4,
+        "avg_mean_target_best_iou": 0.4,
+        "avg_mean_predicted_best_iou": 0.4,
+        "avg_recall": 0.0,
+        "total_processing_seconds": 39.18839216697961,
+        "avg_processing_seconds": 39.18839216697961,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 303.295,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "clip": 1
+        }
+      }
+    },
+    {
+      "path_taken": "xclip",
+      "summary": {
+        "prompt_count": 1,
+        "avg_best_iou": 0.4444444444444444,
+        "avg_mean_target_best_iou": 0.4444444444444444,
+        "avg_mean_predicted_best_iou": 0.4444444444444444,
+        "avg_recall": 0.0,
+        "total_processing_seconds": 27.81395795798744,
+        "avg_processing_seconds": 27.81395795798744,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 303.295,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "xclip": 1
+        }
+      }
+    }
+  ],
+  "summary_by_hyperparameter_combo": [
+    {
+      "hyperparameter_combo_key": "3af54a2e871ca602fed1384e369f5144a689e862",
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.25,
+          0.23,
+          0.21
+        ],
+        "CLIP_THRESHOLD": 0.23,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 20,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 15,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 9,
+        "PHASH_SIMILARITY_THRESHOLD": 12,
+        "VIDEO_SAMPLING_RATE": 15,
+        "XCLIP_MERGE_GAP_SECONDS": 4.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.33,
+          0.3,
+          0.275,
+          0.26,
+          0.24,
+          0.22
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.35,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.55,
+        "YOLO_MIN_THRESHOLD": 0.08,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.55,
+          0.4,
+          0.3,
+          0.2
+        ]
+      },
+      "summary": {
+        "prompt_count": 1,
+        "avg_best_iou": 0.4444444444444444,
+        "avg_mean_target_best_iou": 0.4444444444444444,
+        "avg_mean_predicted_best_iou": 0.4444444444444444,
+        "avg_recall": 0.0,
+        "total_processing_seconds": 27.81395795798744,
+        "avg_processing_seconds": 27.81395795798744,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 303.295,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "xclip": 1
+        }
+      }
+    },
+    {
+      "hyperparameter_combo_key": "c6b8a96d4b42a37993ed3991b8409027e389cefb",
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.23,
+          0.21,
+          0.192
+        ],
+        "CLIP_THRESHOLD": 0.23,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 60,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 30,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 5,
+        "PHASH_SIMILARITY_THRESHOLD": 10,
+        "VIDEO_SAMPLING_RATE": 15,
+        "XCLIP_MERGE_GAP_SECONDS": 4.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.34,
+          0.31,
+          0.285,
+          0.27,
+          0.25,
+          0.24
+        ],
+        "XCLIP_STEP_SECONDS": 0.5,
+        "XCLIP_THRESHOLD": 0.37,
+        "XCLIP_WINDOW_SECONDS": 8.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.6,
+        "YOLO_MIN_THRESHOLD": 0.08,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.45,
+          0.3,
+          0.2,
+          0.14
+        ]
+      },
+      "summary": {
+        "prompt_count": 1,
+        "avg_best_iou": 0.4,
+        "avg_mean_target_best_iou": 0.4,
+        "avg_mean_predicted_best_iou": 0.4,
+        "avg_recall": 0.0,
+        "total_processing_seconds": 39.18839216697961,
+        "avg_processing_seconds": 39.18839216697961,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 303.295,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "clip": 1
+        }
+      }
+    }
+  ],
+  "prompt_results": [
+    {
+      "sample_key": "ad812b51ff6478e7a343b07549d9abe710bcfd98",
+      "evaluated_at_utc": "2026-04-01T16:39:58.086377+00:00",
+      "video": "Jungle.mp4",
+      "video_path": "evaluation/test_videos/Jungle.mp4",
+      "video_duration_seconds": 303.295,
+      "processing_seconds": 27.81395795798744,
+      "label_file": "evaluation/test_labels/Jungle.json",
+      "prompt_id": "p3",
+      "prompt": "find me clips of a person replacing a battery in a camera trap. (use xclip)",
+      "path_taken": "xclip",
+      "target_timestamps": [
+        [
+          20,
+          25
+        ]
+      ],
+      "predicted_timestamps": [
+        [
+          16,
+          24
+        ]
+      ],
+      "iou": {
+        "best_iou": 0.4444444444444444,
+        "mean_target_best_iou": 0.4444444444444444,
+        "mean_predicted_best_iou": 0.4444444444444444,
+        "recall": 0.0,
+        "recall_iou_threshold": 0.5,
+        "pairwise_ious": [
+          {
+            "target": [
+              20,
+              25
+            ],
+            "predicted": [
+              16,
+              24
+            ],
+            "iou": 0.4444444444444444
+          }
+        ]
+      },
+      "route_details": {
+        "path": "xclip",
+        "modified_prompts": [
+          "Person replacing a battery in a camera trap",
+          "Replacing a battery in a camera trap",
+          "Person changing camera trap battery",
+          "Changing battery in camera trap",
+          "A person replacing a battery in a camera trap",
+          "Someone replacing a battery in a camera trap",
+          "Replacing camera trap battery",
+          "Person with camera trap changing battery",
+          "Camera trap battery replacement"
+        ],
+        "score_stats": {
+          "window_count": 77,
+          "matched_window_count": 1,
+          "mean": 0.2668614101100278,
+          "median": 0.2667747139930725,
+          "max": 0.3579319417476654,
+          "min": 0.194757878780365,
+          "cache_hit": false,
+          "used_threshold": 0.35
+        },
+        "matched_frame_count": 1,
+        "temporal_analysis": true,
+        "frame_source": "reduced",
+        "window_score_count": 77,
+        "window_scores": [],
+        "window_scores_truncated": false
+      },
+      "matched_frames_count": 1,
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.25,
+          0.23,
+          0.21
+        ],
+        "CLIP_THRESHOLD": 0.23,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 20,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 15,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 9,
+        "PHASH_SIMILARITY_THRESHOLD": 12,
+        "VIDEO_SAMPLING_RATE": 15,
+        "XCLIP_MERGE_GAP_SECONDS": 4.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.33,
+          0.3,
+          0.275,
+          0.26,
+          0.24,
+          0.22
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.35,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.55,
+        "YOLO_MIN_THRESHOLD": 0.08,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.55,
+          0.4,
+          0.3,
+          0.2
+        ]
+      },
+      "hyperparameter_combo_key": "3af54a2e871ca602fed1384e369f5144a689e862",
+      "hyperparameter_combo_index": 11
+    },
+    {
+      "sample_key": "c13d6a16fc441a62ceadaf7459adb82cf7825fb7",
+      "evaluated_at_utc": "2026-04-01T16:40:37.275870+00:00",
+      "video": "Jungle.mp4",
+      "video_path": "evaluation/test_videos/Jungle.mp4",
+      "video_duration_seconds": 303.295,
+      "processing_seconds": 39.18839216697961,
+      "label_file": "evaluation/test_labels/Jungle.json",
+      "prompt_id": "p1",
+      "prompt": "Find me clip where an advertisement in youtube is shown (use clip)",
+      "path_taken": "clip",
+      "target_timestamps": [
+        [
+          139,
+          147
+        ]
+      ],
+      "predicted_timestamps": [
+        [
+          143,
+          149
+        ]
+      ],
+      "iou": {
+        "best_iou": 0.4,
+        "mean_target_best_iou": 0.4,
+        "mean_predicted_best_iou": 0.4,
+        "recall": 0.0,
+        "recall_iou_threshold": 0.5,
+        "pairwise_ious": [
+          {
+            "target": [
+              139,
+              147
+            ],
+            "predicted": [
+              143,
+              149
+            ],
+            "iou": 0.4
+          }
+        ]
+      },
+      "route_details": {
+        "path": "clip",
+        "modified_prompts": [
+          "Advertisement in YouTube",
+          "YouTube advertisement",
+          "Show advertisement on YouTube",
+          "Advertisement shown in YouTube",
+          "YouTube ad"
+        ],
+        "score_stats": {},
+        "reassessment_count": 0,
+        "matched_frame_count": 6
+      },
+      "matched_frames_count": 6,
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.23,
+          0.21,
+          0.192
+        ],
+        "CLIP_THRESHOLD": 0.23,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 60,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 30,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 5,
+        "PHASH_SIMILARITY_THRESHOLD": 10,
+        "VIDEO_SAMPLING_RATE": 15,
+        "XCLIP_MERGE_GAP_SECONDS": 4.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.34,
+          0.31,
+          0.285,
+          0.27,
+          0.25,
+          0.24
+        ],
+        "XCLIP_STEP_SECONDS": 0.5,
+        "XCLIP_THRESHOLD": 0.37,
+        "XCLIP_WINDOW_SECONDS": 8.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.6,
+        "YOLO_MIN_THRESHOLD": 0.08,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.45,
+          0.3,
+          0.2,
+          0.14
+        ]
+      },
+      "hyperparameter_combo_key": "c6b8a96d4b42a37993ed3991b8409027e389cefb",
+      "hyperparameter_combo_index": 12
+    }
+  ]
+}
