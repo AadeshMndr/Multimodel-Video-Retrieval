@@ -1,0 +1,26 @@
+[
+  {
+    "hyperparameter_combo_index": 1,
+    "hyperparameter_combo_key": "f215a735d1d1a5da8dbec29118a737f511411945",
+    "removed_files": [
+      "embeddings.h5",
+      "xclip_embeddings.h5"
+    ]
+  },
+  {
+    "hyperparameter_combo_index": 2,
+    "hyperparameter_combo_key": "d6a33f66d1c90b6e3284a1e9e6d173d5c279eaae",
+    "removed_files": [
+      "embeddings.h5",
+      "xclip_embeddings.h5"
+    ]
+  },
+  {
+    "hyperparameter_combo_index": 3,
+    "hyperparameter_combo_key": "9de09abb01ded8bf6da9c61fa441c17ffc314bb0",
+    "removed_files": [
+      "embeddings.h5",
+      "xclip_embeddings.h5"
+    ]
+  }
+]

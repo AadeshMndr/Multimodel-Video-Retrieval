@@ -1,0 +1,196 @@
+{
+  "video": "Jungle.mp4",
+  "video_duration_seconds": 303.295,
+  "summary": {
+    "prompt_count": 1,
+    "avg_best_iou": 0.21739130434782608,
+    "avg_mean_target_best_iou": 0.21739130434782608,
+    "avg_mean_predicted_best_iou": 0.21739130434782608,
+    "avg_recall": 0.0,
+    "total_processing_seconds": 28.913698874996044,
+    "avg_processing_seconds": 28.913698874996044,
+    "unique_video_count": 1,
+    "unique_video_duration_seconds_total": 303.295,
+    "recall_iou_threshold": 0.5,
+    "path_counts": {
+      "xclip": 1
+    }
+  },
+  "summary_by_path": [
+    {
+      "path_taken": "xclip",
+      "summary": {
+        "prompt_count": 1,
+        "avg_best_iou": 0.21739130434782608,
+        "avg_mean_target_best_iou": 0.21739130434782608,
+        "avg_mean_predicted_best_iou": 0.21739130434782608,
+        "avg_recall": 0.0,
+        "total_processing_seconds": 28.913698874996044,
+        "avg_processing_seconds": 28.913698874996044,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 303.295,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "xclip": 1
+        }
+      }
+    }
+  ],
+  "summary_by_hyperparameter_combo": [
+    {
+      "hyperparameter_combo_key": "9de09abb01ded8bf6da9c61fa441c17ffc314bb0",
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.24,
+          0.22,
+          0.2
+        ],
+        "CLIP_THRESHOLD": 0.21,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 15,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 15,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 1,
+        "PHASH_SIMILARITY_THRESHOLD": 6,
+        "VIDEO_SAMPLING_RATE": 15,
+        "XCLIP_MERGE_GAP_SECONDS": 3.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.32,
+          0.29,
+          0.265,
+          0.26,
+          0.24,
+          0.23
+        ],
+        "XCLIP_STEP_SECONDS": 1.5,
+        "XCLIP_THRESHOLD": 0.31,
+        "XCLIP_WINDOW_SECONDS": 8.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.55,
+        "YOLO_MIN_THRESHOLD": 0.1,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.48,
+          0.33,
+          0.23,
+          0.16
+        ]
+      },
+      "summary": {
+        "prompt_count": 1,
+        "avg_best_iou": 0.21739130434782608,
+        "avg_mean_target_best_iou": 0.21739130434782608,
+        "avg_mean_predicted_best_iou": 0.21739130434782608,
+        "avg_recall": 0.0,
+        "total_processing_seconds": 28.913698874996044,
+        "avg_processing_seconds": 28.913698874996044,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 303.295,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "xclip": 1
+        }
+      }
+    }
+  ],
+  "prompt_results": [
+    {
+      "sample_key": "dd46ff9ce3a8c18cfce4292b79cf79cf7a266be4",
+      "evaluated_at_utc": "2026-04-01T12:12:13.968539+00:00",
+      "video": "Jungle.mp4",
+      "video_path": "evaluation/test_videos/Jungle.mp4",
+      "video_duration_seconds": 303.295,
+      "processing_seconds": 28.913698874996044,
+      "label_file": "evaluation/test_labels/Jungle.json",
+      "prompt_id": "p3",
+      "prompt": "find me clips of a person replacing a battery in a camera trap. (use xclip)",
+      "path_taken": "xclip",
+      "target_timestamps": [
+        [
+          20,
+          25
+        ]
+      ],
+      "predicted_timestamps": [
+        [
+          11,
+          34
+        ]
+      ],
+      "iou": {
+        "best_iou": 0.21739130434782608,
+        "mean_target_best_iou": 0.21739130434782608,
+        "mean_predicted_best_iou": 0.21739130434782608,
+        "recall": 0.0,
+        "recall_iou_threshold": 0.5,
+        "pairwise_ious": [
+          {
+            "target": [
+              20,
+              25
+            ],
+            "predicted": [
+              11,
+              34
+            ],
+            "iou": 0.21739130434782608
+          }
+        ]
+      },
+      "route_details": {
+        "path": "xclip",
+        "modified_prompts": [
+          "Person replacing battery in camera trap"
+        ],
+        "score_stats": {
+          "window_count": 96,
+          "matched_window_count": 5,
+          "mean": 0.25988392407695454,
+          "median": 0.2604575753211975,
+          "max": 0.32725903391838074,
+          "min": 0.19502560794353485,
+          "cache_hit": false,
+          "used_threshold": 0.31
+        },
+        "matched_frame_count": 1,
+        "temporal_analysis": true,
+        "frame_source": "reduced",
+        "window_score_count": 96,
+        "window_scores": [],
+        "window_scores_truncated": false
+      },
+      "matched_frames_count": 1,
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.24,
+          0.22,
+          0.2
+        ],
+        "CLIP_THRESHOLD": 0.21,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 15,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 15,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 1,
+        "PHASH_SIMILARITY_THRESHOLD": 6,
+        "VIDEO_SAMPLING_RATE": 15,
+        "XCLIP_MERGE_GAP_SECONDS": 3.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.32,
+          0.29,
+          0.265,
+          0.26,
+          0.24,
+          0.23
+        ],
+        "XCLIP_STEP_SECONDS": 1.5,
+        "XCLIP_THRESHOLD": 0.31,
+        "XCLIP_WINDOW_SECONDS": 8.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.55,
+        "YOLO_MIN_THRESHOLD": 0.1,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.48,
+          0.33,
+          0.23,
+          0.16
+        ]
+      },
+      "hyperparameter_combo_key": "9de09abb01ded8bf6da9c61fa441c17ffc314bb0",
+      "hyperparameter_combo_index": 3
+    }
+  ]
+}

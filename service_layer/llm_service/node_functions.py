@@ -15,98 +15,115 @@ logging.basicConfig(level=logging.ERROR, format='%(levelname)s: %(message)s')
 
 analyzer_output_parser = PydanticOutputParser(pydantic_object=Analyzer_Output_Format)
 
+
+
+import re
+
+def extract_use_word(text: str) -> str | None:
+    match = re.search(r"\(use\s+(\w+)\)", text)
+    return match.group(1) if match else None
+
 def analyze_the_prompt(state: Analyzer_State):
     
-    template = PromptTemplate(
-        template="""
-        This is the user's prompt: {user_prompt}
-        
-        The user has also provided a video, and now based on the prompt above, we need to find those
-        clips that matches the description.
-        
-        I have the following tools:
-        
-        1) Semantic Video Searcher ("clip"): 
-            This component internally uses clip to find the relevent clips.
-            This component can understand the semantic meaning of each frame,
-            And hence, this is useful for prompts where the user searches for scenes in the video
-            using descriptive texts about the scene or things in the video.
-            like: "a person riding a horse", "a person wearing an orange shirt", "a brown dog with long ears", "etc".
-            This can take into account the meaning of an image, so for prompts that require understanding of the image, use this (clip).
-            
-            If you decide to use this return "clip".
-
-        1.5) Temporal Semantic Video Searcher ("xclip"):
-            This component internally uses XCLIP to match text against short video clips (multiple frames together),
-            so it captures temporal context across a sequence, not just single-frame appearance.
-
-            Select this ONLY when the prompt is clearly action/temporal-centric and requires motion understanding,
-            similar to Kinetics / Something-Something style action descriptions (verb-driven events over time).
-
-            Good examples for xclip:
-            - "person sits, then stands and waves"
-            - "car approaches, slows down, then turns left"
-            - "someone opens a door and walks in"
-            - "player jumps and lands"
-
-            Do NOT choose xclip for:
-            - purely static appearance/object prompts (prefer clip/yolo)
-            - audio/dialogue prompts (prefer audio)
-            - OCR/text-reading or very fine-grained tiny object details
-            - prompts about identity-specific recognition (exact person identity)
-
-            If you decide to use this return "xclip".
-            
-        2) Object Presence Detector ("yolo"):
-            This component internally uses a YOLO model.
-            This component can detect presence or absence of objects from each frame to find the relevent clips.
-            And hence, this is useful for prompts where the user wants to search for a appearance  / presence of certain objects
-            or even certain combination of objects within the video.
-            like: "one person and one flower", "a dot or a cat", "animal", "horses", etc
-            This even works for words with very small single word descriptions like: "white eggs", "red hat", etc. But this cannot take into account the meaning of the image.
-        
-            If you decide to use this return "yolo"
-
-        3) Speech/Dialogue Retriever ("audio"):
-            This component transcribes the video's spoken audio and finds relevant moments from the transcript.
-            This is useful when the user query is about what is being said, narrated, or discussed in the video.
-            Use this when the prompt is primarily language/audio-centric rather than visual appearance-centric.
-
-            If you decide to use this return "audio"
-
-        4) On-screen Text Retriever ("ocr"):
-            This component reads text that appears visually in the video (titles, subtitles, signs, labels).
-            Use this when the prompt is about words or numbers shown on screen rather than spoken audio or scenic description.
-            Examples: "the slide where it says revenue", "a sign that says exit", "the timestamp 12:45","the score is 2-1","text called 'xyz' is shown",etc.
-
-            If you decide to use this return "ocr"
-
-
-        Exceptional Instructions: If the prompt itself specifies which route to use then just return the keyword for that route.
-            
-            {format_instructions}
-            
-            Just include the answer in the format specified above, don't include any extra fluff or explanations.
-        """,
-        input_variables=["user_prompt"],
-        partial_variables={
-            "format_instructions": analyzer_output_parser.get_format_instructions()
-        }
-    )
-    
-    chain = template | llm | analyzer_output_parser
-    
-    output = chain.invoke({
-        "user_prompt": state["user_prompt"],
-    })
+    word = extract_use_word(state["user_prompt"])
     
     logging.info("=" * 60)
-    logging.info(f"\nThe choosen path: {output.logical_path}\n")
+    logging.info(f"\nThe choosen path: {word}\n")
     logging.info("=" * 60)
     
-    return { "logical_path": output.logical_path }
+    return { "logical_path": word }
 
 
+# def analyze_the_prompt(state: Analyzer_State):
+    
+#     template = PromptTemplate(
+#         template="""
+#         This is the user's prompt: {user_prompt}
+        
+#         The user has also provided a video, and now based on the prompt above, we need to find those
+#         clips that matches the description.
+        
+#         I have the following tools:
+        
+#         1) Semantic Video Searcher ("clip"): 
+#             This component internally uses clip to find the relevent clips.
+#             This component can understand the semantic meaning of each frame,
+#             And hence, this is useful for prompts where the user searches for scenes in the video
+#             using descriptive texts about the scene or things in the video.
+#             like: "a person riding a horse", "a person wearing an orange shirt", "a brown dog with long ears", "etc".
+#             This can take into account the meaning of an image, so for prompts that require understanding of the image, use this (clip).
+            
+#             If you decide to use this return "clip".
+
+#         1.5) Temporal Semantic Video Searcher ("xclip"):
+#             This component internally uses XCLIP to match text against short video clips (multiple frames together),
+#             so it captures temporal context across a sequence, not just single-frame appearance.
+
+#             Select this ONLY when the prompt is clearly action/temporal-centric and requires motion understanding,
+#             similar to Kinetics / Something-Something style action descriptions (verb-driven events over time).
+
+#             Good examples for xclip:
+#             - "person sits, then stands and waves"
+#             - "car approaches, slows down, then turns left"
+#             - "someone opens a door and walks in"
+#             - "player jumps and lands"
+
+#             Do NOT choose xclip for:
+#             - purely static appearance/object prompts (prefer clip/yolo)
+#             - audio/dialogue prompts (prefer audio)
+#             - OCR/text-reading or very fine-grained tiny object details
+#             - prompts about identity-specific recognition (exact person identity)
+
+#             If you decide to use this return "xclip".
+            
+#         2) Object Presence Detector ("yolo"):
+#             This component internally uses a YOLO model.
+#             This component can detect presence or absence of objects from each frame to find the relevent clips.
+#             And hence, this is useful for prompts where the user wants to search for a appearance  / presence of certain objects
+#             or even certain combination of objects within the video.
+#             like: "one person and one flower", "a dot or a cat", "animal", "horses", etc
+#             This even works for words with very small single word descriptions like: "white eggs", "red hat", etc. But this cannot take into account the meaning of the image.
+        
+#             If you decide to use this return "yolo"
+
+#         3) Speech/Dialogue Retriever ("audio"):
+#             This component transcribes the video's spoken audio and finds relevant moments from the transcript.
+#             This is useful when the user query is about what is being said, narrated, or discussed in the video.
+#             Use this when the prompt is primarily language/audio-centric rather than visual appearance-centric.
+
+#             If you decide to use this return "audio"
+
+#         4) On-screen Text Retriever ("ocr"):
+#             This component reads text that appears visually in the video (titles, subtitles, signs, labels).
+#             Use this when the prompt is about words or numbers shown on screen rather than spoken audio or scenic description.
+#             Examples: "the slide where it says revenue", "a sign that says exit", "the timestamp 12:45","the score is 2-1","text called 'xyz' is shown",etc.
+
+#             If you decide to use this return "ocr"
+
+
+#         Exceptional Instructions: If the prompt itself specifies which route to use then just return the keyword for that route.
+            
+#             {format_instructions}
+            
+#             Just include the answer in the format specified above, don't include any extra fluff or explanations.
+#         """,
+#         input_variables=["user_prompt"],
+#         partial_variables={
+#             "format_instructions": analyzer_output_parser.get_format_instructions()
+#         }
+#     )
+    
+#     chain = template | llm | analyzer_output_parser
+    
+#     output = chain.invoke({
+#         "user_prompt": state["user_prompt"],
+#     })
+    
+#     logging.info("=" * 60)
+#     logging.info(f"\nThe choosen path: {output.logical_path}\n")
+#     logging.info("=" * 60)
+    
+#     return { "logical_path": output.logical_path }
 
 
 

@@ -1,0 +1,20 @@
+{
+  "run_id": "20260401T122003Z",
+  "status": "interrupted",
+  "started_utc": "20260401T122003Z",
+  "finished_utc": "2026-04-01T12:25:10.753860+00:00",
+  "completed_tasks": 7,
+  "total_tasks": 51,
+  "skipped_existing": 9,
+  "last_completed_sample_key": "2355ec46db496470ff268cb7cf47c1a36546e47b",
+  "last_error": {
+    "kind": "KeyboardInterrupt",
+    "message": "Evaluation interrupted by user.",
+    "at_task": {
+      "video": "Jungle.mp4",
+      "prompt_id": "p2",
+      "hyperparameter_combo_index": 6,
+      "hyperparameter_combo_key": "17060579be2bd3b9e582e7185bd7c3093a932d01"
+    }
+  }
+}

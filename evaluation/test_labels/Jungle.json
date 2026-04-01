@@ -1,0 +1,20 @@
+{
+  "video": "Jungle.mp4",
+  "prompts": [
+    {
+      "id": "p1",
+      "prompt": "Find me clip where an advertisement in youtube is shown (use clip)",
+      "target_timestamp": [[139, 147]]
+    },
+    {
+      "id": "p2",
+      "prompt": "Find me clips where 2 person are talking (use yolo)",
+      "target_timestamps": [[58, 92], [107, 108], [148, 173]]
+    },
+    {
+      "id": "p3",
+      "prompt": "find me clips of a person replacing a battery in a camera trap. (use xclip)",
+      "target_timestamps": [[20, 25]]
+    }
+  ]
+}

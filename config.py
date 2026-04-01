@@ -133,6 +133,8 @@ class Settings(BaseSettings):
     #################### LLM config ####################
     
     
+    # LLM_MODEL_NAME: str = "gemini-2.5-flash"
+    # GOOGLE_API_KEY: str = ""
     LLM_MODEL_NAME: str = "groq/compound"
     GROQ_API_KEY: str = ""
 

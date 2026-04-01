@@ -1,0 +1,41 @@
+[
+  {
+    "hyperparameter_combo_index": 6,
+    "hyperparameter_combo_key": "17060579be2bd3b9e582e7185bd7c3093a932d01",
+    "removed_files": [
+      "embeddings.h5"
+    ]
+  },
+  {
+    "hyperparameter_combo_index": 7,
+    "hyperparameter_combo_key": "94560d1c505a449247fdb61b7f180b2a3845064d",
+    "removed_files": [
+      "embeddings.h5",
+      "xclip_embeddings.h5"
+    ]
+  },
+  {
+    "hyperparameter_combo_index": 8,
+    "hyperparameter_combo_key": "94ce31b5fac4b81cffeaf9eabd252a5839c6343c",
+    "removed_files": [
+      "embeddings.h5",
+      "xclip_embeddings.h5"
+    ]
+  },
+  {
+    "hyperparameter_combo_index": 9,
+    "hyperparameter_combo_key": "37aa4275e9abb05c5b50858d128dbdee1192cd82",
+    "removed_files": [
+      "embeddings.h5",
+      "xclip_embeddings.h5"
+    ]
+  },
+  {
+    "hyperparameter_combo_index": 10,
+    "hyperparameter_combo_key": "ff7089d6c16d0cae6f59836d9410428c23bc40f0",
+    "removed_files": [
+      "embeddings.h5",
+      "xclip_embeddings.h5"
+    ]
+  }
+]

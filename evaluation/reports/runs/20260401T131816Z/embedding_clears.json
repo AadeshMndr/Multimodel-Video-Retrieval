@@ -1,0 +1,9 @@
+[
+  {
+    "hyperparameter_combo_index": 10,
+    "hyperparameter_combo_key": "ff7089d6c16d0cae6f59836d9410428c23bc40f0",
+    "removed_files": [
+      "embeddings.h5"
+    ]
+  }
+]

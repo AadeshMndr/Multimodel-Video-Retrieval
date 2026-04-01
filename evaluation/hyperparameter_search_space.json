@@ -1,0 +1,35 @@
+{
+  "VIDEO_SAMPLING_RATE": [15, 10, 12, 20, 24],
+  "PHASH_SIMILARITY_THRESHOLD": [6, 4, 8, 10, 12],
+  "FRAME_NEIGHBOUR_RANGE_BEFORE": [30, 15, 20, 40, 60],
+  "FRAME_NEIGHBOUR_RANGE_AFTER": [30, 15, 20, 40, 60],
+  "CLIP_THRESHOLD": [0.25, 0.23, 0.21, 0.192, 0.28],
+  "CLIP_REASSESSMENT_THRESHOLDS": [
+    [0.23, 0.21, 0.192],
+    [0.25, 0.23, 0.21],
+    [0.24, 0.22, 0.2],
+    [0.22, 0.2, 0.18],
+    [0.21, 0.192, 0.175]
+  ],
+  "MAX_NUMBER_OF_MODIFIED_PROMPTS": [5, 3, 1, 7, 9],
+  "XCLIP_THRESHOLD": [0.35, 0.33, 0.31, 0.37, 0.4],
+  "XCLIP_REASSESSMENT_THRESHOLDS": [
+    [0.32, 0.29, 0.265, 0.26, 0.24, 0.23],
+    [0.34, 0.31, 0.285, 0.27, 0.25, 0.24],
+    [0.33, 0.3, 0.275, 0.26, 0.24, 0.22],
+    [0.31, 0.28, 0.255, 0.24, 0.225, 0.21],
+    [0.3, 0.27, 0.245, 0.23, 0.215, 0.2]
+  ],
+  "XCLIP_WINDOW_SECONDS": [5.0, 6.0, 8.0],
+  "XCLIP_STEP_SECONDS": [1.0, 0.5, 1.5, 2.0, 2.5],
+  "XCLIP_MERGE_GAP_SECONDS": [2.0, 1.0, 1.5, 3.0, 4.0],
+  "YOLO_MIN_THRESHOLD": [0.1, 0.05, 0.08, 0.12, 0.15],
+  "YOLO_MAX_USAGE_THRESHOLD": [0.7, 0.6, 0.55, 0.8, 0.9],
+  "YOLO_REASSESSMENT_THRESHOLDS": [
+    [0.5, 0.35, 0.25, 0.19],
+    [0.55, 0.4, 0.3, 0.2],
+    [0.52, 0.37, 0.27, 0.18],
+    [0.48, 0.33, 0.23, 0.16],
+    [0.45, 0.3, 0.2, 0.14]
+  ]
+}

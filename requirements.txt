@@ -18,7 +18,6 @@ flatbuffers==25.12.19
 fonttools==4.61.1
 fsspec==2025.12.0
 ftfy==6.3.1
-groq==0.37.1
 h11==0.16.0
 h5py==3.16.0
 hf-xet==1.4.0
@@ -35,7 +34,11 @@ jsonpointer==3.0.0
 kiwisolver==1.4.9
 langchain==1.2.9
 langchain-core==1.2.9
-langchain-groq==1.1.2
+google-ai-generativelanguage==0.6.21
+google-api-core==2.28.1
+google-auth==2.43.0
+googleapis-common-protos==1.71.0
+langchain-google-genai==2.1.12
 langgraph==1.0.8
 langgraph-checkpoint==4.0.0
 langgraph-prebuilt==1.0.7

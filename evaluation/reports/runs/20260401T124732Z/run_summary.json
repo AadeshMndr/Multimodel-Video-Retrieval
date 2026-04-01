@@ -1,0 +1,322 @@
+{
+  "run_id": "20260401T124732Z",
+  "started_utc": "20260401T124732Z",
+  "finished_utc": "2026-04-01T12:55:28.455733+00:00",
+  "status": "interrupted",
+  "last_error": {
+    "kind": "KeyboardInterrupt",
+    "message": "Evaluation interrupted by user.",
+    "at_task": {
+      "video": "Jungle.mp4",
+      "prompt_id": "p1",
+      "hyperparameter_combo_index": 10,
+      "hyperparameter_combo_key": "ff7089d6c16d0cae6f59836d9410428c23bc40f0"
+    }
+  },
+  "settings": {
+    "videos_dir": "evaluation/test_videos",
+    "labels_dir": "evaluation/test_labels",
+    "generate_video": false,
+    "force_recompute": false,
+    "max_prompts": null,
+    "recall_iou_threshold": 0.5,
+    "enable_random_search_cv": true,
+    "hyperparameter_search_space": "evaluation/hyperparameter_search_space.json",
+    "max_random_combinations": 20,
+    "random_seed": 42,
+    "keep_embeddings_between_combinations": false
+  },
+  "counts": {
+    "total_label_tasks": 3,
+    "selected_combinations": 20,
+    "planned_evaluations": 60,
+    "evaluated_new": 11,
+    "skipped_existing": 16
+  },
+  "summary": {
+    "prompt_count": 11,
+    "avg_best_iou": 0.43887905024268664,
+    "avg_mean_target_best_iou": 0.38219455826407694,
+    "avg_mean_predicted_best_iou": 0.34936436558094314,
+    "avg_recall": 0.2727272727272727,
+    "total_processing_seconds": 459.4301754559856,
+    "avg_processing_seconds": 41.76637958690778,
+    "unique_video_count": 1,
+    "unique_video_duration_seconds_total": 303.295,
+    "recall_iou_threshold": 0.5,
+    "path_counts": {
+      "yolo": 4,
+      "xclip": 4,
+      "clip": 3
+    }
+  },
+  "summary_by_path": [
+    {
+      "path_taken": "clip",
+      "summary": {
+        "prompt_count": 3,
+        "avg_best_iou": 0.39166666666666666,
+        "avg_mean_target_best_iou": 0.39166666666666666,
+        "avg_mean_predicted_best_iou": 0.32916666666666666,
+        "avg_recall": 0.0,
+        "total_processing_seconds": 110.7003312910092,
+        "avg_processing_seconds": 36.900110430336404,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 303.295,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "clip": 3
+        }
+      }
+    },
+    {
+      "path_taken": "xclip",
+      "summary": {
+        "prompt_count": 4,
+        "avg_best_iou": 0.5131673881673882,
+        "avg_mean_target_best_iou": 0.5131673881673882,
+        "avg_mean_predicted_best_iou": 0.5131673881673882,
+        "avg_recall": 0.75,
+        "total_processing_seconds": 211.71639562398195,
+        "avg_processing_seconds": 52.92909890599549,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 303.295,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "xclip": 4
+        }
+      }
+    },
+    {
+      "path_taken": "yolo",
+      "summary": {
+        "prompt_count": 4,
+        "avg_best_iou": 0.4,
+        "avg_mean_target_best_iou": 0.24411764705882355,
+        "avg_mean_predicted_best_iou": 0.2007096171802054,
+        "avg_recall": 0.0,
+        "total_processing_seconds": 137.01344854099443,
+        "avg_processing_seconds": 34.25336213524861,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 303.295,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "yolo": 4
+        }
+      }
+    }
+  ],
+  "summary_by_hyperparameter_combo": [
+    {
+      "hyperparameter_combo_key": "17060579be2bd3b9e582e7185bd7c3093a932d01",
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.21,
+          0.192,
+          0.175
+        ],
+        "CLIP_THRESHOLD": 0.23,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 15,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 40,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 7,
+        "PHASH_SIMILARITY_THRESHOLD": 8,
+        "VIDEO_SAMPLING_RATE": 24,
+        "XCLIP_MERGE_GAP_SECONDS": 1.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.33,
+          0.3,
+          0.275,
+          0.26,
+          0.24,
+          0.22
+        ],
+        "XCLIP_STEP_SECONDS": 1.0,
+        "XCLIP_THRESHOLD": 0.33,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.55,
+        "YOLO_MIN_THRESHOLD": 0.12,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.52,
+          0.37,
+          0.27,
+          0.18
+        ]
+      },
+      "summary": {
+        "prompt_count": 2,
+        "avg_best_iou": 0.5177777777777778,
+        "avg_mean_target_best_iou": 0.45777777777777784,
+        "avg_mean_predicted_best_iou": 0.4220634920634921,
+        "avg_recall": 0.5,
+        "total_processing_seconds": 103.3414534170006,
+        "avg_processing_seconds": 51.6707267085003,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 303.295,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "yolo": 1,
+          "xclip": 1
+        }
+      }
+    },
+    {
+      "hyperparameter_combo_key": "37aa4275e9abb05c5b50858d128dbdee1192cd82",
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.21,
+          0.192,
+          0.175
+        ],
+        "CLIP_THRESHOLD": 0.25,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 40,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 40,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 9,
+        "PHASH_SIMILARITY_THRESHOLD": 10,
+        "VIDEO_SAMPLING_RATE": 24,
+        "XCLIP_MERGE_GAP_SECONDS": 1.5,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.3,
+          0.27,
+          0.245,
+          0.23,
+          0.215,
+          0.2
+        ],
+        "XCLIP_STEP_SECONDS": 1.0,
+        "XCLIP_THRESHOLD": 0.35,
+        "XCLIP_WINDOW_SECONDS": 8.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.9,
+        "YOLO_MIN_THRESHOLD": 0.08,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.52,
+          0.37,
+          0.27,
+          0.18
+        ]
+      },
+      "summary": {
+        "prompt_count": 3,
+        "avg_best_iou": 0.42518518518518517,
+        "avg_mean_target_best_iou": 0.37041394335511985,
+        "avg_mean_predicted_best_iou": 0.366697790227202,
+        "avg_recall": 0.3333333333333333,
+        "total_processing_seconds": 137.67097558203386,
+        "avg_processing_seconds": 45.89032519401129,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 303.295,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "clip": 1,
+          "yolo": 1,
+          "xclip": 1
+        }
+      }
+    },
+    {
+      "hyperparameter_combo_key": "94560d1c505a449247fdb61b7f180b2a3845064d",
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.23,
+          0.21,
+          0.192
+        ],
+        "CLIP_THRESHOLD": 0.23,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 60,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 20,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 3,
+        "PHASH_SIMILARITY_THRESHOLD": 10,
+        "VIDEO_SAMPLING_RATE": 20,
+        "XCLIP_MERGE_GAP_SECONDS": 3.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.34,
+          0.31,
+          0.285,
+          0.27,
+          0.25,
+          0.24
+        ],
+        "XCLIP_STEP_SECONDS": 1.5,
+        "XCLIP_THRESHOLD": 0.33,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.9,
+        "YOLO_MIN_THRESHOLD": 0.15,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.52,
+          0.37,
+          0.27,
+          0.18
+        ]
+      },
+      "summary": {
+        "prompt_count": 3,
+        "avg_best_iou": 0.47809523809523813,
+        "avg_mean_target_best_iou": 0.42332399626517275,
+        "avg_mean_predicted_best_iou": 0.4196078431372549,
+        "avg_recall": 0.3333333333333333,
+        "total_processing_seconds": 110.7921943749825,
+        "avg_processing_seconds": 36.9307314583275,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 303.295,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "clip": 1,
+          "yolo": 1,
+          "xclip": 1
+        }
+      }
+    },
+    {
+      "hyperparameter_combo_key": "94ce31b5fac4b81cffeaf9eabd252a5839c6343c",
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.21,
+          0.192,
+          0.175
+        ],
+        "CLIP_THRESHOLD": 0.192,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 60,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 40,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 1,
+        "PHASH_SIMILARITY_THRESHOLD": 4,
+        "VIDEO_SAMPLING_RATE": 10,
+        "XCLIP_MERGE_GAP_SECONDS": 4.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.31,
+          0.28,
+          0.255,
+          0.24,
+          0.225,
+          0.21
+        ],
+        "XCLIP_STEP_SECONDS": 1.0,
+        "XCLIP_THRESHOLD": 0.35,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.6,
+        "YOLO_MIN_THRESHOLD": 0.05,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.48,
+          0.33,
+          0.23,
+          0.16
+        ]
+      },
+      "summary": {
+        "prompt_count": 3,
+        "avg_best_iou": 0.3607575757575758,
+        "avg_mean_target_best_iou": 0.3024569221628045,
+        "avg_mean_predicted_best_iou": 0.21332137905667317,
+        "avg_recall": 0.0,
+        "total_processing_seconds": 107.62555208196864,
+        "avg_processing_seconds": 35.87518402732288,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 303.295,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "clip": 1,
+          "yolo": 1,
+          "xclip": 1
+        }
+      }
+    }
+  ]
+}
