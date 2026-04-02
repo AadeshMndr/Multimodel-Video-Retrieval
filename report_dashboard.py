@@ -72,7 +72,11 @@ def load_all_runs() -> list[dict[str, Any]]:
 
 def flatten_path_summary(summary: dict[str, Any]) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
-    for item in summary.get("summary_by_path", []):
+    path_items = summary.get("summary_by_path")
+    if not isinstance(path_items, list):
+        path_items = summary.get("cumulative_by_path", [])
+
+    for item in path_items:
         path_taken = item.get("path_taken")
         path_summary = item.get("summary", {})
         rows.append(
@@ -92,7 +96,11 @@ def flatten_path_summary(summary: dict[str, Any]) -> list[dict[str, Any]]:
 
 def flatten_combo_summary(summary: dict[str, Any]) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
-    for item in summary.get("summary_by_hyperparameter_combo", []):
+    combo_items = summary.get("summary_by_hyperparameter_combo")
+    if not isinstance(combo_items, list):
+        combo_items = summary.get("cumulative_by_hyperparameter_combo", [])
+
+    for item in combo_items:
         combo_summary = item.get("summary", {})
         hyperparameters = item.get("hyperparameters", {})
         rows.append(
@@ -476,6 +484,108 @@ if combo_rows:
             color_continuous_scale="Viridis",
         )
         st.plotly_chart(heatmap_fig, use_container_width=True)
+
+    st.markdown("### Top X hyperparameter combos")
+    ranking_metric_options = [
+        "avg_best_iou",
+        "avg_recall",
+        "avg_overlap_anywhere_recall",
+        "prompt_count",
+        "avg_processing_seconds",
+        "total_predicted_total_duration_seconds",
+    ]
+    default_sort = [
+        ("avg_best_iou", "descending"),
+        ("avg_recall", "descending"),
+        ("avg_processing_seconds", "ascending"),
+    ]
+
+    cfg_cols = st.columns(4)
+    with cfg_cols[0]:
+        top_x = int(
+            st.number_input(
+                "Top X",
+                min_value=1,
+                max_value=max(1, len(combo_df)),
+                value=min(5, len(combo_df)),
+                step=1,
+                key="top_combo_x",
+            )
+        )
+    with cfg_cols[1]:
+        sort_a = st.selectbox(
+            "Sort A",
+            ranking_metric_options,
+            index=ranking_metric_options.index(default_sort[0][0]),
+            key="top_combo_sort_a",
+        )
+        dir_a = st.selectbox("Dir A", ["descending", "ascending"], index=0, key="top_combo_dir_a")
+    with cfg_cols[2]:
+        sort_b = st.selectbox(
+            "Sort B",
+            ranking_metric_options,
+            index=ranking_metric_options.index(default_sort[1][0]),
+            key="top_combo_sort_b",
+        )
+        dir_b = st.selectbox("Dir B", ["descending", "ascending"], index=0, key="top_combo_dir_b")
+    with cfg_cols[3]:
+        sort_c = st.selectbox(
+            "Sort C",
+            ranking_metric_options,
+            index=ranking_metric_options.index(default_sort[2][0]),
+            key="top_combo_sort_c",
+        )
+        dir_c = st.selectbox("Dir C", ["descending", "ascending"], index=1, key="top_combo_dir_c")
+
+    multi_sorted = list(combo_df)
+    sort_plan = [(sort_c, dir_c), (sort_b, dir_b), (sort_a, dir_a)]
+    for metric_name, metric_direction in sort_plan:
+        reverse = metric_direction == "descending"
+        multi_sorted.sort(
+            key=lambda row: float(row.get(metric_name, 0.0) or 0.0),
+            reverse=reverse,
+        )
+
+    top_ranked = multi_sorted[:top_x]
+    st.caption(f"Sorted by {sort_a} ({dir_a}), then {sort_b} ({dir_b}), then {sort_c} ({dir_c}).")
+
+    top_table_columns = [
+        "hyperparameter_combo_key",
+        "prompt_count",
+        "avg_best_iou",
+        "avg_recall",
+        "avg_overlap_anywhere_recall",
+        "avg_processing_seconds",
+        "total_predicted_total_duration_seconds",
+        "CLIP_THRESHOLD",
+        "XCLIP_THRESHOLD",
+        "YOLO_MIN_THRESHOLD",
+    ]
+    st.dataframe(
+        top_ranked,
+        use_container_width=True,
+        hide_index=True,
+        column_order=top_table_columns,
+    )
+
+    st.markdown("#### Hyperparameters for Top X")
+    for rank, combo in enumerate(top_ranked, start=1):
+        combo_key = str(combo.get("hyperparameter_combo_key", "unknown"))
+        with st.expander(f"#{rank} • {combo_key}", expanded=False):
+            summary_col, params_col = st.columns([0.42, 0.58])
+            with summary_col:
+                st.json(
+                    {
+                        "prompt_count": combo.get("prompt_count"),
+                        "avg_best_iou": combo.get("avg_best_iou"),
+                        "avg_recall": combo.get("avg_recall"),
+                        "avg_overlap_anywhere_recall": combo.get("avg_overlap_anywhere_recall"),
+                        "avg_processing_seconds": combo.get("avg_processing_seconds"),
+                        "total_predicted_total_duration_seconds": combo.get("total_predicted_total_duration_seconds"),
+                    }
+                )
+            with params_col:
+                st.json(combo.get("hyperparameters", {}))
 else:
     st.info("No hyperparameter comparison data available in this report.")
 
