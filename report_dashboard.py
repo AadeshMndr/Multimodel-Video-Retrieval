@@ -150,6 +150,7 @@ def flatten_prompt_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 "overlap_duration_seconds": iou.get("overlap_duration_seconds", 0.0),
                 "predicted_total_duration_seconds": iou.get("predicted_total_duration_seconds", 0.0),
                 "target_total_duration_seconds": iou.get("target_total_duration_seconds", 0.0),
+                "video_duration_seconds": row.get("video_duration_seconds"),
                 "processing_seconds": row.get("processing_seconds", 0.0),
                 "matched_frames_count": row.get("matched_frames_count", 0),
                 "target_count": len(row.get("target_timestamps", [])),
@@ -338,6 +339,7 @@ if results_df:
         "duration_precision",
         "duration_recall",
         "predicted_total_duration_seconds",
+        "video_duration_seconds",
         "processing_seconds",
         "matched_frames_count",
         "modified_prompt_count",
@@ -356,6 +358,7 @@ if results_df:
         "duration_recall",
         "predicted_total_duration_seconds",
         "target_total_duration_seconds",
+        "video_duration_seconds",
         "matched_frames_count",
         "modified_prompt_count",
     ]
@@ -382,7 +385,7 @@ if results_df:
             x=scatter_x_axis,
             y=scatter_y_axis,
             color="path_taken",
-            hover_data=["video", "prompt_id", "hyperparameter_combo_key", "prompt"],
+            hover_data=["video", "prompt_id", "hyperparameter_combo_key", "prompt", "video_duration_seconds"],
             color_discrete_map=PATH_COLORS,
             title=f"{scatter_x_axis} vs {scatter_y_axis}",
         )
@@ -603,6 +606,7 @@ if video_runs:
                     {
                         "targets": row.get("target_timestamps"),
                         "predictions": row.get("predicted_timestamps"),
+                        "video_duration_seconds": row.get("video_duration_seconds"),
                         "processing_seconds": row.get("processing_seconds"),
                         "matched_frames_count": row.get("matched_frames_count"),
                         "modified_prompt_count": row.get("modified_prompt_count"),

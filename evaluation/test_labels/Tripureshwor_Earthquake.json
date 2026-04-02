@@ -1,0 +1,10 @@
+{
+  "video": "Tripureshwor_Earthquake.mp4",
+  "prompts": [
+    {
+      "id": "p1",
+      "prompt": "Find me the moment when the monument falls down (use xclip)",
+      "target_timestamp": [[68, 78]]
+    }
+  ]
+}

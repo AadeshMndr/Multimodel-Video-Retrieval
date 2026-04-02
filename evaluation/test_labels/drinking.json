@@ -1,0 +1,15 @@
+{
+  "video": "drinking.mp4",
+  "prompts": [
+    {
+      "id": "p1",
+      "prompt": "Find me the clip where a person is drinking water (use xclip)",
+      "target_timestamp": [[20, 24]]
+    },
+    {
+      "id": "p2",
+      "prompt": "Find me the clip where a person is drinking water (use clip)",
+      "target_timestamps": [[20, 24]]
+    }
+  ]
+}

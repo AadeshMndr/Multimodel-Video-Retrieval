@@ -1,0 +1,25 @@
+{
+  "video": "Spiderman.mp4",
+  "prompts": [
+    {
+      "id": "p1",
+      "prompt": "Find me clips where a person wearing an eye glasses appear (use yolo)",
+      "target_timestamp": [[107, 130], [134, 135]]
+    },
+    {
+      "id": "p2",
+      "prompt": "find me clips of a jetplane (use yolo)",
+      "target_timestamps": [[55, 58], [61, 66], [70, 75], [81, 82], [84, 87], [110, 115]]
+    },
+    {
+      "id": "p3",
+      "prompt": "Find me clips of a person wearing an orange shirt (use clip)",
+      "target_timestamps": [[2, 56], [59, 60], [66, 74], [77, 78], [80, 90], [95, 106]]
+    },
+    {
+      "id": "p4",
+      "prompt": "Find me clips of where a tulip garden is shown (use clip)",
+      "target_timestamps": [[53, 60], [62, 74], [77, 106]]
+    }
+  ]
+}

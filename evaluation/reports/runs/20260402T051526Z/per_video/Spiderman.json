@@ -1,0 +1,432 @@
+{
+  "video": "Spiderman.mp4",
+  "video_duration_seconds": 301.2,
+  "summary": {
+    "prompt_count": 1,
+    "avg_best_iou": 0.5833333333333334,
+    "avg_mean_target_best_iou": 0.47605363984674326,
+    "avg_mean_predicted_best_iou": 0.309957124612297,
+    "avg_recall": 0.6666666666666666,
+    "avg_overlap_anywhere_recall": 1.0,
+    "avg_temporal_set_iou": 0.5283018867924528,
+    "avg_overlap_over_max": 0.5833333333333334,
+    "avg_duration_precision": 0.8484848484848485,
+    "avg_duration_recall": 0.5833333333333334,
+    "total_processing_seconds": 27.955017125001177,
+    "avg_processing_seconds": 27.955017125001177,
+    "total_predicted_total_duration_seconds": 33.0,
+    "unique_video_count": 1,
+    "unique_video_duration_seconds_total": 301.2,
+    "recall_iou_threshold": 0.5,
+    "path_counts": {
+      "clip": 1
+    }
+  },
+  "summary_by_path": [
+    {
+      "path_taken": "clip",
+      "summary": {
+        "prompt_count": 1,
+        "avg_best_iou": 0.5833333333333334,
+        "avg_mean_target_best_iou": 0.47605363984674326,
+        "avg_mean_predicted_best_iou": 0.309957124612297,
+        "avg_recall": 0.6666666666666666,
+        "avg_overlap_anywhere_recall": 1.0,
+        "avg_temporal_set_iou": 0.5283018867924528,
+        "avg_overlap_over_max": 0.5833333333333334,
+        "avg_duration_precision": 0.8484848484848485,
+        "avg_duration_recall": 0.5833333333333334,
+        "total_processing_seconds": 27.955017125001177,
+        "avg_processing_seconds": 27.955017125001177,
+        "total_predicted_total_duration_seconds": 33.0,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 301.2,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "clip": 1
+        }
+      }
+    }
+  ],
+  "summary_by_hyperparameter_combo": [
+    {
+      "hyperparameter_combo_key": "d6a33f66d1c90b6e3284a1e9e6d173d5c279eaae",
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.25,
+          0.23,
+          0.21
+        ],
+        "CLIP_THRESHOLD": 0.28,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 60,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 30,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 9,
+        "PHASH_SIMILARITY_THRESHOLD": 4,
+        "VIDEO_SAMPLING_RATE": 24,
+        "XCLIP_MERGE_GAP_SECONDS": 3.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.34,
+          0.31,
+          0.285,
+          0.27,
+          0.25,
+          0.24
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.4,
+        "XCLIP_WINDOW_SECONDS": 6.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.7,
+        "YOLO_MIN_THRESHOLD": 0.05,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.48,
+          0.33,
+          0.23,
+          0.16
+        ]
+      },
+      "summary": {
+        "prompt_count": 1,
+        "avg_best_iou": 0.5833333333333334,
+        "avg_mean_target_best_iou": 0.47605363984674326,
+        "avg_mean_predicted_best_iou": 0.309957124612297,
+        "avg_recall": 0.6666666666666666,
+        "avg_overlap_anywhere_recall": 1.0,
+        "avg_temporal_set_iou": 0.5283018867924528,
+        "avg_overlap_over_max": 0.5833333333333334,
+        "avg_duration_precision": 0.8484848484848485,
+        "avg_duration_recall": 0.5833333333333334,
+        "total_processing_seconds": 27.955017125001177,
+        "avg_processing_seconds": 27.955017125001177,
+        "total_predicted_total_duration_seconds": 33.0,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 301.2,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "clip": 1
+        }
+      }
+    }
+  ],
+  "prompt_results": [
+    {
+      "sample_key": "8fc74bfdfe2b725e1fbdc463c7f911a67e18ffd1",
+      "evaluated_at_utc": "2026-04-02T05:15:54.553973+00:00",
+      "video": "Spiderman.mp4",
+      "video_path": "evaluation/test_videos/Spiderman.mp4",
+      "video_duration_seconds": 301.2,
+      "processing_seconds": 27.955017125001177,
+      "label_file": "evaluation/test_labels/Spiderman.json",
+      "prompt_id": "p4",
+      "prompt": "Find me clips of where a tulip garden is shown (use clip)",
+      "path_taken": "clip",
+      "target_timestamps": [
+        [
+          53,
+          60
+        ],
+        [
+          62,
+          74
+        ],
+        [
+          77,
+          106
+        ]
+      ],
+      "predicted_timestamps": [
+        [
+          52,
+          57
+        ],
+        [
+          58,
+          62
+        ],
+        [
+          65,
+          72
+        ],
+        [
+          73,
+          76
+        ],
+        [
+          79,
+          89
+        ],
+        [
+          97,
+          101
+        ]
+      ],
+      "iou": {
+        "best_iou": 0.5833333333333334,
+        "mean_target_best_iou": 0.47605363984674326,
+        "mean_predicted_best_iou": 0.309957124612297,
+        "recall": 0.6666666666666666,
+        "overlap_anywhere_recall": 1.0,
+        "temporal_set_iou": 0.5283018867924528,
+        "overlap_over_max": 0.5833333333333334,
+        "duration_precision": 0.8484848484848485,
+        "duration_recall": 0.5833333333333334,
+        "overlap_duration_seconds": 28.0,
+        "predicted_total_duration_seconds": 33.0,
+        "target_total_duration_seconds": 48.0,
+        "recall_iou_threshold": 0.5,
+        "pairwise_ious": [
+          {
+            "target": [
+              53,
+              60
+            ],
+            "predicted": [
+              52,
+              57
+            ],
+            "iou": 0.5
+          },
+          {
+            "target": [
+              53,
+              60
+            ],
+            "predicted": [
+              58,
+              62
+            ],
+            "iou": 0.2222222222222222
+          },
+          {
+            "target": [
+              53,
+              60
+            ],
+            "predicted": [
+              65,
+              72
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              53,
+              60
+            ],
+            "predicted": [
+              73,
+              76
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              53,
+              60
+            ],
+            "predicted": [
+              79,
+              89
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              53,
+              60
+            ],
+            "predicted": [
+              97,
+              101
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              62,
+              74
+            ],
+            "predicted": [
+              52,
+              57
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              62,
+              74
+            ],
+            "predicted": [
+              58,
+              62
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              62,
+              74
+            ],
+            "predicted": [
+              65,
+              72
+            ],
+            "iou": 0.5833333333333334
+          },
+          {
+            "target": [
+              62,
+              74
+            ],
+            "predicted": [
+              73,
+              76
+            ],
+            "iou": 0.07142857142857142
+          },
+          {
+            "target": [
+              62,
+              74
+            ],
+            "predicted": [
+              79,
+              89
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              62,
+              74
+            ],
+            "predicted": [
+              97,
+              101
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              77,
+              106
+            ],
+            "predicted": [
+              52,
+              57
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              77,
+              106
+            ],
+            "predicted": [
+              58,
+              62
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              77,
+              106
+            ],
+            "predicted": [
+              65,
+              72
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              77,
+              106
+            ],
+            "predicted": [
+              73,
+              76
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              77,
+              106
+            ],
+            "predicted": [
+              79,
+              89
+            ],
+            "iou": 0.3448275862068966
+          },
+          {
+            "target": [
+              77,
+              106
+            ],
+            "predicted": [
+              97,
+              101
+            ],
+            "iou": 0.13793103448275862
+          }
+        ]
+      },
+      "route_details": {
+        "path": "clip",
+        "modified_prompts": [
+          "Tulip garden",
+          "A tulip garden scene",
+          "Scene with a tulip garden",
+          "Tulip garden shown",
+          "Where a tulip garden appears",
+          "A scene of tulip garden",
+          "Tulip garden in the scene",
+          "Scene featuring a tulip garden",
+          "Show a tulip garden"
+        ],
+        "score_stats": {},
+        "reassessment_count": 0,
+        "matched_frame_count": 25
+      },
+      "matched_frames_count": 25,
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.25,
+          0.23,
+          0.21
+        ],
+        "CLIP_THRESHOLD": 0.28,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 60,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 30,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 9,
+        "PHASH_SIMILARITY_THRESHOLD": 4,
+        "VIDEO_SAMPLING_RATE": 24,
+        "XCLIP_MERGE_GAP_SECONDS": 3.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.34,
+          0.31,
+          0.285,
+          0.27,
+          0.25,
+          0.24
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.4,
+        "XCLIP_WINDOW_SECONDS": 6.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.7,
+        "YOLO_MIN_THRESHOLD": 0.05,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.48,
+          0.33,
+          0.23,
+          0.16
+        ]
+      },
+      "hyperparameter_combo_key": "d6a33f66d1c90b6e3284a1e9e6d173d5c279eaae",
+      "hyperparameter_combo_index": 2
+    }
+  ]
+}
