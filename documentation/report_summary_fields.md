@@ -142,6 +142,30 @@ Predictions: `[[95,105],[105,115]]`
   - `[105,115]` best `0.3333`
   - `mean_predicted_best_iou = (0.3333 + 0.3333) / 2 = 0.3333`
 
+  ### Record-level `best_iou`
+
+  For a single record, `best_iou` is the highest IoU among all target-predicted interval pairs.
+
+  In this miniature dataset:
+
+  - r1 pairwise IoUs peak at `0.4`, so `best_iou = 0.4`
+  - r2 pairwise IoUs peak at `1.0`, so `best_iou = 1.0`
+  - r3 pairwise IoUs peak at `0.3333`, so `best_iou = 0.3333`
+
+  ### Aggregate `avg_best_iou`
+
+  Per-record `best_iou` values:
+
+  - r1: `0.4`
+  - r2: `1.0`
+  - r3: `0.3333`
+
+  So:
+
+  $$
+  avg\_best\_iou = \frac{0.4 + 1.0 + 0.3333}{3} \approx 0.5778
+  $$
+
 ### Aggregate over the miniature dataset
 
 Per-record `mean_target_best_iou` values:
@@ -228,6 +252,134 @@ $$
 avg\_recall = \frac{8}{20} = 0.4
 $$
 
+
+## Recall@IoU — Explanation with Edge Cases
+
+### Basic Recall Context
+
+Let’s say:
+- 100 real objects in images  
+- Model detects 80 objects  
+- Out of those, 70 have IoU ≥ 0.5  
+
+Then:
+- Recall@0.5 = 70 / 100 = 0.70 (70%)
+
+---
+
+## Important Clarification
+
+Recall is **NOT**:
+
+> number of matching predictions / number of targets
+
+Recall is:
+
+> number of *matched ground-truth objects* / total ground-truth objects
+
+---
+
+## Key Rule (Critical)
+
+In object detection:
+
+> Each ground-truth object can be matched to **at most ONE prediction** (typically the one with the highest IoU).
+
+This is called **one-to-one matching**.
+
+- Extra predictions overlapping the same target are **ignored for recall**
+- They count as **false positives** (affect precision, not recall)
+
+---
+
+## Case 1
+
+**Scenario:**
+- 1 target interval  
+- 5 predicted segments inside it  
+- All have IoU ≥ 0.5  
+
+**What happens:**
+- Only **1 prediction** is matched to the target  
+- The other 4 are duplicates  
+
+**Result:**
+- True Positives = 1  
+- Total Ground Truth = 1  
+
+Recall@0.5 = 1 / 1 = **1.0**
+
+✅ Recall = **1.0**  
+❌ Not 5 / 1  
+
+---
+
+## Case 2
+
+**Scenario:**
+- 2 target intervals (A and B)  
+- 2 predicted segments  
+- Both predictions overlap only target A (IoU ≥ 0.5)  
+- Target B is not detected  
+
+**What happens:**
+- Only **1 prediction** can match target A  
+- The second prediction is a duplicate  
+- Target B remains unmatched  
+
+**Result:**
+- True Positives = 1  
+- Total Ground Truth = 2  
+
+Recall@0.5 = 1 / 2 = **0.5**
+
+✅ Recall = **0.5**  
+❌ Not 2 / 2 = 1  
+
+---
+
+## Intuition
+
+Recall answers:
+
+> “How many *unique real objects* did I successfully detect?”
+
+NOT:
+
+> “How many predictions look correct?”
+
+---
+
+## Why This Rule Exists
+
+Without one-to-one matching:
+- A model could produce many overlapping predictions for a single object  
+- This would artificially inflate recall  
+
+---
+
+## Summary
+
+| Scenario | Recall |
+|--------|--------|
+| 1 target, 5 overlapping predictions | 1.0 |
+| 2 targets, both predictions hit same target | 0.5 |
+
+### `avg_overlap_anywhere_recall`
+The average recall across evaluated records using a loose overlap-anywhere rule.
+
+A target interval gets credit even if at least one predicted interval has IoU `> 0.0` with it.
+
+This is the project’s overlap-anywhere test and is separate from the configurable `recall_iou_threshold`.
+
+Example:
+
+- If 8 out of 20 records have overlap-anywhere recall `1.0` and 12 have `0.0`, then:
+
+$$
+avg\_overlap\_anywhere\_recall = \frac{8}{20} = 0.4
+$$
+
 ### `avg_temporal_set_iou`
 The average of per-record `temporal_set_iou` values.
 
@@ -281,6 +433,11 @@ This is useful for estimating compute cost and throughput.
 The average processing time per evaluated record.
 
 This is the throughput view of the same runtime information.
+
+### `total_predicted_total_duration_seconds`
+The sum of `predicted_total_duration_seconds` across all evaluated records included in the summary.
+
+This tells you the total merged predicted interval length across the selected report scope.
 
 ### `unique_video_count`
 The number of distinct videos represented in the summary.
@@ -457,6 +614,11 @@ Given a threshold like `0.5`:
 
 - If at least one prediction reaches IoU `>= 0.5` with a target interval, the record gets recall `1.0`.
 - Otherwise the record gets recall `0.0`.
+
+The project also reports `overlap_anywhere_recall`, which uses a stricter rule:
+
+- If at least one prediction reaches IoU `> 0.0` with a target interval, the record gets overlap-anywhere recall `1.0`.
+- Otherwise the record gets overlap-anywhere recall `0.0`.
 
 This metric is stricter than average IoU in a different way:
 

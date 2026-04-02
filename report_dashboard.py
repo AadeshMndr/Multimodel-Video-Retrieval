@@ -81,8 +81,10 @@ def flatten_path_summary(summary: dict[str, Any]) -> list[dict[str, Any]]:
                 "prompt_count": path_summary.get("prompt_count", 0),
                 "avg_best_iou": path_summary.get("avg_best_iou", 0.0),
                 "avg_recall": path_summary.get("avg_recall", 0.0),
+                "avg_overlap_anywhere_recall": path_summary.get("avg_overlap_anywhere_recall", 0.0),
                 "avg_processing_seconds": path_summary.get("avg_processing_seconds", 0.0),
                 "total_processing_seconds": path_summary.get("total_processing_seconds", 0.0),
+                "total_predicted_total_duration_seconds": path_summary.get("total_predicted_total_duration_seconds", 0.0),
             }
         )
     return rows
@@ -99,7 +101,9 @@ def flatten_combo_summary(summary: dict[str, Any]) -> list[dict[str, Any]]:
                 "prompt_count": combo_summary.get("prompt_count", 0),
                 "avg_best_iou": combo_summary.get("avg_best_iou", 0.0),
                 "avg_recall": combo_summary.get("avg_recall", 0.0),
+                "avg_overlap_anywhere_recall": combo_summary.get("avg_overlap_anywhere_recall", 0.0),
                 "avg_processing_seconds": combo_summary.get("avg_processing_seconds", 0.0),
+                "total_predicted_total_duration_seconds": combo_summary.get("total_predicted_total_duration_seconds", 0.0),
                 "CLIP_THRESHOLD": hyperparameters.get("CLIP_THRESHOLD"),
                 "XCLIP_THRESHOLD": hyperparameters.get("XCLIP_THRESHOLD"),
                 "YOLO_MIN_THRESHOLD": hyperparameters.get("YOLO_MIN_THRESHOLD"),
@@ -124,10 +128,13 @@ def flatten_prompt_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 "prompt_id": row.get("prompt_id"),
                 "path_taken": row.get("path_taken"),
                 "prompt": row.get("prompt"),
+                "target_timestamps": row.get("target_timestamps", []),
+                "predicted_timestamps": row.get("predicted_timestamps", []),
                 "best_iou": iou.get("best_iou", 0.0),
                 "mean_target_best_iou": iou.get("mean_target_best_iou", 0.0),
                 "mean_predicted_best_iou": iou.get("mean_predicted_best_iou", 0.0),
                 "recall": iou.get("recall", 0.0),
+                "overlap_anywhere_recall": iou.get("overlap_anywhere_recall", 0.0),
                 "temporal_set_iou": iou.get("temporal_set_iou", 0.0),
                 "overlap_over_max": iou.get("overlap_over_max", 0.0),
                 "duration_precision": iou.get("duration_precision", 0.0),
@@ -242,20 +249,25 @@ metrics = [
     ("Prompt count", active_summary.get("prompt_count", 0)),
     ("Avg best IoU", round(active_summary.get("avg_best_iou", 0.0), 4)),
     ("Avg recall", round(active_summary.get("avg_recall", 0.0), 4)),
+    ("Avg overlap-anywhere recall", round(active_summary.get("avg_overlap_anywhere_recall", 0.0), 4)),
     ("Avg temporal set IoU", round(active_summary.get("avg_temporal_set_iou", 0.0), 4)),
     ("Avg overlap/max", round(active_summary.get("avg_overlap_over_max", 0.0), 4)),
+    ("Total merged predicted s", round(active_summary.get("total_predicted_total_duration_seconds", 0.0), 2)),
     ("Total processing s", round(active_summary.get("total_processing_seconds", 0.0), 2)),
     ("Avg processing s", round(active_summary.get("avg_processing_seconds", 0.0), 2)),
     ("Avg duration precision", round(active_summary.get("avg_duration_precision", 0.0), 4)),
     ("Avg duration recall", round(active_summary.get("avg_duration_recall", 0.0), 4)),
 ]
-cols = st.columns(len(metrics))
-for col, (label, value) in zip(cols, metrics):
-    with col:
-        st.markdown('<div class="metric-card">', unsafe_allow_html=True)
-        st.markdown(f'<div class="section-label">{label}</div>', unsafe_allow_html=True)
-        st.markdown(f"<div style='font-size: 1.8rem; font-weight: 700;'>{value}</div>", unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+metrics_per_row = 4
+for start_index in range(0, len(metrics), metrics_per_row):
+    chunk = metrics[start_index : start_index + metrics_per_row]
+    cols = st.columns(len(chunk))
+    for col, (label, value) in zip(cols, chunk):
+        with col:
+            st.markdown('<div class="metric-card">', unsafe_allow_html=True)
+            st.markdown(f'<div class="section-label">{label}</div>', unsafe_allow_html=True)
+            st.markdown(f"<div style='font-size: 1.5rem; font-weight: 700;'>{value}</div>", unsafe_allow_html=True)
+            st.markdown('</div>', unsafe_allow_html=True)
 
 st.write("")
 left_col, right_col = st.columns([1.15, 0.85])
@@ -312,10 +324,12 @@ if results_df:
         "path_taken",
         "best_iou",
         "recall",
+        "overlap_anywhere_recall",
         "temporal_set_iou",
         "overlap_over_max",
         "duration_precision",
         "duration_recall",
+        "predicted_total_duration_seconds",
         "processing_seconds",
         "matched_frames_count",
         "modified_prompt_count",
@@ -357,7 +371,7 @@ if combo_rows:
     combo_df = combo_rows
     metric_choice = st.selectbox(
         "Sort combos by",
-        ["avg_best_iou", "avg_recall", "avg_processing_seconds", "prompt_count"],
+        ["avg_best_iou", "avg_recall", "avg_overlap_anywhere_recall", "avg_processing_seconds", "prompt_count"],
         index=0,
     )
     combo_df = sorted(combo_df, key=lambda row: float(row.get(metric_choice, 0.0)), reverse=(metric_choice != "avg_processing_seconds"))
@@ -400,7 +414,9 @@ if combo_rows:
                     "prompt_count": selected_combo.get("prompt_count"),
                     "avg_best_iou": selected_combo.get("avg_best_iou"),
                     "avg_recall": selected_combo.get("avg_recall"),
+                    "avg_overlap_anywhere_recall": selected_combo.get("avg_overlap_anywhere_recall"),
                     "avg_processing_seconds": selected_combo.get("avg_processing_seconds"),
+                    "total_predicted_total_duration_seconds": selected_combo.get("total_predicted_total_duration_seconds"),
                 }
             )
         with combo_right:
@@ -464,6 +480,7 @@ if video_runs:
                         "mean_target_best_iou": row.get("mean_target_best_iou"),
                         "mean_predicted_best_iou": row.get("mean_predicted_best_iou"),
                         "recall": row.get("recall"),
+                        "overlap_anywhere_recall": row.get("overlap_anywhere_recall"),
                         "temporal_set_iou": row.get("temporal_set_iou"),
                         "overlap_over_max": row.get("overlap_over_max"),
                         "duration_precision": row.get("duration_precision"),

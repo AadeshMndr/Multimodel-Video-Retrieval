@@ -9,6 +9,7 @@ Use `scripts/evaluate_retrieval.py` to batch-evaluate prompt-to-timestamp retrie
 - Runs the existing retrieval workflow per prompt.
 - Compares predicted timestamps vs target timestamps using interval IoU.
 - Computes recall per prompt as `recall@IoU>=0.5` (fraction of target intervals matched by at least one prediction).
+- Also computes `overlap_anywhere_recall`, a strict `IoU > 0.0` overlap-anywhere test.
 - Captures video duration and per-prompt processing time.
 - Writes:
   - **Per-run detailed reports** (including path chosen and route scores)
@@ -129,6 +130,8 @@ By default, this **does not create output clip videos**.
 
 By default, recall is computed as `recall@IoU>=0.5`.
 
+The reports also include `overlap_anywhere_recall`, which counts a target as found only when at least one predicted interval overlaps it with IoU `> 0.0`.
+
 To change the recall IoU threshold, add:
 
 ```bash
@@ -179,6 +182,8 @@ Added summary fields:
 - `video_duration_seconds` per prompt record and per-video report.
 - `processing_seconds` per prompt record.
 - `total_processing_seconds` and `avg_processing_seconds` in summary sections.
+- `overlap_anywhere_recall` per prompt record and `avg_overlap_anywhere_recall` in summary sections.
+- `total_predicted_total_duration_seconds` in summary sections, representing the sum of merged predicted interval lengths across the summary scope.
 - `summary_by_path` in run summary, per-video reports, and cumulative summary.
 
 ## Dedup behavior across runs
