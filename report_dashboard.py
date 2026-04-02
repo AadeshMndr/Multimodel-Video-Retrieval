@@ -337,18 +337,48 @@ if results_df:
     ]
     st.dataframe(results_df, use_container_width=True, hide_index=True, column_order=table_cols)
 
+    axis_options = [
+        "processing_seconds",
+        "best_iou",
+        "recall",
+        "overlap_anywhere_recall",
+        "temporal_set_iou",
+        "overlap_over_max",
+        "duration_precision",
+        "duration_recall",
+        "predicted_total_duration_seconds",
+        "target_total_duration_seconds",
+        "matched_frames_count",
+        "modified_prompt_count",
+    ]
+    axis_left, axis_right = st.columns(2)
+    with axis_left:
+        scatter_x_axis = st.selectbox(
+            "Scatter X-axis",
+            axis_options,
+            index=axis_options.index("processing_seconds"),
+            key="prompt_scatter_x_axis",
+        )
+    with axis_right:
+        scatter_y_axis = st.selectbox(
+            "Scatter Y-axis",
+            axis_options,
+            index=axis_options.index("best_iou"),
+            key="prompt_scatter_y_axis",
+        )
+
     plot_col1, plot_col2 = st.columns(2)
     with plot_col1:
         scatter = px.scatter(
             results_df,
-            x="processing_seconds",
-            y="best_iou",
+            x=scatter_x_axis,
+            y=scatter_y_axis,
             color="path_taken",
             hover_data=["video", "prompt_id", "hyperparameter_combo_key", "prompt"],
             color_discrete_map=PATH_COLORS,
-            title="Processing time vs best IoU",
+            title=f"{scatter_x_axis} vs {scatter_y_axis}",
         )
-        scatter.update_layout(xaxis_title="Processing seconds", yaxis_title="Best IoU")
+        scatter.update_layout(xaxis_title=scatter_x_axis, yaxis_title=scatter_y_axis)
         st.plotly_chart(scatter, use_container_width=True)
     with plot_col2:
         timeline_df = sorted(results_df, key=lambda row: row.get("evaluated_at_utc") or "")
