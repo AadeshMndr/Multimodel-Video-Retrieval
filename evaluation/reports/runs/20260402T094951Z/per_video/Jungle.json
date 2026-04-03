@@ -1,0 +1,1639 @@
+{
+  "video": "Jungle.mp4",
+  "video_duration_seconds": 303.295,
+  "summary": {
+    "prompt_count": 6,
+    "avg_best_iou": 0.3887851037851038,
+    "avg_mean_target_best_iou": 0.33048445019033257,
+    "avg_mean_predicted_best_iou": 0.23759571691924633,
+    "avg_recall": 0.0,
+    "avg_overlap_anywhere_recall": 1.0,
+    "avg_temporal_set_iou": 0.47741694458112366,
+    "avg_overlap_over_max": 0.5244840285162865,
+    "avg_duration_precision": 0.5994840285162866,
+    "avg_duration_recall": 0.7638888888888888,
+    "total_processing_seconds": 200.78502887496143,
+    "avg_processing_seconds": 33.464171479160235,
+    "total_predicted_total_duration_seconds": 168.0,
+    "unique_video_count": 1,
+    "unique_video_duration_seconds_total": 303.295,
+    "recall_iou_threshold": 0.5,
+    "path_counts": {
+      "clip": 2,
+      "yolo": 2,
+      "xclip": 2
+    }
+  },
+  "summary_by_path": [
+    {
+      "path_taken": "clip",
+      "summary": {
+        "prompt_count": 2,
+        "avg_best_iou": 0.375,
+        "avg_mean_target_best_iou": 0.375,
+        "avg_mean_predicted_best_iou": 0.1875,
+        "avg_recall": 0.0,
+        "avg_overlap_anywhere_recall": 1.0,
+        "avg_temporal_set_iou": 0.3,
+        "avg_overlap_over_max": 0.375,
+        "avg_duration_precision": 0.6,
+        "avg_duration_recall": 0.375,
+        "total_processing_seconds": 68.00315879099071,
+        "avg_processing_seconds": 34.001579395495355,
+        "total_predicted_total_duration_seconds": 10.0,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 303.295,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "clip": 2
+        }
+      }
+    },
+    {
+      "path_taken": "xclip",
+      "summary": {
+        "prompt_count": 2,
+        "avg_best_iou": 0.31135531135531136,
+        "avg_mean_target_best_iou": 0.31135531135531136,
+        "avg_mean_predicted_best_iou": 0.31135531135531136,
+        "avg_recall": 0.0,
+        "avg_overlap_anywhere_recall": 1.0,
+        "avg_temporal_set_iou": 0.31135531135531136,
+        "avg_overlap_over_max": 0.31135531135531136,
+        "avg_duration_precision": 0.31135531135531136,
+        "avg_duration_recall": 1.0,
+        "total_processing_seconds": 68.51886829198338,
+        "avg_processing_seconds": 34.25943414599169,
+        "total_predicted_total_duration_seconds": 34.0,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 303.295,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "xclip": 2
+        }
+      }
+    },
+    {
+      "path_taken": "yolo",
+      "summary": {
+        "prompt_count": 2,
+        "avg_best_iou": 0.48,
+        "avg_mean_target_best_iou": 0.3050980392156863,
+        "avg_mean_predicted_best_iou": 0.21393183940242763,
+        "avg_recall": 0.0,
+        "avg_overlap_anywhere_recall": 1.0,
+        "avg_temporal_set_iou": 0.8208955223880597,
+        "avg_overlap_over_max": 0.8870967741935484,
+        "avg_duration_precision": 0.8870967741935484,
+        "avg_duration_recall": 0.9166666666666666,
+        "total_processing_seconds": 64.26300179198734,
+        "avg_processing_seconds": 32.13150089599367,
+        "total_predicted_total_duration_seconds": 124.0,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 303.295,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "yolo": 2
+        }
+      }
+    }
+  ],
+  "summary_by_hyperparameter_combo": [
+    {
+      "hyperparameter_combo_key": "49805e3c3562bfa03711f77ff79c0f9d73fd28cd",
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.21,
+          0.192,
+          0.175
+        ],
+        "CLIP_THRESHOLD": 0.192,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 15,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 40,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 3,
+        "PHASH_SIMILARITY_THRESHOLD": 8,
+        "VIDEO_SAMPLING_RATE": 20,
+        "XCLIP_MERGE_GAP_SECONDS": 1.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.32,
+          0.29,
+          0.265,
+          0.26,
+          0.24,
+          0.23
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.4,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.7,
+        "YOLO_MIN_THRESHOLD": 0.15,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.5,
+          0.35,
+          0.25,
+          0.19
+        ]
+      },
+      "summary": {
+        "prompt_count": 3,
+        "avg_best_iou": 0.41320512820512817,
+        "avg_mean_target_best_iou": 0.35490447461035696,
+        "avg_mean_predicted_best_iou": 0.2582625511743159,
+        "avg_recall": 0.0,
+        "avg_overlap_anywhere_recall": 1.0,
+        "avg_temporal_set_iou": 0.5018369690011482,
+        "avg_overlap_over_max": 0.5489040529363111,
+        "avg_duration_precision": 0.623904052936311,
+        "avg_duration_recall": 0.7638888888888888,
+        "total_processing_seconds": 98.25347887497628,
+        "avg_processing_seconds": 32.75115962499209,
+        "total_predicted_total_duration_seconds": 80.0,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 303.295,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "clip": 1,
+          "yolo": 1,
+          "xclip": 1
+        }
+      }
+    },
+    {
+      "hyperparameter_combo_key": "61fb2c3ee163031c68bd4b9fd0639372552d44e8",
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.23,
+          0.21,
+          0.192
+        ],
+        "CLIP_THRESHOLD": 0.192,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 20,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 40,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 7,
+        "PHASH_SIMILARITY_THRESHOLD": 10,
+        "VIDEO_SAMPLING_RATE": 15,
+        "XCLIP_MERGE_GAP_SECONDS": 2.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.32,
+          0.29,
+          0.265,
+          0.26,
+          0.24,
+          0.23
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.31,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.6,
+        "YOLO_MIN_THRESHOLD": 0.05,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.55,
+          0.4,
+          0.3,
+          0.2
+        ]
+      },
+      "summary": {
+        "prompt_count": 3,
+        "avg_best_iou": 0.3643650793650794,
+        "avg_mean_target_best_iou": 0.3060644257703081,
+        "avg_mean_predicted_best_iou": 0.2169288826641768,
+        "avg_recall": 0.0,
+        "avg_overlap_anywhere_recall": 1.0,
+        "avg_temporal_set_iou": 0.45299692016109927,
+        "avg_overlap_over_max": 0.5000640040962622,
+        "avg_duration_precision": 0.5750640040962621,
+        "avg_duration_recall": 0.7638888888888888,
+        "total_processing_seconds": 102.53154999998515,
+        "avg_processing_seconds": 34.17718333332838,
+        "total_predicted_total_duration_seconds": 88.0,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 303.295,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "clip": 1,
+          "yolo": 1,
+          "xclip": 1
+        }
+      }
+    }
+  ],
+  "prompt_results": [
+    {
+      "sample_key": "cb1f8f0a23d333dd7afc15fd55533d3a3c82eba7",
+      "evaluated_at_utc": "2026-04-02T09:50:24.740450+00:00",
+      "video": "Jungle.mp4",
+      "video_path": "evaluation/test_videos/Jungle.mp4",
+      "video_duration_seconds": 303.295,
+      "processing_seconds": 32.99541966599645,
+      "label_file": "evaluation/test_labels/Jungle.json",
+      "prompt_id": "p1",
+      "prompt": "Find me clip where an advertisement in youtube is shown (use clip)",
+      "path_taken": "clip",
+      "target_timestamps": [
+        [
+          139,
+          147
+        ]
+      ],
+      "predicted_timestamps": [
+        [
+          143,
+          146
+        ],
+        [
+          147,
+          149
+        ]
+      ],
+      "iou": {
+        "best_iou": 0.375,
+        "mean_target_best_iou": 0.375,
+        "mean_predicted_best_iou": 0.1875,
+        "recall": 0.0,
+        "overlap_anywhere_recall": 1.0,
+        "temporal_set_iou": 0.3,
+        "overlap_over_max": 0.375,
+        "duration_precision": 0.6,
+        "duration_recall": 0.375,
+        "overlap_duration_seconds": 3.0,
+        "predicted_total_duration_seconds": 5.0,
+        "target_total_duration_seconds": 8.0,
+        "recall_iou_threshold": 0.5,
+        "pairwise_ious": [
+          {
+            "target": [
+              139,
+              147
+            ],
+            "predicted": [
+              143,
+              146
+            ],
+            "iou": 0.375
+          },
+          {
+            "target": [
+              139,
+              147
+            ],
+            "predicted": [
+              147,
+              149
+            ],
+            "iou": 0.0
+          }
+        ]
+      },
+      "route_details": {
+        "path": "clip",
+        "modified_prompts": [
+          "Advertisement on YouTube",
+          "YouTube ad",
+          "Ad on YouTube",
+          "YouTube advertisement",
+          "Show advertisement on YouTube",
+          "Advertisements in YouTube videos",
+          "YouTube video ad"
+        ],
+        "score_stats": {},
+        "reassessment_count": 0,
+        "matched_frame_count": 4
+      },
+      "matched_frames_count": 4,
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.23,
+          0.21,
+          0.192
+        ],
+        "CLIP_THRESHOLD": 0.192,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 20,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 40,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 7,
+        "PHASH_SIMILARITY_THRESHOLD": 10,
+        "VIDEO_SAMPLING_RATE": 15,
+        "XCLIP_MERGE_GAP_SECONDS": 2.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.32,
+          0.29,
+          0.265,
+          0.26,
+          0.24,
+          0.23
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.31,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.6,
+        "YOLO_MIN_THRESHOLD": 0.05,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.55,
+          0.4,
+          0.3,
+          0.2
+        ]
+      },
+      "hyperparameter_combo_key": "61fb2c3ee163031c68bd4b9fd0639372552d44e8",
+      "hyperparameter_combo_index": 16
+    },
+    {
+      "sample_key": "ae090e89d22a701aed0470f16303ca1ac5aa852c",
+      "evaluated_at_utc": "2026-04-02T09:50:56.187234+00:00",
+      "video": "Jungle.mp4",
+      "video_path": "evaluation/test_videos/Jungle.mp4",
+      "video_duration_seconds": 303.295,
+      "processing_seconds": 31.44609149999451,
+      "label_file": "evaluation/test_labels/Jungle.json",
+      "prompt_id": "p2",
+      "prompt": "Find me clips where 2 person are talking (use yolo)",
+      "path_taken": "yolo",
+      "target_timestamps": [
+        [
+          58,
+          92
+        ],
+        [
+          107,
+          108
+        ],
+        [
+          148,
+          173
+        ]
+      ],
+      "predicted_timestamps": [
+        [
+          58,
+          66
+        ],
+        [
+          67,
+          72
+        ],
+        [
+          73,
+          77
+        ],
+        [
+          78,
+          86
+        ],
+        [
+          86,
+          93
+        ],
+        [
+          105,
+          110
+        ],
+        [
+          143,
+          145
+        ],
+        [
+          148,
+          159
+        ],
+        [
+          161,
+          173
+        ]
+      ],
+      "iou": {
+        "best_iou": 0.48,
+        "mean_target_best_iou": 0.3050980392156863,
+        "mean_predicted_best_iou": 0.22519140989729225,
+        "recall": 0.0,
+        "overlap_anywhere_recall": 1.0,
+        "temporal_set_iou": 0.8208955223880597,
+        "overlap_over_max": 0.8870967741935484,
+        "duration_precision": 0.8870967741935484,
+        "duration_recall": 0.9166666666666666,
+        "overlap_duration_seconds": 55.0,
+        "predicted_total_duration_seconds": 62.0,
+        "target_total_duration_seconds": 60.0,
+        "recall_iou_threshold": 0.5,
+        "pairwise_ious": [
+          {
+            "target": [
+              58,
+              92
+            ],
+            "predicted": [
+              58,
+              66
+            ],
+            "iou": 0.23529411764705882
+          },
+          {
+            "target": [
+              58,
+              92
+            ],
+            "predicted": [
+              67,
+              72
+            ],
+            "iou": 0.14705882352941177
+          },
+          {
+            "target": [
+              58,
+              92
+            ],
+            "predicted": [
+              73,
+              77
+            ],
+            "iou": 0.11764705882352941
+          },
+          {
+            "target": [
+              58,
+              92
+            ],
+            "predicted": [
+              78,
+              86
+            ],
+            "iou": 0.23529411764705882
+          },
+          {
+            "target": [
+              58,
+              92
+            ],
+            "predicted": [
+              86,
+              93
+            ],
+            "iou": 0.17142857142857143
+          },
+          {
+            "target": [
+              58,
+              92
+            ],
+            "predicted": [
+              105,
+              110
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              58,
+              92
+            ],
+            "predicted": [
+              143,
+              145
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              58,
+              92
+            ],
+            "predicted": [
+              148,
+              159
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              58,
+              92
+            ],
+            "predicted": [
+              161,
+              173
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              107,
+              108
+            ],
+            "predicted": [
+              58,
+              66
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              107,
+              108
+            ],
+            "predicted": [
+              67,
+              72
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              107,
+              108
+            ],
+            "predicted": [
+              73,
+              77
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              107,
+              108
+            ],
+            "predicted": [
+              78,
+              86
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              107,
+              108
+            ],
+            "predicted": [
+              86,
+              93
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              107,
+              108
+            ],
+            "predicted": [
+              105,
+              110
+            ],
+            "iou": 0.2
+          },
+          {
+            "target": [
+              107,
+              108
+            ],
+            "predicted": [
+              143,
+              145
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              107,
+              108
+            ],
+            "predicted": [
+              148,
+              159
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              107,
+              108
+            ],
+            "predicted": [
+              161,
+              173
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              148,
+              173
+            ],
+            "predicted": [
+              58,
+              66
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              148,
+              173
+            ],
+            "predicted": [
+              67,
+              72
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              148,
+              173
+            ],
+            "predicted": [
+              73,
+              77
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              148,
+              173
+            ],
+            "predicted": [
+              78,
+              86
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              148,
+              173
+            ],
+            "predicted": [
+              86,
+              93
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              148,
+              173
+            ],
+            "predicted": [
+              105,
+              110
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              148,
+              173
+            ],
+            "predicted": [
+              143,
+              145
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              148,
+              173
+            ],
+            "predicted": [
+              148,
+              159
+            ],
+            "iou": 0.44
+          },
+          {
+            "target": [
+              148,
+              173
+            ],
+            "predicted": [
+              161,
+              173
+            ],
+            "iou": 0.48
+          }
+        ]
+      },
+      "route_details": {
+        "path": "yolo",
+        "canonical_form": "POS",
+        "object_groups": [
+          [
+            "person",
+            "man",
+            "woman",
+            "boy",
+            "girl",
+            "human"
+          ]
+        ],
+        "object_details": {
+          "person": [
+            2.0,
+            2.0
+          ],
+          "man": [
+            2.0,
+            2.0
+          ],
+          "woman": [
+            2.0,
+            2.0
+          ],
+          "boy": [
+            2.0,
+            2.0
+          ],
+          "girl": [
+            2.0,
+            2.0
+          ],
+          "human": [
+            2.0,
+            2.0
+          ]
+        },
+        "score_stats": {},
+        "reassessment_count": 0,
+        "matched_frame_count": 61
+      },
+      "matched_frames_count": 61,
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.23,
+          0.21,
+          0.192
+        ],
+        "CLIP_THRESHOLD": 0.192,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 20,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 40,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 7,
+        "PHASH_SIMILARITY_THRESHOLD": 10,
+        "VIDEO_SAMPLING_RATE": 15,
+        "XCLIP_MERGE_GAP_SECONDS": 2.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.32,
+          0.29,
+          0.265,
+          0.26,
+          0.24,
+          0.23
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.31,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.6,
+        "YOLO_MIN_THRESHOLD": 0.05,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.55,
+          0.4,
+          0.3,
+          0.2
+        ]
+      },
+      "hyperparameter_combo_key": "61fb2c3ee163031c68bd4b9fd0639372552d44e8",
+      "hyperparameter_combo_index": 16
+    },
+    {
+      "sample_key": "f763f0620566dfa481c82549c53162cbeefc029c",
+      "evaluated_at_utc": "2026-04-02T09:51:34.277994+00:00",
+      "video": "Jungle.mp4",
+      "video_path": "evaluation/test_videos/Jungle.mp4",
+      "video_duration_seconds": 303.295,
+      "processing_seconds": 38.090038833994186,
+      "label_file": "evaluation/test_labels/Jungle.json",
+      "prompt_id": "p3",
+      "prompt": "find me clips of a person replacing a battery in a camera trap. (use xclip)",
+      "path_taken": "xclip",
+      "target_timestamps": [
+        [
+          20,
+          25
+        ]
+      ],
+      "predicted_timestamps": [
+        [
+          13,
+          34
+        ]
+      ],
+      "iou": {
+        "best_iou": 0.23809523809523808,
+        "mean_target_best_iou": 0.23809523809523808,
+        "mean_predicted_best_iou": 0.23809523809523808,
+        "recall": 0.0,
+        "overlap_anywhere_recall": 1.0,
+        "temporal_set_iou": 0.23809523809523808,
+        "overlap_over_max": 0.23809523809523808,
+        "duration_precision": 0.23809523809523808,
+        "duration_recall": 1.0,
+        "overlap_duration_seconds": 5.0,
+        "predicted_total_duration_seconds": 21.0,
+        "target_total_duration_seconds": 5.0,
+        "recall_iou_threshold": 0.5,
+        "pairwise_ious": [
+          {
+            "target": [
+              20,
+              25
+            ],
+            "predicted": [
+              13,
+              34
+            ],
+            "iou": 0.23809523809523808
+          }
+        ]
+      },
+      "route_details": {
+        "path": "xclip",
+        "modified_prompts": [
+          "a person replacing a battery in a camera trap",
+          "person replacing battery in camera trap",
+          "replacing a battery in a camera trap",
+          "someone replacing a battery in a camera trap",
+          "a person changing a battery in a camera trap",
+          "replacing battery in camera trap",
+          "person changing battery in camera trap"
+        ],
+        "score_stats": {
+          "window_count": 77,
+          "matched_window_count": 5,
+          "mean": 0.2629317302595485,
+          "median": 0.2624065577983856,
+          "max": 0.3579319417476654,
+          "min": 0.182488352060318,
+          "cache_hit": false,
+          "used_threshold": 0.31
+        },
+        "matched_frame_count": 1,
+        "temporal_analysis": true,
+        "frame_source": "reduced",
+        "window_score_count": 77,
+        "window_scores": [],
+        "window_scores_truncated": false
+      },
+      "matched_frames_count": 1,
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.23,
+          0.21,
+          0.192
+        ],
+        "CLIP_THRESHOLD": 0.192,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 20,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 40,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 7,
+        "PHASH_SIMILARITY_THRESHOLD": 10,
+        "VIDEO_SAMPLING_RATE": 15,
+        "XCLIP_MERGE_GAP_SECONDS": 2.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.32,
+          0.29,
+          0.265,
+          0.26,
+          0.24,
+          0.23
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.31,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.6,
+        "YOLO_MIN_THRESHOLD": 0.05,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.55,
+          0.4,
+          0.3,
+          0.2
+        ]
+      },
+      "hyperparameter_combo_key": "61fb2c3ee163031c68bd4b9fd0639372552d44e8",
+      "hyperparameter_combo_index": 16
+    },
+    {
+      "sample_key": "b9726acd783f72f3bf1cd2637aee27997a31e139",
+      "evaluated_at_utc": "2026-04-02T09:54:49.198509+00:00",
+      "video": "Jungle.mp4",
+      "video_path": "evaluation/test_videos/Jungle.mp4",
+      "video_duration_seconds": 303.295,
+      "processing_seconds": 35.00773912499426,
+      "label_file": "evaluation/test_labels/Jungle.json",
+      "prompt_id": "p1",
+      "prompt": "Find me clip where an advertisement in youtube is shown (use clip)",
+      "path_taken": "clip",
+      "target_timestamps": [
+        [
+          139,
+          147
+        ]
+      ],
+      "predicted_timestamps": [
+        [
+          143,
+          146
+        ],
+        [
+          147,
+          149
+        ]
+      ],
+      "iou": {
+        "best_iou": 0.375,
+        "mean_target_best_iou": 0.375,
+        "mean_predicted_best_iou": 0.1875,
+        "recall": 0.0,
+        "overlap_anywhere_recall": 1.0,
+        "temporal_set_iou": 0.3,
+        "overlap_over_max": 0.375,
+        "duration_precision": 0.6,
+        "duration_recall": 0.375,
+        "overlap_duration_seconds": 3.0,
+        "predicted_total_duration_seconds": 5.0,
+        "target_total_duration_seconds": 8.0,
+        "recall_iou_threshold": 0.5,
+        "pairwise_ious": [
+          {
+            "target": [
+              139,
+              147
+            ],
+            "predicted": [
+              143,
+              146
+            ],
+            "iou": 0.375
+          },
+          {
+            "target": [
+              139,
+              147
+            ],
+            "predicted": [
+              147,
+              149
+            ],
+            "iou": 0.0
+          }
+        ]
+      },
+      "route_details": {
+        "path": "clip",
+        "modified_prompts": [
+          "Advertisement on YouTube",
+          "YouTube ad",
+          "Advertisement in a YouTube video"
+        ],
+        "score_stats": {},
+        "reassessment_count": 0,
+        "matched_frame_count": 4
+      },
+      "matched_frames_count": 4,
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.21,
+          0.192,
+          0.175
+        ],
+        "CLIP_THRESHOLD": 0.192,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 15,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 40,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 3,
+        "PHASH_SIMILARITY_THRESHOLD": 8,
+        "VIDEO_SAMPLING_RATE": 20,
+        "XCLIP_MERGE_GAP_SECONDS": 1.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.32,
+          0.29,
+          0.265,
+          0.26,
+          0.24,
+          0.23
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.4,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.7,
+        "YOLO_MIN_THRESHOLD": 0.15,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.5,
+          0.35,
+          0.25,
+          0.19
+        ]
+      },
+      "hyperparameter_combo_key": "49805e3c3562bfa03711f77ff79c0f9d73fd28cd",
+      "hyperparameter_combo_index": 17
+    },
+    {
+      "sample_key": "c73131ad4fc05436559cda70da89b0f4a82522e0",
+      "evaluated_at_utc": "2026-04-02T09:55:22.016072+00:00",
+      "video": "Jungle.mp4",
+      "video_path": "evaluation/test_videos/Jungle.mp4",
+      "video_duration_seconds": 303.295,
+      "processing_seconds": 32.816910291992826,
+      "label_file": "evaluation/test_labels/Jungle.json",
+      "prompt_id": "p2",
+      "prompt": "Find me clips where 2 person are talking (use yolo)",
+      "path_taken": "yolo",
+      "target_timestamps": [
+        [
+          58,
+          92
+        ],
+        [
+          107,
+          108
+        ],
+        [
+          148,
+          173
+        ]
+      ],
+      "predicted_timestamps": [
+        [
+          58,
+          66
+        ],
+        [
+          67,
+          70
+        ],
+        [
+          70,
+          72
+        ],
+        [
+          73,
+          77
+        ],
+        [
+          78,
+          86
+        ],
+        [
+          86,
+          93
+        ],
+        [
+          105,
+          110
+        ],
+        [
+          143,
+          145
+        ],
+        [
+          148,
+          159
+        ],
+        [
+          161,
+          173
+        ]
+      ],
+      "iou": {
+        "best_iou": 0.48,
+        "mean_target_best_iou": 0.3050980392156863,
+        "mean_predicted_best_iou": 0.202672268907563,
+        "recall": 0.0,
+        "overlap_anywhere_recall": 1.0,
+        "temporal_set_iou": 0.8208955223880597,
+        "overlap_over_max": 0.8870967741935484,
+        "duration_precision": 0.8870967741935484,
+        "duration_recall": 0.9166666666666666,
+        "overlap_duration_seconds": 55.0,
+        "predicted_total_duration_seconds": 62.0,
+        "target_total_duration_seconds": 60.0,
+        "recall_iou_threshold": 0.5,
+        "pairwise_ious": [
+          {
+            "target": [
+              58,
+              92
+            ],
+            "predicted": [
+              58,
+              66
+            ],
+            "iou": 0.23529411764705882
+          },
+          {
+            "target": [
+              58,
+              92
+            ],
+            "predicted": [
+              67,
+              70
+            ],
+            "iou": 0.08823529411764706
+          },
+          {
+            "target": [
+              58,
+              92
+            ],
+            "predicted": [
+              70,
+              72
+            ],
+            "iou": 0.058823529411764705
+          },
+          {
+            "target": [
+              58,
+              92
+            ],
+            "predicted": [
+              73,
+              77
+            ],
+            "iou": 0.11764705882352941
+          },
+          {
+            "target": [
+              58,
+              92
+            ],
+            "predicted": [
+              78,
+              86
+            ],
+            "iou": 0.23529411764705882
+          },
+          {
+            "target": [
+              58,
+              92
+            ],
+            "predicted": [
+              86,
+              93
+            ],
+            "iou": 0.17142857142857143
+          },
+          {
+            "target": [
+              58,
+              92
+            ],
+            "predicted": [
+              105,
+              110
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              58,
+              92
+            ],
+            "predicted": [
+              143,
+              145
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              58,
+              92
+            ],
+            "predicted": [
+              148,
+              159
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              58,
+              92
+            ],
+            "predicted": [
+              161,
+              173
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              107,
+              108
+            ],
+            "predicted": [
+              58,
+              66
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              107,
+              108
+            ],
+            "predicted": [
+              67,
+              70
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              107,
+              108
+            ],
+            "predicted": [
+              70,
+              72
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              107,
+              108
+            ],
+            "predicted": [
+              73,
+              77
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              107,
+              108
+            ],
+            "predicted": [
+              78,
+              86
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              107,
+              108
+            ],
+            "predicted": [
+              86,
+              93
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              107,
+              108
+            ],
+            "predicted": [
+              105,
+              110
+            ],
+            "iou": 0.2
+          },
+          {
+            "target": [
+              107,
+              108
+            ],
+            "predicted": [
+              143,
+              145
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              107,
+              108
+            ],
+            "predicted": [
+              148,
+              159
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              107,
+              108
+            ],
+            "predicted": [
+              161,
+              173
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              148,
+              173
+            ],
+            "predicted": [
+              58,
+              66
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              148,
+              173
+            ],
+            "predicted": [
+              67,
+              70
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              148,
+              173
+            ],
+            "predicted": [
+              70,
+              72
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              148,
+              173
+            ],
+            "predicted": [
+              73,
+              77
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              148,
+              173
+            ],
+            "predicted": [
+              78,
+              86
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              148,
+              173
+            ],
+            "predicted": [
+              86,
+              93
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              148,
+              173
+            ],
+            "predicted": [
+              105,
+              110
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              148,
+              173
+            ],
+            "predicted": [
+              143,
+              145
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              148,
+              173
+            ],
+            "predicted": [
+              148,
+              159
+            ],
+            "iou": 0.44
+          },
+          {
+            "target": [
+              148,
+              173
+            ],
+            "predicted": [
+              161,
+              173
+            ],
+            "iou": 0.48
+          }
+        ]
+      },
+      "route_details": {
+        "path": "yolo",
+        "canonical_form": "POS",
+        "object_groups": [
+          [
+            "person",
+            "man",
+            "woman",
+            "boy",
+            "girl",
+            "human",
+            "adult"
+          ]
+        ],
+        "object_details": {
+          "person": [
+            2.0,
+            2.0
+          ],
+          "man": [
+            2.0,
+            2.0
+          ],
+          "woman": [
+            2.0,
+            2.0
+          ],
+          "boy": [
+            2.0,
+            2.0
+          ],
+          "girl": [
+            2.0,
+            2.0
+          ],
+          "human": [
+            2.0,
+            2.0
+          ],
+          "adult": [
+            2.0,
+            2.0
+          ]
+        },
+        "score_stats": {},
+        "reassessment_count": 0,
+        "matched_frame_count": 57
+      },
+      "matched_frames_count": 57,
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.21,
+          0.192,
+          0.175
+        ],
+        "CLIP_THRESHOLD": 0.192,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 15,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 40,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 3,
+        "PHASH_SIMILARITY_THRESHOLD": 8,
+        "VIDEO_SAMPLING_RATE": 20,
+        "XCLIP_MERGE_GAP_SECONDS": 1.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.32,
+          0.29,
+          0.265,
+          0.26,
+          0.24,
+          0.23
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.4,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.7,
+        "YOLO_MIN_THRESHOLD": 0.15,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.5,
+          0.35,
+          0.25,
+          0.19
+        ]
+      },
+      "hyperparameter_combo_key": "49805e3c3562bfa03711f77ff79c0f9d73fd28cd",
+      "hyperparameter_combo_index": 17
+    },
+    {
+      "sample_key": "4d7005744e8e8f85831dd669e3faffb1ca3b60f4",
+      "evaluated_at_utc": "2026-04-02T09:55:52.445604+00:00",
+      "video": "Jungle.mp4",
+      "video_path": "evaluation/test_videos/Jungle.mp4",
+      "video_duration_seconds": 303.295,
+      "processing_seconds": 30.428829457989195,
+      "label_file": "evaluation/test_labels/Jungle.json",
+      "prompt_id": "p3",
+      "prompt": "find me clips of a person replacing a battery in a camera trap. (use xclip)",
+      "path_taken": "xclip",
+      "target_timestamps": [
+        [
+          20,
+          25
+        ]
+      ],
+      "predicted_timestamps": [
+        [
+          16,
+          29
+        ]
+      ],
+      "iou": {
+        "best_iou": 0.38461538461538464,
+        "mean_target_best_iou": 0.38461538461538464,
+        "mean_predicted_best_iou": 0.38461538461538464,
+        "recall": 0.0,
+        "overlap_anywhere_recall": 1.0,
+        "temporal_set_iou": 0.38461538461538464,
+        "overlap_over_max": 0.38461538461538464,
+        "duration_precision": 0.38461538461538464,
+        "duration_recall": 1.0,
+        "overlap_duration_seconds": 5.0,
+        "predicted_total_duration_seconds": 13.0,
+        "target_total_duration_seconds": 5.0,
+        "recall_iou_threshold": 0.5,
+        "pairwise_ious": [
+          {
+            "target": [
+              20,
+              25
+            ],
+            "predicted": [
+              16,
+              29
+            ],
+            "iou": 0.38461538461538464
+          }
+        ]
+      },
+      "route_details": {
+        "path": "xclip",
+        "modified_prompts": [
+          "Person replacing a battery in a camera trap",
+          "Replacing a battery in a camera trap",
+          "Person changing camera trap battery"
+        ],
+        "score_stats": {
+          "window_count": 96,
+          "matched_window_count": 4,
+          "mean": 0.2555305417627096,
+          "median": 0.2562902718782425,
+          "max": 0.3582035303115845,
+          "min": 0.17666317522525787,
+          "cache_hit": false,
+          "used_threshold": 0.32
+        },
+        "matched_frame_count": 1,
+        "temporal_analysis": true,
+        "frame_source": "reduced",
+        "window_score_count": 96,
+        "window_scores": [],
+        "window_scores_truncated": false
+      },
+      "matched_frames_count": 1,
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.21,
+          0.192,
+          0.175
+        ],
+        "CLIP_THRESHOLD": 0.192,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 15,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 40,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 3,
+        "PHASH_SIMILARITY_THRESHOLD": 8,
+        "VIDEO_SAMPLING_RATE": 20,
+        "XCLIP_MERGE_GAP_SECONDS": 1.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.32,
+          0.29,
+          0.265,
+          0.26,
+          0.24,
+          0.23
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.4,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.7,
+        "YOLO_MIN_THRESHOLD": 0.15,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.5,
+          0.35,
+          0.25,
+          0.19
+        ]
+      },
+      "hyperparameter_combo_key": "49805e3c3562bfa03711f77ff79c0f9d73fd28cd",
+      "hyperparameter_combo_index": 17
+    }
+  ]
+}

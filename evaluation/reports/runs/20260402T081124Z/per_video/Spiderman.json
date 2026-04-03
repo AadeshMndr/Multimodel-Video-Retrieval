@@ -1,0 +1,1695 @@
+{
+  "video": "Spiderman.mp4",
+  "video_duration_seconds": 301.2,
+  "summary": {
+    "prompt_count": 3,
+    "avg_best_iou": 0.5543345543345544,
+    "avg_mean_target_best_iou": 0.3350825189426722,
+    "avg_mean_predicted_best_iou": 0.25838510148854976,
+    "avg_recall": 0.4444444444444444,
+    "avg_overlap_anywhere_recall": 0.7222222222222222,
+    "avg_temporal_set_iou": 0.2592204092204092,
+    "avg_overlap_over_max": 0.28006937747776706,
+    "avg_duration_precision": 0.571291236591783,
+    "avg_duration_recall": 0.44474896019013666,
+    "total_processing_seconds": 81.28091349996976,
+    "avg_processing_seconds": 27.093637833323253,
+    "total_predicted_total_duration_seconds": 100.0,
+    "unique_video_count": 1,
+    "unique_video_duration_seconds_total": 301.2,
+    "recall_iou_threshold": 0.5,
+    "path_counts": {
+      "yolo": 1,
+      "clip": 2
+    }
+  },
+  "summary_by_path": [
+    {
+      "path_taken": "clip",
+      "summary": {
+        "prompt_count": 2,
+        "avg_best_iou": 0.47435897435897434,
+        "avg_mean_target_best_iou": 0.271572191112421,
+        "avg_mean_predicted_best_iou": 0.26154951370468615,
+        "avg_recall": 0.3333333333333333,
+        "avg_overlap_anywhere_recall": 0.6666666666666666,
+        "avg_temporal_set_iou": 0.260042735042735,
+        "avg_overlap_over_max": 0.28075980392156863,
+        "avg_duration_precision": 0.7175925925925926,
+        "avg_duration_recall": 0.28075980392156863,
+        "total_processing_seconds": 53.48921670898562,
+        "avg_processing_seconds": 26.74460835449281,
+        "total_predicted_total_duration_seconds": 39.0,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 301.2,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "clip": 2
+        }
+      }
+    },
+    {
+      "path_taken": "yolo",
+      "summary": {
+        "prompt_count": 1,
+        "avg_best_iou": 0.7142857142857143,
+        "avg_mean_target_best_iou": 0.46210317460317457,
+        "avg_mean_predicted_best_iou": 0.25205627705627703,
+        "avg_recall": 0.6666666666666666,
+        "avg_overlap_anywhere_recall": 0.8333333333333334,
+        "avg_temporal_set_iou": 0.25757575757575757,
+        "avg_overlap_over_max": 0.2786885245901639,
+        "avg_duration_precision": 0.2786885245901639,
+        "avg_duration_recall": 0.7727272727272727,
+        "total_processing_seconds": 27.791696790984133,
+        "avg_processing_seconds": 27.791696790984133,
+        "total_predicted_total_duration_seconds": 61.0,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 301.2,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "yolo": 1
+        }
+      }
+    }
+  ],
+  "summary_by_hyperparameter_combo": [
+    {
+      "hyperparameter_combo_key": "3af54a2e871ca602fed1384e369f5144a689e862",
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.25,
+          0.23,
+          0.21
+        ],
+        "CLIP_THRESHOLD": 0.23,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 20,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 15,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 9,
+        "PHASH_SIMILARITY_THRESHOLD": 12,
+        "VIDEO_SAMPLING_RATE": 15,
+        "XCLIP_MERGE_GAP_SECONDS": 4.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.33,
+          0.3,
+          0.275,
+          0.26,
+          0.24,
+          0.22
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.35,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.55,
+        "YOLO_MIN_THRESHOLD": 0.08,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.55,
+          0.4,
+          0.3,
+          0.2
+        ]
+      },
+      "summary": {
+        "prompt_count": 3,
+        "avg_best_iou": 0.5543345543345544,
+        "avg_mean_target_best_iou": 0.3350825189426722,
+        "avg_mean_predicted_best_iou": 0.25838510148854976,
+        "avg_recall": 0.4444444444444444,
+        "avg_overlap_anywhere_recall": 0.7222222222222222,
+        "avg_temporal_set_iou": 0.2592204092204092,
+        "avg_overlap_over_max": 0.28006937747776706,
+        "avg_duration_precision": 0.571291236591783,
+        "avg_duration_recall": 0.44474896019013666,
+        "total_processing_seconds": 81.28091349996976,
+        "avg_processing_seconds": 27.093637833323253,
+        "total_predicted_total_duration_seconds": 100.0,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 301.2,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "yolo": 1,
+          "clip": 2
+        }
+      }
+    }
+  ],
+  "prompt_results": [
+    {
+      "sample_key": "161499c42ac88161dfedcde935a6fade475c1263",
+      "evaluated_at_utc": "2026-04-02T08:11:52.461448+00:00",
+      "video": "Spiderman.mp4",
+      "video_path": "evaluation/test_videos/Spiderman.mp4",
+      "video_duration_seconds": 301.2,
+      "processing_seconds": 27.791696790984133,
+      "label_file": "evaluation/test_labels/Spiderman.json",
+      "prompt_id": "p2",
+      "prompt": "find me clips of a jetplane (use yolo)",
+      "path_taken": "yolo",
+      "target_timestamps": [
+        [
+          55,
+          58
+        ],
+        [
+          61,
+          66
+        ],
+        [
+          70,
+          75
+        ],
+        [
+          81,
+          82
+        ],
+        [
+          84,
+          87
+        ],
+        [
+          110,
+          115
+        ]
+      ],
+      "predicted_timestamps": [
+        [
+          55,
+          60
+        ],
+        [
+          60,
+          68
+        ],
+        [
+          69,
+          76
+        ],
+        [
+          80,
+          83
+        ],
+        [
+          83,
+          89
+        ],
+        [
+          102,
+          107
+        ],
+        [
+          130,
+          134
+        ],
+        [
+          135,
+          145
+        ],
+        [
+          220,
+          225
+        ],
+        [
+          237,
+          243
+        ],
+        [
+          250,
+          252
+        ]
+      ],
+      "iou": {
+        "best_iou": 0.7142857142857143,
+        "mean_target_best_iou": 0.46210317460317457,
+        "mean_predicted_best_iou": 0.25205627705627703,
+        "recall": 0.6666666666666666,
+        "overlap_anywhere_recall": 0.8333333333333334,
+        "temporal_set_iou": 0.25757575757575757,
+        "overlap_over_max": 0.2786885245901639,
+        "duration_precision": 0.2786885245901639,
+        "duration_recall": 0.7727272727272727,
+        "overlap_duration_seconds": 17.0,
+        "predicted_total_duration_seconds": 61.0,
+        "target_total_duration_seconds": 22.0,
+        "recall_iou_threshold": 0.5,
+        "pairwise_ious": [
+          {
+            "target": [
+              55,
+              58
+            ],
+            "predicted": [
+              55,
+              60
+            ],
+            "iou": 0.6
+          },
+          {
+            "target": [
+              55,
+              58
+            ],
+            "predicted": [
+              60,
+              68
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              55,
+              58
+            ],
+            "predicted": [
+              69,
+              76
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              55,
+              58
+            ],
+            "predicted": [
+              80,
+              83
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              55,
+              58
+            ],
+            "predicted": [
+              83,
+              89
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              55,
+              58
+            ],
+            "predicted": [
+              102,
+              107
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              55,
+              58
+            ],
+            "predicted": [
+              130,
+              134
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              55,
+              58
+            ],
+            "predicted": [
+              135,
+              145
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              55,
+              58
+            ],
+            "predicted": [
+              220,
+              225
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              55,
+              58
+            ],
+            "predicted": [
+              237,
+              243
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              55,
+              58
+            ],
+            "predicted": [
+              250,
+              252
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              61,
+              66
+            ],
+            "predicted": [
+              55,
+              60
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              61,
+              66
+            ],
+            "predicted": [
+              60,
+              68
+            ],
+            "iou": 0.625
+          },
+          {
+            "target": [
+              61,
+              66
+            ],
+            "predicted": [
+              69,
+              76
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              61,
+              66
+            ],
+            "predicted": [
+              80,
+              83
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              61,
+              66
+            ],
+            "predicted": [
+              83,
+              89
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              61,
+              66
+            ],
+            "predicted": [
+              102,
+              107
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              61,
+              66
+            ],
+            "predicted": [
+              130,
+              134
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              61,
+              66
+            ],
+            "predicted": [
+              135,
+              145
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              61,
+              66
+            ],
+            "predicted": [
+              220,
+              225
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              61,
+              66
+            ],
+            "predicted": [
+              237,
+              243
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              61,
+              66
+            ],
+            "predicted": [
+              250,
+              252
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              70,
+              75
+            ],
+            "predicted": [
+              55,
+              60
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              70,
+              75
+            ],
+            "predicted": [
+              60,
+              68
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              70,
+              75
+            ],
+            "predicted": [
+              69,
+              76
+            ],
+            "iou": 0.7142857142857143
+          },
+          {
+            "target": [
+              70,
+              75
+            ],
+            "predicted": [
+              80,
+              83
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              70,
+              75
+            ],
+            "predicted": [
+              83,
+              89
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              70,
+              75
+            ],
+            "predicted": [
+              102,
+              107
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              70,
+              75
+            ],
+            "predicted": [
+              130,
+              134
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              70,
+              75
+            ],
+            "predicted": [
+              135,
+              145
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              70,
+              75
+            ],
+            "predicted": [
+              220,
+              225
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              70,
+              75
+            ],
+            "predicted": [
+              237,
+              243
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              70,
+              75
+            ],
+            "predicted": [
+              250,
+              252
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              81,
+              82
+            ],
+            "predicted": [
+              55,
+              60
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              81,
+              82
+            ],
+            "predicted": [
+              60,
+              68
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              81,
+              82
+            ],
+            "predicted": [
+              69,
+              76
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              81,
+              82
+            ],
+            "predicted": [
+              80,
+              83
+            ],
+            "iou": 0.3333333333333333
+          },
+          {
+            "target": [
+              81,
+              82
+            ],
+            "predicted": [
+              83,
+              89
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              81,
+              82
+            ],
+            "predicted": [
+              102,
+              107
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              81,
+              82
+            ],
+            "predicted": [
+              130,
+              134
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              81,
+              82
+            ],
+            "predicted": [
+              135,
+              145
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              81,
+              82
+            ],
+            "predicted": [
+              220,
+              225
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              81,
+              82
+            ],
+            "predicted": [
+              237,
+              243
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              81,
+              82
+            ],
+            "predicted": [
+              250,
+              252
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              84,
+              87
+            ],
+            "predicted": [
+              55,
+              60
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              84,
+              87
+            ],
+            "predicted": [
+              60,
+              68
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              84,
+              87
+            ],
+            "predicted": [
+              69,
+              76
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              84,
+              87
+            ],
+            "predicted": [
+              80,
+              83
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              84,
+              87
+            ],
+            "predicted": [
+              83,
+              89
+            ],
+            "iou": 0.5
+          },
+          {
+            "target": [
+              84,
+              87
+            ],
+            "predicted": [
+              102,
+              107
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              84,
+              87
+            ],
+            "predicted": [
+              130,
+              134
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              84,
+              87
+            ],
+            "predicted": [
+              135,
+              145
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              84,
+              87
+            ],
+            "predicted": [
+              220,
+              225
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              84,
+              87
+            ],
+            "predicted": [
+              237,
+              243
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              84,
+              87
+            ],
+            "predicted": [
+              250,
+              252
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              110,
+              115
+            ],
+            "predicted": [
+              55,
+              60
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              110,
+              115
+            ],
+            "predicted": [
+              60,
+              68
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              110,
+              115
+            ],
+            "predicted": [
+              69,
+              76
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              110,
+              115
+            ],
+            "predicted": [
+              80,
+              83
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              110,
+              115
+            ],
+            "predicted": [
+              83,
+              89
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              110,
+              115
+            ],
+            "predicted": [
+              102,
+              107
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              110,
+              115
+            ],
+            "predicted": [
+              130,
+              134
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              110,
+              115
+            ],
+            "predicted": [
+              135,
+              145
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              110,
+              115
+            ],
+            "predicted": [
+              220,
+              225
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              110,
+              115
+            ],
+            "predicted": [
+              237,
+              243
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              110,
+              115
+            ],
+            "predicted": [
+              250,
+              252
+            ],
+            "iou": 0.0
+          }
+        ]
+      },
+      "route_details": {
+        "path": "yolo",
+        "canonical_form": "POS",
+        "object_groups": [
+          [
+            "jetplane",
+            "airplane",
+            "jet",
+            "aircraft",
+            "plane",
+            "fighter jet"
+          ]
+        ],
+        "object_details": {
+          "jetplane": [
+            1.0,
+            100.0
+          ],
+          "airplane": [
+            1.0,
+            100.0
+          ],
+          "jet": [
+            1.0,
+            100.0
+          ],
+          "aircraft": [
+            1.0,
+            100.0
+          ],
+          "plane": [
+            1.0,
+            100.0
+          ],
+          "fighter jet": [
+            1.0,
+            100.0
+          ]
+        },
+        "score_stats": {},
+        "reassessment_count": 0,
+        "matched_frame_count": 43
+      },
+      "matched_frames_count": 43,
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.25,
+          0.23,
+          0.21
+        ],
+        "CLIP_THRESHOLD": 0.23,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 20,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 15,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 9,
+        "PHASH_SIMILARITY_THRESHOLD": 12,
+        "VIDEO_SAMPLING_RATE": 15,
+        "XCLIP_MERGE_GAP_SECONDS": 4.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.33,
+          0.3,
+          0.275,
+          0.26,
+          0.24,
+          0.22
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.35,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.55,
+        "YOLO_MIN_THRESHOLD": 0.08,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.55,
+          0.4,
+          0.3,
+          0.2
+        ]
+      },
+      "hyperparameter_combo_key": "3af54a2e871ca602fed1384e369f5144a689e862",
+      "hyperparameter_combo_index": 11
+    },
+    {
+      "sample_key": "207dd44fea7859c9af2ef2421a9a015c2eab7787",
+      "evaluated_at_utc": "2026-04-02T08:12:39.039541+00:00",
+      "video": "Spiderman.mp4",
+      "video_path": "evaluation/test_videos/Spiderman.mp4",
+      "video_duration_seconds": 301.2,
+      "processing_seconds": 46.57702879200224,
+      "label_file": "evaluation/test_labels/Spiderman.json",
+      "prompt_id": "p3",
+      "prompt": "Find me clips of a person wearing an orange shirt (use clip)",
+      "path_taken": "clip",
+      "target_timestamps": [
+        [
+          2,
+          56
+        ],
+        [
+          59,
+          60
+        ],
+        [
+          66,
+          74
+        ],
+        [
+          77,
+          78
+        ],
+        [
+          80,
+          90
+        ],
+        [
+          95,
+          106
+        ]
+      ],
+      "predicted_timestamps": [
+        [
+          3,
+          7
+        ],
+        [
+          11,
+          13
+        ],
+        [
+          58,
+          61
+        ],
+        [
+          148,
+          151
+        ]
+      ],
+      "iou": {
+        "best_iou": 0.3333333333333333,
+        "mean_target_best_iou": 0.06790123456790123,
+        "mean_predicted_best_iou": 0.1111111111111111,
+        "recall": 0.0,
+        "overlap_anywhere_recall": 0.3333333333333333,
+        "temporal_set_iou": 0.07777777777777778,
+        "overlap_over_max": 0.08235294117647059,
+        "duration_precision": 0.5833333333333334,
+        "duration_recall": 0.08235294117647059,
+        "overlap_duration_seconds": 7.0,
+        "predicted_total_duration_seconds": 12.0,
+        "target_total_duration_seconds": 85.0,
+        "recall_iou_threshold": 0.5,
+        "pairwise_ious": [
+          {
+            "target": [
+              2,
+              56
+            ],
+            "predicted": [
+              3,
+              7
+            ],
+            "iou": 0.07407407407407407
+          },
+          {
+            "target": [
+              2,
+              56
+            ],
+            "predicted": [
+              11,
+              13
+            ],
+            "iou": 0.037037037037037035
+          },
+          {
+            "target": [
+              2,
+              56
+            ],
+            "predicted": [
+              58,
+              61
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              2,
+              56
+            ],
+            "predicted": [
+              148,
+              151
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              59,
+              60
+            ],
+            "predicted": [
+              3,
+              7
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              59,
+              60
+            ],
+            "predicted": [
+              11,
+              13
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              59,
+              60
+            ],
+            "predicted": [
+              58,
+              61
+            ],
+            "iou": 0.3333333333333333
+          },
+          {
+            "target": [
+              59,
+              60
+            ],
+            "predicted": [
+              148,
+              151
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              66,
+              74
+            ],
+            "predicted": [
+              3,
+              7
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              66,
+              74
+            ],
+            "predicted": [
+              11,
+              13
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              66,
+              74
+            ],
+            "predicted": [
+              58,
+              61
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              66,
+              74
+            ],
+            "predicted": [
+              148,
+              151
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              77,
+              78
+            ],
+            "predicted": [
+              3,
+              7
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              77,
+              78
+            ],
+            "predicted": [
+              11,
+              13
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              77,
+              78
+            ],
+            "predicted": [
+              58,
+              61
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              77,
+              78
+            ],
+            "predicted": [
+              148,
+              151
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              80,
+              90
+            ],
+            "predicted": [
+              3,
+              7
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              80,
+              90
+            ],
+            "predicted": [
+              11,
+              13
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              80,
+              90
+            ],
+            "predicted": [
+              58,
+              61
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              80,
+              90
+            ],
+            "predicted": [
+              148,
+              151
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              95,
+              106
+            ],
+            "predicted": [
+              3,
+              7
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              95,
+              106
+            ],
+            "predicted": [
+              11,
+              13
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              95,
+              106
+            ],
+            "predicted": [
+              58,
+              61
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              95,
+              106
+            ],
+            "predicted": [
+              148,
+              151
+            ],
+            "iou": 0.0
+          }
+        ]
+      },
+      "route_details": {
+        "path": "clip",
+        "modified_prompts": [
+          "Person wearing an orange shirt",
+          "A person in an orange shirt",
+          "Person with orange shirt",
+          "Orange shirt person",
+          "Someone wearing an orange shirt",
+          "A person dressed in orange",
+          "Person in orange",
+          "Individual wearing orange shirt"
+        ],
+        "score_stats": {
+          "mean": 0.17284664391597984,
+          "median": 0.17236328125,
+          "max": 0.2369384765625,
+          "min": 0.095703125,
+          "deciles": [
+            0.1325439453125,
+            0.1437744140625,
+            0.1560302734375,
+            0.163818359375,
+            0.17236328125,
+            0.181982421875,
+            0.1922119140625,
+            0.2005859375,
+            0.2098388671875
+          ]
+        },
+        "reassessment_count": 2,
+        "matched_frame_count": 6
+      },
+      "matched_frames_count": 6,
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.25,
+          0.23,
+          0.21
+        ],
+        "CLIP_THRESHOLD": 0.23,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 20,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 15,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 9,
+        "PHASH_SIMILARITY_THRESHOLD": 12,
+        "VIDEO_SAMPLING_RATE": 15,
+        "XCLIP_MERGE_GAP_SECONDS": 4.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.33,
+          0.3,
+          0.275,
+          0.26,
+          0.24,
+          0.22
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.35,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.55,
+        "YOLO_MIN_THRESHOLD": 0.08,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.55,
+          0.4,
+          0.3,
+          0.2
+        ]
+      },
+      "hyperparameter_combo_key": "3af54a2e871ca602fed1384e369f5144a689e862",
+      "hyperparameter_combo_index": 11
+    },
+    {
+      "sample_key": "e57c3ac53b378fd623dbf6a28f2dd1439eb12ae5",
+      "evaluated_at_utc": "2026-04-02T08:12:45.952541+00:00",
+      "video": "Spiderman.mp4",
+      "video_path": "evaluation/test_videos/Spiderman.mp4",
+      "video_duration_seconds": 301.2,
+      "processing_seconds": 6.912187916983385,
+      "label_file": "evaluation/test_labels/Spiderman.json",
+      "prompt_id": "p4",
+      "prompt": "Find me clips of where a tulip garden is shown (use clip)",
+      "path_taken": "clip",
+      "target_timestamps": [
+        [
+          53,
+          60
+        ],
+        [
+          62,
+          74
+        ],
+        [
+          77,
+          106
+        ]
+      ],
+      "predicted_timestamps": [
+        [
+          52,
+          57
+        ],
+        [
+          58,
+          62
+        ],
+        [
+          66,
+          75
+        ],
+        [
+          79,
+          88
+        ]
+      ],
+      "iou": {
+        "best_iou": 0.6153846153846154,
+        "mean_target_best_iou": 0.47524314765694076,
+        "mean_predicted_best_iou": 0.41198791629826115,
+        "recall": 0.6666666666666666,
+        "overlap_anywhere_recall": 1.0,
+        "temporal_set_iou": 0.4423076923076923,
+        "overlap_over_max": 0.4791666666666667,
+        "duration_precision": 0.8518518518518519,
+        "duration_recall": 0.4791666666666667,
+        "overlap_duration_seconds": 23.0,
+        "predicted_total_duration_seconds": 27.0,
+        "target_total_duration_seconds": 48.0,
+        "recall_iou_threshold": 0.5,
+        "pairwise_ious": [
+          {
+            "target": [
+              53,
+              60
+            ],
+            "predicted": [
+              52,
+              57
+            ],
+            "iou": 0.5
+          },
+          {
+            "target": [
+              53,
+              60
+            ],
+            "predicted": [
+              58,
+              62
+            ],
+            "iou": 0.2222222222222222
+          },
+          {
+            "target": [
+              53,
+              60
+            ],
+            "predicted": [
+              66,
+              75
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              53,
+              60
+            ],
+            "predicted": [
+              79,
+              88
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              62,
+              74
+            ],
+            "predicted": [
+              52,
+              57
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              62,
+              74
+            ],
+            "predicted": [
+              58,
+              62
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              62,
+              74
+            ],
+            "predicted": [
+              66,
+              75
+            ],
+            "iou": 0.6153846153846154
+          },
+          {
+            "target": [
+              62,
+              74
+            ],
+            "predicted": [
+              79,
+              88
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              77,
+              106
+            ],
+            "predicted": [
+              52,
+              57
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              77,
+              106
+            ],
+            "predicted": [
+              58,
+              62
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              77,
+              106
+            ],
+            "predicted": [
+              66,
+              75
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              77,
+              106
+            ],
+            "predicted": [
+              79,
+              88
+            ],
+            "iou": 0.3103448275862069
+          }
+        ]
+      },
+      "route_details": {
+        "path": "clip",
+        "modified_prompts": [
+          "Tulip garden",
+          "A tulip garden scene",
+          "Where a tulip garden is shown",
+          "Tulip garden footage",
+          "Scenes of a tulip garden",
+          "A garden full of tulips",
+          "Tulips in a garden",
+          "Garden with tulips",
+          "Showing a tulip garden"
+        ],
+        "score_stats": {},
+        "reassessment_count": 0,
+        "matched_frame_count": 16
+      },
+      "matched_frames_count": 16,
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.25,
+          0.23,
+          0.21
+        ],
+        "CLIP_THRESHOLD": 0.23,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 20,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 15,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 9,
+        "PHASH_SIMILARITY_THRESHOLD": 12,
+        "VIDEO_SAMPLING_RATE": 15,
+        "XCLIP_MERGE_GAP_SECONDS": 4.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.33,
+          0.3,
+          0.275,
+          0.26,
+          0.24,
+          0.22
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.35,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.55,
+        "YOLO_MIN_THRESHOLD": 0.08,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.55,
+          0.4,
+          0.3,
+          0.2
+        ]
+      },
+      "hyperparameter_combo_key": "3af54a2e871ca602fed1384e369f5144a689e862",
+      "hyperparameter_combo_index": 11
+    }
+  ]
+}

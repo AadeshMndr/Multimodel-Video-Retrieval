@@ -1,0 +1,224 @@
+{
+  "video": "Tripureshwor_Earthquake.mp4",
+  "video_duration_seconds": 198.15,
+  "summary": {
+    "prompt_count": 1,
+    "avg_best_iou": 0.07407407407407407,
+    "avg_mean_target_best_iou": 0.07407407407407407,
+    "avg_mean_predicted_best_iou": 0.07407407407407407,
+    "avg_recall": 0.0,
+    "avg_overlap_anywhere_recall": 1.0,
+    "avg_temporal_set_iou": 0.07407407407407407,
+    "avg_overlap_over_max": 0.07407407407407407,
+    "avg_duration_precision": 0.07407407407407407,
+    "avg_duration_recall": 1.0,
+    "total_processing_seconds": 17.380433083017124,
+    "avg_processing_seconds": 17.380433083017124,
+    "total_predicted_total_duration_seconds": 135.0,
+    "unique_video_count": 1,
+    "unique_video_duration_seconds_total": 198.15,
+    "recall_iou_threshold": 0.5,
+    "path_counts": {
+      "xclip": 1
+    }
+  },
+  "summary_by_path": [
+    {
+      "path_taken": "xclip",
+      "summary": {
+        "prompt_count": 1,
+        "avg_best_iou": 0.07407407407407407,
+        "avg_mean_target_best_iou": 0.07407407407407407,
+        "avg_mean_predicted_best_iou": 0.07407407407407407,
+        "avg_recall": 0.0,
+        "avg_overlap_anywhere_recall": 1.0,
+        "avg_temporal_set_iou": 0.07407407407407407,
+        "avg_overlap_over_max": 0.07407407407407407,
+        "avg_duration_precision": 0.07407407407407407,
+        "avg_duration_recall": 1.0,
+        "total_processing_seconds": 17.380433083017124,
+        "avg_processing_seconds": 17.380433083017124,
+        "total_predicted_total_duration_seconds": 135.0,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 198.15,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "xclip": 1
+        }
+      }
+    }
+  ],
+  "summary_by_hyperparameter_combo": [
+    {
+      "hyperparameter_combo_key": "a1cc86b644a8a467f93ee44f4e513a6567d273ef",
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.24,
+          0.22,
+          0.2
+        ],
+        "CLIP_THRESHOLD": 0.192,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 60,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 40,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 3,
+        "PHASH_SIMILARITY_THRESHOLD": 4,
+        "VIDEO_SAMPLING_RATE": 12,
+        "XCLIP_MERGE_GAP_SECONDS": 1.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.32,
+          0.29,
+          0.265,
+          0.26,
+          0.24,
+          0.23
+        ],
+        "XCLIP_STEP_SECONDS": 2.5,
+        "XCLIP_THRESHOLD": 0.4,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.55,
+        "YOLO_MIN_THRESHOLD": 0.1,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.5,
+          0.35,
+          0.25,
+          0.19
+        ]
+      },
+      "summary": {
+        "prompt_count": 1,
+        "avg_best_iou": 0.07407407407407407,
+        "avg_mean_target_best_iou": 0.07407407407407407,
+        "avg_mean_predicted_best_iou": 0.07407407407407407,
+        "avg_recall": 0.0,
+        "avg_overlap_anywhere_recall": 1.0,
+        "avg_temporal_set_iou": 0.07407407407407407,
+        "avg_overlap_over_max": 0.07407407407407407,
+        "avg_duration_precision": 0.07407407407407407,
+        "avg_duration_recall": 1.0,
+        "total_processing_seconds": 17.380433083017124,
+        "avg_processing_seconds": 17.380433083017124,
+        "total_predicted_total_duration_seconds": 135.0,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 198.15,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "xclip": 1
+        }
+      }
+    }
+  ],
+  "prompt_results": [
+    {
+      "sample_key": "c3daf309cf0e66932e42065f4bd14ffee4e97651",
+      "evaluated_at_utc": "2026-04-02T11:33:33.718140+00:00",
+      "video": "Tripureshwor_Earthquake.mp4",
+      "video_path": "evaluation/test_videos/Tripureshwor_Earthquake.mp4",
+      "video_duration_seconds": 198.15,
+      "processing_seconds": 17.380433083017124,
+      "label_file": "evaluation/test_labels/Tripureshwor_Earthquake.json",
+      "prompt_id": "p1",
+      "prompt": "Find me the moment when the monument falls down (use xclip)",
+      "path_taken": "xclip",
+      "target_timestamps": [
+        [
+          68,
+          78
+        ]
+      ],
+      "predicted_timestamps": [
+        [
+          63,
+          198
+        ]
+      ],
+      "iou": {
+        "best_iou": 0.07407407407407407,
+        "mean_target_best_iou": 0.07407407407407407,
+        "mean_predicted_best_iou": 0.07407407407407407,
+        "recall": 0.0,
+        "overlap_anywhere_recall": 1.0,
+        "temporal_set_iou": 0.07407407407407407,
+        "overlap_over_max": 0.07407407407407407,
+        "duration_precision": 0.07407407407407407,
+        "duration_recall": 1.0,
+        "overlap_duration_seconds": 10.0,
+        "predicted_total_duration_seconds": 135.0,
+        "target_total_duration_seconds": 10.0,
+        "recall_iou_threshold": 0.5,
+        "pairwise_ious": [
+          {
+            "target": [
+              68,
+              78
+            ],
+            "predicted": [
+              63,
+              198
+            ],
+            "iou": 0.07407407407407407
+          }
+        ]
+      },
+      "route_details": {
+        "path": "xclip",
+        "modified_prompts": [
+          "Monument falls down",
+          "The moment the monument collapses",
+          "Monument collapse"
+        ],
+        "score_stats": {
+          "window_count": 20,
+          "matched_window_count": 4,
+          "mean": 0.22531480044126512,
+          "median": 0.22118502110242844,
+          "max": 0.2585943937301636,
+          "min": 0.20899206399917603,
+          "cache_hit": false,
+          "used_threshold": 0.24
+        },
+        "matched_frame_count": 1,
+        "temporal_analysis": true,
+        "frame_source": "reduced",
+        "window_score_count": 20,
+        "window_scores": [],
+        "window_scores_truncated": false
+      },
+      "matched_frames_count": 1,
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.24,
+          0.22,
+          0.2
+        ],
+        "CLIP_THRESHOLD": 0.192,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 60,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 40,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 3,
+        "PHASH_SIMILARITY_THRESHOLD": 4,
+        "VIDEO_SAMPLING_RATE": 12,
+        "XCLIP_MERGE_GAP_SECONDS": 1.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.32,
+          0.29,
+          0.265,
+          0.26,
+          0.24,
+          0.23
+        ],
+        "XCLIP_STEP_SECONDS": 2.5,
+        "XCLIP_THRESHOLD": 0.4,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.55,
+        "YOLO_MIN_THRESHOLD": 0.1,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.5,
+          0.35,
+          0.25,
+          0.19
+        ]
+      },
+      "hyperparameter_combo_key": "a1cc86b644a8a467f93ee44f4e513a6567d273ef",
+      "hyperparameter_combo_index": 19
+    }
+  ]
+}

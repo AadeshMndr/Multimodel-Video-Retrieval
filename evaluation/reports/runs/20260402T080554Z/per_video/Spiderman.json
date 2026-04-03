@@ -1,0 +1,332 @@
+{
+  "video": "Spiderman.mp4",
+  "video_duration_seconds": 301.2,
+  "summary": {
+    "prompt_count": 1,
+    "avg_best_iou": 0.7391304347826086,
+    "avg_mean_target_best_iou": 0.536231884057971,
+    "avg_mean_predicted_best_iou": 0.3852657004830918,
+    "avg_recall": 0.5,
+    "avg_overlap_anywhere_recall": 1.0,
+    "avg_temporal_set_iou": 0.7407407407407407,
+    "avg_overlap_over_max": 0.8333333333333334,
+    "avg_duration_precision": 0.8695652173913043,
+    "avg_duration_recall": 0.8333333333333334,
+    "total_processing_seconds": 27.713266917009605,
+    "avg_processing_seconds": 27.713266917009605,
+    "total_predicted_total_duration_seconds": 23.0,
+    "unique_video_count": 1,
+    "unique_video_duration_seconds_total": 301.2,
+    "recall_iou_threshold": 0.5,
+    "path_counts": {
+      "yolo": 1
+    }
+  },
+  "summary_by_path": [
+    {
+      "path_taken": "yolo",
+      "summary": {
+        "prompt_count": 1,
+        "avg_best_iou": 0.7391304347826086,
+        "avg_mean_target_best_iou": 0.536231884057971,
+        "avg_mean_predicted_best_iou": 0.3852657004830918,
+        "avg_recall": 0.5,
+        "avg_overlap_anywhere_recall": 1.0,
+        "avg_temporal_set_iou": 0.7407407407407407,
+        "avg_overlap_over_max": 0.8333333333333334,
+        "avg_duration_precision": 0.8695652173913043,
+        "avg_duration_recall": 0.8333333333333334,
+        "total_processing_seconds": 27.713266917009605,
+        "avg_processing_seconds": 27.713266917009605,
+        "total_predicted_total_duration_seconds": 23.0,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 301.2,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "yolo": 1
+        }
+      }
+    }
+  ],
+  "summary_by_hyperparameter_combo": [
+    {
+      "hyperparameter_combo_key": "3af54a2e871ca602fed1384e369f5144a689e862",
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.25,
+          0.23,
+          0.21
+        ],
+        "CLIP_THRESHOLD": 0.23,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 20,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 15,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 9,
+        "PHASH_SIMILARITY_THRESHOLD": 12,
+        "VIDEO_SAMPLING_RATE": 15,
+        "XCLIP_MERGE_GAP_SECONDS": 4.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.33,
+          0.3,
+          0.275,
+          0.26,
+          0.24,
+          0.22
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.35,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.55,
+        "YOLO_MIN_THRESHOLD": 0.08,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.55,
+          0.4,
+          0.3,
+          0.2
+        ]
+      },
+      "summary": {
+        "prompt_count": 1,
+        "avg_best_iou": 0.7391304347826086,
+        "avg_mean_target_best_iou": 0.536231884057971,
+        "avg_mean_predicted_best_iou": 0.3852657004830918,
+        "avg_recall": 0.5,
+        "avg_overlap_anywhere_recall": 1.0,
+        "avg_temporal_set_iou": 0.7407407407407407,
+        "avg_overlap_over_max": 0.8333333333333334,
+        "avg_duration_precision": 0.8695652173913043,
+        "avg_duration_recall": 0.8333333333333334,
+        "total_processing_seconds": 27.713266917009605,
+        "avg_processing_seconds": 27.713266917009605,
+        "total_predicted_total_duration_seconds": 23.0,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 301.2,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "yolo": 1
+        }
+      }
+    }
+  ],
+  "prompt_results": [
+    {
+      "sample_key": "de53c3347ef3ba956b93f25c3e8345c0d233489e",
+      "evaluated_at_utc": "2026-04-02T08:06:21.786700+00:00",
+      "video": "Spiderman.mp4",
+      "video_path": "evaluation/test_videos/Spiderman.mp4",
+      "video_duration_seconds": 301.2,
+      "processing_seconds": 27.713266917009605,
+      "label_file": "evaluation/test_labels/Spiderman.json",
+      "prompt_id": "p1",
+      "prompt": "Find me clips where a person wearing an eye glasses appear (use yolo)",
+      "path_taken": "yolo",
+      "target_timestamps": [
+        [
+          107,
+          130
+        ],
+        [
+          134,
+          135
+        ]
+      ],
+      "predicted_timestamps": [
+        [
+          109,
+          126
+        ],
+        [
+          128,
+          131
+        ],
+        [
+          132,
+          135
+        ]
+      ],
+      "iou": {
+        "best_iou": 0.7391304347826086,
+        "mean_target_best_iou": 0.536231884057971,
+        "mean_predicted_best_iou": 0.3852657004830918,
+        "recall": 0.5,
+        "overlap_anywhere_recall": 1.0,
+        "temporal_set_iou": 0.7407407407407407,
+        "overlap_over_max": 0.8333333333333334,
+        "duration_precision": 0.8695652173913043,
+        "duration_recall": 0.8333333333333334,
+        "overlap_duration_seconds": 20.0,
+        "predicted_total_duration_seconds": 23.0,
+        "target_total_duration_seconds": 24.0,
+        "recall_iou_threshold": 0.5,
+        "pairwise_ious": [
+          {
+            "target": [
+              107,
+              130
+            ],
+            "predicted": [
+              109,
+              126
+            ],
+            "iou": 0.7391304347826086
+          },
+          {
+            "target": [
+              107,
+              130
+            ],
+            "predicted": [
+              128,
+              131
+            ],
+            "iou": 0.08333333333333333
+          },
+          {
+            "target": [
+              107,
+              130
+            ],
+            "predicted": [
+              132,
+              135
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              134,
+              135
+            ],
+            "predicted": [
+              109,
+              126
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              134,
+              135
+            ],
+            "predicted": [
+              128,
+              131
+            ],
+            "iou": 0.0
+          },
+          {
+            "target": [
+              134,
+              135
+            ],
+            "predicted": [
+              132,
+              135
+            ],
+            "iou": 0.3333333333333333
+          }
+        ]
+      },
+      "route_details": {
+        "path": "yolo",
+        "canonical_form": "POS",
+        "object_groups": [
+          [
+            "person",
+            "man",
+            "woman",
+            "boy",
+            "girl",
+            "individual"
+          ],
+          [
+            "eye glasses",
+            "spectacles",
+            "glasses",
+            "eyewear"
+          ]
+        ],
+        "object_details": {
+          "person": [
+            1.0,
+            1.0
+          ],
+          "man": [
+            1.0,
+            1.0
+          ],
+          "woman": [
+            1.0,
+            1.0
+          ],
+          "boy": [
+            1.0,
+            1.0
+          ],
+          "girl": [
+            1.0,
+            1.0
+          ],
+          "individual": [
+            1.0,
+            1.0
+          ],
+          "eye glasses": [
+            1.0,
+            1.0
+          ],
+          "spectacles": [
+            1.0,
+            1.0
+          ],
+          "glasses": [
+            1.0,
+            1.0
+          ],
+          "eyewear": [
+            1.0,
+            1.0
+          ]
+        },
+        "score_stats": {},
+        "reassessment_count": 0,
+        "matched_frame_count": 14
+      },
+      "matched_frames_count": 14,
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.25,
+          0.23,
+          0.21
+        ],
+        "CLIP_THRESHOLD": 0.23,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 20,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 15,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 9,
+        "PHASH_SIMILARITY_THRESHOLD": 12,
+        "VIDEO_SAMPLING_RATE": 15,
+        "XCLIP_MERGE_GAP_SECONDS": 4.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.33,
+          0.3,
+          0.275,
+          0.26,
+          0.24,
+          0.22
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.35,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.55,
+        "YOLO_MIN_THRESHOLD": 0.08,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.55,
+          0.4,
+          0.3,
+          0.2
+        ]
+      },
+      "hyperparameter_combo_key": "3af54a2e871ca602fed1384e369f5144a689e862",
+      "hyperparameter_combo_index": 11
+    }
+  ]
+}

@@ -1,0 +1,254 @@
+{
+  "run_id": "20260402T094951Z",
+  "started_utc": "20260402T094951Z",
+  "finished_utc": "2026-04-02T09:56:28.110902+00:00",
+  "status": "failed",
+  "last_error": {
+    "kind": "OutputParserException",
+    "message": "Invalid json output: **Reasoning and Information**\n\nThe user\u2019s prompt is: **\u201cfind me clips of a jetplane (use yolo)\u201d**.  \nOur task is to generate synonyms for the object *jetplane* to improve detection with YOLO, determine the required object count, and express the boolean logic in the required JSON format.\n\n1. **Object Identification**  \n   - Primary object: **jetplane**.\n\n2. **Synonyms (max\u202f5)**  \n   - *airplane*  \n   - *jet*  \n   - *aircraft*  \n   - *plane*  \n   - *fighter jet*  \n\n   These synonyms either broaden or precisely describe the same concept, helping YOLO locate the target.\n\n3. **Object Count**  \n   - The prompt does not specify a number, so we assume **at least one** instance.  \n   - For each synonym we therefore set the count range to **(1.0,\u202f1.0)** (exactly one, matching the primary object\u2019s assumed count).\n\n4. **Boolean Logic**  \n   - We need clips that contain **any** of the synonyms.  \n   - This is an **OR** across all synonyms, wrapped in a single **AND** group (POS \u2013 Product of Sums).  \n   - Logical expression:  \n     ```\n     (\"jetplane\" OR \"airplane\" OR \"jet\" OR \"aircraft\" OR \"plane\" OR \"fighter jet\")\n     ```\n\n5. **JSON Output (conforms to the provided schema)**  \n\n```json\n{\n    \"object_details\": {\n        \"jetplane\": [1.0, 1.0],\n        \"airplane\": [1.0, 1.0],\n        \"jet\": [1.0, 1.0],\n        \"aircraft\": [1.0, 1.0],\n        \"plane\": [1.0, 1.0],\n        \"fighter jet\": [1.0, 1.0]\n    },\n    \"object_groups\": [\n        [\"jetplane\", \"airplane\", \"jet\", \"aircraft\", \"plane\", \"fighter jet\"]\n    ],\n    \"canonical_form\": \"POS\"\n}\n```\nFor troubleshooting, visit: https://docs.langchain.com/oss/python/langchain/errors/OUTPUT_PARSING_FAILURE ",
+    "at_task": {
+      "video": "Spiderman.mp4",
+      "prompt_id": "p2",
+      "hyperparameter_combo_index": 17,
+      "hyperparameter_combo_key": "49805e3c3562bfa03711f77ff79c0f9d73fd28cd"
+    },
+    "traceback": "Traceback (most recent call last):\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langchain_core/output_parsers/json.py\", line 88, in parse_result\n    return parse_json_markdown(text)\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langchain_core/utils/json.py\", line 163, in parse_json_markdown\n    return _parse_json(json_str, parser=parser)\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langchain_core/utils/json.py\", line 191, in _parse_json\n    return parser(json_str)\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langchain_core/utils/json.py\", line 136, in parse_partial_json\n    return json.loads(s, strict=strict)\n           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py\", line 365, in loads\n    return cls(**kw).decode(s)\n           ~~~~~~~~~~~~~~~~^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py\", line 345, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py\", line 363, in raw_decode\n    raise JSONDecodeError(\"Expecting value\", s, err.value) from None\njson.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/scripts/evaluate_retrieval.py\", line 961, in main\n    record = evaluate_task(\n        evaluation_task.prompt_task,\n    ...<5 lines>...\n        hyperparameter_combo_index=evaluation_task.hyperparameter_combo_index,\n    )\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/scripts/evaluate_retrieval.py\", line 760, in evaluate_task\n    final_state: Main_State = main_workflow.invoke(state)  # type: ignore\n                              ~~~~~~~~~~~~~~~~~~~~^^^^^^^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/pregel/main.py\", line 3071, in invoke\n    for chunk in self.stream(\n                 ~~~~~~~~~~~^\n        input,\n        ^^^^^^\n    ...<10 lines>...\n        **kwargs,\n        ^^^^^^^^^\n    ):\n    ^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/pregel/main.py\", line 2646, in stream\n    for _ in runner.tick(\n             ~~~~~~~~~~~^\n        [t for t in loop.tasks.values() if not t.writes],\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<2 lines>...\n        schedule_task=loop.accept_push,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ):\n    ^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/pregel/_runner.py\", line 167, in tick\n    run_with_retry(\n    ~~~~~~~~~~~~~~^\n        t,\n        ^^\n    ...<10 lines>...\n        },\n        ^^\n    )\n    ^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/pregel/_retry.py\", line 42, in run_with_retry\n    return task.proc.invoke(task.input, config)\n           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/_internal/_runnable.py\", line 656, in invoke\n    input = context.run(step.invoke, input, config, **kwargs)\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/_internal/_runnable.py\", line 400, in invoke\n    ret = self.func(*args, **kwargs)\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/router/logic_routes/yolo_logic.py\", line 22, in yolo_logic\n    llm_state = llm_for_yolo_workflow.invoke(llm_state) # type: ignore\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/pregel/main.py\", line 3071, in invoke\n    for chunk in self.stream(\n                 ~~~~~~~~~~~^\n        input,\n        ^^^^^^\n    ...<10 lines>...\n        **kwargs,\n        ^^^^^^^^^\n    ):\n    ^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/pregel/main.py\", line 2646, in stream\n    for _ in runner.tick(\n             ~~~~~~~~~~~^\n        [t for t in loop.tasks.values() if not t.writes],\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<2 lines>...\n        schedule_task=loop.accept_push,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ):\n    ^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/pregel/_runner.py\", line 167, in tick\n    run_with_retry(\n    ~~~~~~~~~~~~~~^\n        t,\n        ^^\n    ...<10 lines>...\n        },\n        ^^\n    )\n    ^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/pregel/_retry.py\", line 42, in run_with_retry\n    return task.proc.invoke(task.input, config)\n           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/_internal/_runnable.py\", line 656, in invoke\n    input = context.run(step.invoke, input, config, **kwargs)\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/_internal/_runnable.py\", line 400, in invoke\n    ret = self.func(*args, **kwargs)\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/service_layer/llm_service/node_functions.py\", line 391, in generate_synonyms\n    output: YOLO_OutputFormat = chain.invoke({\n                                ~~~~~~~~~~~~^^\n        \"user_prompt\": state[\"user_prompt\"],\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        \"max_num_of_similar_words\": settings.MAX_NUM_OF_SYNONYMS\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    })\n    ^^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langchain_core/runnables/base.py\", line 3153, in invoke\n    input_ = context.run(step.invoke, input_, config)\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langchain_core/output_parsers/base.py\", line 207, in invoke\n    return self._call_with_config(\n           ~~~~~~~~~~~~~~~~~~~~~~^\n        lambda inner_input: self.parse_result(\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<4 lines>...\n        run_type=\"parser\",\n        ^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langchain_core/runnables/base.py\", line 2060, in _call_with_config\n    context.run(\n    ~~~~~~~~~~~^\n        call_func_with_variable_args,  # type: ignore[arg-type]\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<4 lines>...\n        **kwargs,\n        ^^^^^^^^^\n    ),\n    ^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langchain_core/runnables/config.py\", line 452, in call_func_with_variable_args\n    return func(input, **kwargs)  # type: ignore[call-arg]\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langchain_core/output_parsers/base.py\", line 208, in <lambda>\n    lambda inner_input: self.parse_result(\n                        ~~~~~~~~~~~~~~~~~^\n        [ChatGeneration(message=inner_input)]\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ),\n    ^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langchain_core/output_parsers/pydantic.py\", line 75, in parse_result\n    json_object = super().parse_result(result)\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langchain_core/output_parsers/json.py\", line 91, in parse_result\n    raise OutputParserException(msg, llm_output=text) from e\nlangchain_core.exceptions.OutputParserException: Invalid json output: **Reasoning and Information**\n\nThe user\u2019s prompt is: **\u201cfind me clips of a jetplane (use yolo)\u201d**.  \nOur task is to generate synonyms for the object *jetplane* to improve detection with YOLO, determine the required object count, and express the boolean logic in the required JSON format.\n\n1. **Object Identification**  \n   - Primary object: **jetplane**.\n\n2. **Synonyms (max\u202f5)**  \n   - *airplane*  \n   - *jet*  \n   - *aircraft*  \n   - *plane*  \n   - *fighter jet*  \n\n   These synonyms either broaden or precisely describe the same concept, helping YOLO locate the target.\n\n3. **Object Count**  \n   - The prompt does not specify a number, so we assume **at least one** instance.  \n   - For each synonym we therefore set the count range to **(1.0,\u202f1.0)** (exactly one, matching the primary object\u2019s assumed count).\n\n4. **Boolean Logic**  \n   - We need clips that contain **any** of the synonyms.  \n   - This is an **OR** across all synonyms, wrapped in a single **AND** group (POS \u2013 Product of Sums).  \n   - Logical expression:  \n     ```\n     (\"jetplane\" OR \"airplane\" OR \"jet\" OR \"aircraft\" OR \"plane\" OR \"fighter jet\")\n     ```\n\n5. **JSON Output (conforms to the provided schema)**  \n\n```json\n{\n    \"object_details\": {\n        \"jetplane\": [1.0, 1.0],\n        \"airplane\": [1.0, 1.0],\n        \"jet\": [1.0, 1.0],\n        \"aircraft\": [1.0, 1.0],\n        \"plane\": [1.0, 1.0],\n        \"fighter jet\": [1.0, 1.0]\n    },\n    \"object_groups\": [\n        [\"jetplane\", \"airplane\", \"jet\", \"aircraft\", \"plane\", \"fighter jet\"]\n    ],\n    \"canonical_form\": \"POS\"\n}\n```\nFor troubleshooting, visit: https://docs.langchain.com/oss/python/langchain/errors/OUTPUT_PARSING_FAILURE \nDuring task with name 'generate_synonyms_and_boolean_logic' and id '7ff9261c-61d0-f8f4-b2e3-89899563ec63'\nDuring task with name 'yolo' and id 'dcd04b3c-f805-eda9-277f-9392107ab8b5'\n"
+  },
+  "settings": {
+    "videos_dir": "evaluation/test_videos",
+    "labels_dir": "evaluation/test_labels",
+    "generate_video": false,
+    "force_recompute": false,
+    "max_prompts": null,
+    "recall_iou_threshold": 0.5,
+    "enable_random_search_cv": true,
+    "hyperparameter_search_space": "evaluation/hyperparameter_search_space.json",
+    "max_random_combinations": 20,
+    "random_seed": 42,
+    "keep_embeddings_between_combinations": false
+  },
+  "counts": {
+    "total_label_tasks": 10,
+    "selected_combinations": 20,
+    "planned_evaluations": 200,
+    "evaluated_new": 14,
+    "skipped_existing": 150
+  },
+  "summary": {
+    "prompt_count": 14,
+    "avg_best_iou": 0.38219573559635667,
+    "avg_mean_target_best_iou": 0.29312326119596854,
+    "avg_mean_predicted_best_iou": 0.24916957165398282,
+    "avg_recall": 0.10714285714285714,
+    "avg_overlap_anywhere_recall": 0.8095238095238095,
+    "avg_temporal_set_iou": 0.3697604283927803,
+    "avg_overlap_over_max": 0.4105799289183793,
+    "avg_duration_precision": 0.5392716229873112,
+    "avg_duration_recall": 0.6308250572956455,
+    "total_processing_seconds": 392.952065749967,
+    "avg_processing_seconds": 28.068004696426215,
+    "total_predicted_total_duration_seconds": 341.0,
+    "unique_video_count": 4,
+    "unique_video_duration_seconds_total": 843.5840000000001,
+    "recall_iou_threshold": 0.5,
+    "path_counts": {
+      "clip": 5,
+      "yolo": 5,
+      "xclip": 4
+    }
+  },
+  "summary_by_path": [
+    {
+      "path_taken": "clip",
+      "summary": {
+        "prompt_count": 5,
+        "avg_best_iou": 0.3277777777777778,
+        "avg_mean_target_best_iou": 0.2518518518518519,
+        "avg_mean_predicted_best_iou": 0.2478395061728395,
+        "avg_recall": 0.06666666666666667,
+        "avg_overlap_anywhere_recall": 0.7,
+        "avg_temporal_set_iou": 0.21435683364254793,
+        "avg_overlap_over_max": 0.2534313725490196,
+        "avg_duration_precision": 0.6,
+        "avg_duration_recall": 0.3284313725490196,
+        "total_processing_seconds": 133.49820295799873,
+        "avg_processing_seconds": 26.699640591599746,
+        "total_predicted_total_duration_seconds": 31.0,
+        "unique_video_count": 3,
+        "unique_video_duration_seconds_total": 645.434,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "clip": 5
+        }
+      }
+    },
+    {
+      "path_taken": "xclip",
+      "summary": {
+        "prompt_count": 4,
+        "avg_best_iou": 0.2100254817646122,
+        "avg_mean_target_best_iou": 0.2100254817646122,
+        "avg_mean_predicted_best_iou": 0.2100254817646122,
+        "avg_recall": 0.0,
+        "avg_overlap_anywhere_recall": 0.75,
+        "avg_temporal_set_iou": 0.2100254817646122,
+        "avg_overlap_over_max": 0.2100254817646122,
+        "avg_duration_precision": 0.2100254817646122,
+        "avg_duration_recall": 0.75,
+        "total_processing_seconds": 99.57915074998164,
+        "avg_processing_seconds": 24.89478768749541,
+        "total_predicted_total_duration_seconds": 80.0,
+        "unique_video_count": 3,
+        "unique_video_duration_seconds_total": 542.384,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "xclip": 4
+        }
+      }
+    },
+    {
+      "path_taken": "yolo",
+      "summary": {
+        "prompt_count": 5,
+        "avg_best_iou": 0.5743498964803313,
+        "avg_mean_target_best_iou": 0.4008728940851703,
+        "avg_mean_predicted_best_iou": 0.2818149090466226,
+        "avg_recall": 0.2333333333333333,
+        "avg_overlap_anywhere_recall": 0.9666666666666666,
+        "avg_temporal_set_iou": 0.652951980445547,
+        "avg_overlap_over_max": 0.7281720430107527,
+        "avg_duration_precision": 0.7419401589527816,
+        "avg_duration_recall": 0.8378787878787879,
+        "total_processing_seconds": 159.87471204198664,
+        "avg_processing_seconds": 31.97494240839733,
+        "total_predicted_total_duration_seconds": 230.0,
+        "unique_video_count": 2,
+        "unique_video_duration_seconds_total": 604.495,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "yolo": 5
+        }
+      }
+    }
+  ],
+  "summary_by_hyperparameter_combo": [
+    {
+      "hyperparameter_combo_key": "49805e3c3562bfa03711f77ff79c0f9d73fd28cd",
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.21,
+          0.192,
+          0.175
+        ],
+        "CLIP_THRESHOLD": 0.192,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 15,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 40,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 3,
+        "PHASH_SIMILARITY_THRESHOLD": 8,
+        "VIDEO_SAMPLING_RATE": 20,
+        "XCLIP_MERGE_GAP_SECONDS": 1.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.32,
+          0.29,
+          0.265,
+          0.26,
+          0.24,
+          0.23
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.4,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.7,
+        "YOLO_MIN_THRESHOLD": 0.15,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.5,
+          0.35,
+          0.25,
+          0.19
+        ]
+      },
+      "summary": {
+        "prompt_count": 4,
+        "avg_best_iou": 0.4244871794871795,
+        "avg_mean_target_best_iou": 0.36513668929110105,
+        "avg_mean_predicted_best_iou": 0.27966913560295914,
+        "avg_recall": 0.0,
+        "avg_overlap_anywhere_recall": 1.0,
+        "avg_temporal_set_iou": 0.5315501405439645,
+        "avg_overlap_over_max": 0.5991780397022333,
+        "avg_duration_precision": 0.6635802136152767,
+        "avg_duration_recall": 0.7604166666666666,
+        "total_processing_seconds": 130.51587441697484,
+        "avg_processing_seconds": 32.62896860424371,
+        "total_predicted_total_duration_seconds": 103.0,
+        "unique_video_count": 2,
+        "unique_video_duration_seconds_total": 604.495,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "clip": 1,
+          "yolo": 2,
+          "xclip": 1
+        }
+      }
+    },
+    {
+      "hyperparameter_combo_key": "61fb2c3ee163031c68bd4b9fd0639372552d44e8",
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.23,
+          0.21,
+          0.192
+        ],
+        "CLIP_THRESHOLD": 0.192,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 20,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 40,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 7,
+        "PHASH_SIMILARITY_THRESHOLD": 10,
+        "VIDEO_SAMPLING_RATE": 15,
+        "XCLIP_MERGE_GAP_SECONDS": 2.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.32,
+          0.29,
+          0.265,
+          0.26,
+          0.24,
+          0.23
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.31,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.6,
+        "YOLO_MIN_THRESHOLD": 0.05,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.55,
+          0.4,
+          0.3,
+          0.2
+        ]
+      },
+      "summary": {
+        "prompt_count": 10,
+        "avg_best_iou": 0.3652791580400276,
+        "avg_mean_target_best_iou": 0.26431788995791555,
+        "avg_mean_predicted_best_iou": 0.23696974607439225,
+        "avg_recall": 0.15,
+        "avg_overlap_anywhere_recall": 0.7333333333333333,
+        "avg_temporal_set_iou": 0.3050445435323066,
+        "avg_overlap_over_max": 0.33514068460483776,
+        "avg_duration_precision": 0.48954818673612505,
+        "avg_duration_recall": 0.5789884135472371,
+        "total_processing_seconds": 262.43619133299217,
+        "avg_processing_seconds": 26.243619133299216,
+        "total_predicted_total_duration_seconds": 238.0,
+        "unique_video_count": 4,
+        "unique_video_duration_seconds_total": 843.5840000000001,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "clip": 4,
+          "yolo": 3,
+          "xclip": 3
+        }
+      }
+    }
+  ]
+}

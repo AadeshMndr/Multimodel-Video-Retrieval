@@ -1,0 +1,356 @@
+{
+  "video": "drinking.mp4",
+  "video_duration_seconds": 40.939,
+  "summary": {
+    "prompt_count": 2,
+    "avg_best_iou": 0.16666666666666666,
+    "avg_mean_target_best_iou": 0.16666666666666666,
+    "avg_mean_predicted_best_iou": 0.16666666666666666,
+    "avg_recall": 0.0,
+    "avg_overlap_anywhere_recall": 0.5,
+    "avg_temporal_set_iou": 0.16666666666666666,
+    "avg_overlap_over_max": 0.1875,
+    "avg_duration_precision": 0.1875,
+    "avg_duration_recall": 0.375,
+    "total_processing_seconds": 25.653240250016097,
+    "avg_processing_seconds": 12.826620125008048,
+    "total_predicted_total_duration_seconds": 8.0,
+    "unique_video_count": 1,
+    "unique_video_duration_seconds_total": 40.939,
+    "recall_iou_threshold": 0.5,
+    "path_counts": {
+      "xclip": 1,
+      "clip": 1
+    }
+  },
+  "summary_by_path": [
+    {
+      "path_taken": "clip",
+      "summary": {
+        "prompt_count": 1,
+        "avg_best_iou": 0.3333333333333333,
+        "avg_mean_target_best_iou": 0.3333333333333333,
+        "avg_mean_predicted_best_iou": 0.3333333333333333,
+        "avg_recall": 0.0,
+        "avg_overlap_anywhere_recall": 1.0,
+        "avg_temporal_set_iou": 0.3333333333333333,
+        "avg_overlap_over_max": 0.375,
+        "avg_duration_precision": 0.375,
+        "avg_duration_recall": 0.75,
+        "total_processing_seconds": 13.900984375010012,
+        "avg_processing_seconds": 13.900984375010012,
+        "total_predicted_total_duration_seconds": 8.0,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 40.939,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "clip": 1
+        }
+      }
+    },
+    {
+      "path_taken": "xclip",
+      "summary": {
+        "prompt_count": 1,
+        "avg_best_iou": 0.0,
+        "avg_mean_target_best_iou": 0.0,
+        "avg_mean_predicted_best_iou": 0.0,
+        "avg_recall": 0.0,
+        "avg_overlap_anywhere_recall": 0.0,
+        "avg_temporal_set_iou": 0.0,
+        "avg_overlap_over_max": 0.0,
+        "avg_duration_precision": 0.0,
+        "avg_duration_recall": 0.0,
+        "total_processing_seconds": 11.752255875006085,
+        "avg_processing_seconds": 11.752255875006085,
+        "total_predicted_total_duration_seconds": 0.0,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 40.939,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "xclip": 1
+        }
+      }
+    }
+  ],
+  "summary_by_hyperparameter_combo": [
+    {
+      "hyperparameter_combo_key": "61fb2c3ee163031c68bd4b9fd0639372552d44e8",
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.23,
+          0.21,
+          0.192
+        ],
+        "CLIP_THRESHOLD": 0.192,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 20,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 40,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 7,
+        "PHASH_SIMILARITY_THRESHOLD": 10,
+        "VIDEO_SAMPLING_RATE": 15,
+        "XCLIP_MERGE_GAP_SECONDS": 2.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.32,
+          0.29,
+          0.265,
+          0.26,
+          0.24,
+          0.23
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.31,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.6,
+        "YOLO_MIN_THRESHOLD": 0.05,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.55,
+          0.4,
+          0.3,
+          0.2
+        ]
+      },
+      "summary": {
+        "prompt_count": 2,
+        "avg_best_iou": 0.16666666666666666,
+        "avg_mean_target_best_iou": 0.16666666666666666,
+        "avg_mean_predicted_best_iou": 0.16666666666666666,
+        "avg_recall": 0.0,
+        "avg_overlap_anywhere_recall": 0.5,
+        "avg_temporal_set_iou": 0.16666666666666666,
+        "avg_overlap_over_max": 0.1875,
+        "avg_duration_precision": 0.1875,
+        "avg_duration_recall": 0.375,
+        "total_processing_seconds": 25.653240250016097,
+        "avg_processing_seconds": 12.826620125008048,
+        "total_predicted_total_duration_seconds": 8.0,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 40.939,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "xclip": 1,
+          "clip": 1
+        }
+      }
+    }
+  ],
+  "prompt_results": [
+    {
+      "sample_key": "3bed9478a18156eea8cc9e40506e48472cb9b44c",
+      "evaluated_at_utc": "2026-04-02T09:54:00.287969+00:00",
+      "video": "drinking.mp4",
+      "video_path": "evaluation/test_videos/drinking.mp4",
+      "video_duration_seconds": 40.939,
+      "processing_seconds": 11.752255875006085,
+      "label_file": "evaluation/test_labels/drinking.json",
+      "prompt_id": "p1",
+      "prompt": "Find me the clip where a person is drinking water (use xclip)",
+      "path_taken": "xclip",
+      "target_timestamps": [
+        [
+          20,
+          24
+        ]
+      ],
+      "predicted_timestamps": [],
+      "iou": {
+        "best_iou": 0.0,
+        "mean_target_best_iou": 0.0,
+        "mean_predicted_best_iou": 0.0,
+        "recall": 0.0,
+        "overlap_anywhere_recall": 0.0,
+        "temporal_set_iou": 0.0,
+        "overlap_over_max": 0.0,
+        "duration_precision": 0.0,
+        "duration_recall": 0.0,
+        "overlap_duration_seconds": 0.0,
+        "predicted_total_duration_seconds": 0.0,
+        "target_total_duration_seconds": 4.0,
+        "recall_iou_threshold": 0.5,
+        "pairwise_ious": []
+      },
+      "route_details": {
+        "path": "xclip",
+        "modified_prompts": [
+          "Person drinking water",
+          "Drinking water",
+          "A person with a drink",
+          "Someone drinking",
+          "Person with water",
+          "Drinking scene",
+          "Person hydrating"
+        ],
+        "score_stats": {
+          "window_count": 0,
+          "matched_window_count": 0,
+          "mean": 0.0,
+          "median": 0.0,
+          "max": 0.0,
+          "min": 0.0,
+          "cache_hit": false,
+          "used_threshold": 0.31
+        },
+        "matched_frame_count": 0,
+        "temporal_analysis": true,
+        "frame_source": "reduced",
+        "window_score_count": 0,
+        "window_scores": [],
+        "window_scores_truncated": false
+      },
+      "matched_frames_count": 0,
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.23,
+          0.21,
+          0.192
+        ],
+        "CLIP_THRESHOLD": 0.192,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 20,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 40,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 7,
+        "PHASH_SIMILARITY_THRESHOLD": 10,
+        "VIDEO_SAMPLING_RATE": 15,
+        "XCLIP_MERGE_GAP_SECONDS": 2.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.32,
+          0.29,
+          0.265,
+          0.26,
+          0.24,
+          0.23
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.31,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.6,
+        "YOLO_MIN_THRESHOLD": 0.05,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.55,
+          0.4,
+          0.3,
+          0.2
+        ]
+      },
+      "hyperparameter_combo_key": "61fb2c3ee163031c68bd4b9fd0639372552d44e8",
+      "hyperparameter_combo_index": 16
+    },
+    {
+      "sample_key": "505ec89133827cad7d31ca936b3ea20b514960f6",
+      "evaluated_at_utc": "2026-04-02T09:54:14.189570+00:00",
+      "video": "drinking.mp4",
+      "video_path": "evaluation/test_videos/drinking.mp4",
+      "video_duration_seconds": 40.939,
+      "processing_seconds": 13.900984375010012,
+      "label_file": "evaluation/test_labels/drinking.json",
+      "prompt_id": "p2",
+      "prompt": "Find me the clip where a person is drinking water (use clip)",
+      "path_taken": "clip",
+      "target_timestamps": [
+        [
+          20,
+          24
+        ]
+      ],
+      "predicted_timestamps": [
+        [
+          21,
+          29
+        ]
+      ],
+      "iou": {
+        "best_iou": 0.3333333333333333,
+        "mean_target_best_iou": 0.3333333333333333,
+        "mean_predicted_best_iou": 0.3333333333333333,
+        "recall": 0.0,
+        "overlap_anywhere_recall": 1.0,
+        "temporal_set_iou": 0.3333333333333333,
+        "overlap_over_max": 0.375,
+        "duration_precision": 0.375,
+        "duration_recall": 0.75,
+        "overlap_duration_seconds": 3.0,
+        "predicted_total_duration_seconds": 8.0,
+        "target_total_duration_seconds": 4.0,
+        "recall_iou_threshold": 0.5,
+        "pairwise_ious": [
+          {
+            "target": [
+              20,
+              24
+            ],
+            "predicted": [
+              21,
+              29
+            ],
+            "iou": 0.3333333333333333
+          }
+        ]
+      },
+      "route_details": {
+        "path": "clip",
+        "modified_prompts": [
+          "A person drinking water",
+          "Person drinking water",
+          "Drinking water",
+          "Someone drinking water",
+          "A person taking a sip of water",
+          "Person with a drink of water",
+          "Drinking"
+        ],
+        "score_stats": {
+          "mean": 0.19881184895833334,
+          "median": 0.1998291015625,
+          "max": 0.2318115234375,
+          "min": 0.162353515625,
+          "deciles": [
+            0.1565673828125,
+            0.170068359375,
+            0.1822509765625,
+            0.1865234375,
+            0.1998291015625,
+            0.2130126953125,
+            0.21685791015625,
+            0.2260498046875,
+            0.2361328125
+          ]
+        },
+        "reassessment_count": 1,
+        "matched_frame_count": 1
+      },
+      "matched_frames_count": 1,
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.23,
+          0.21,
+          0.192
+        ],
+        "CLIP_THRESHOLD": 0.192,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 20,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 40,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 7,
+        "PHASH_SIMILARITY_THRESHOLD": 10,
+        "VIDEO_SAMPLING_RATE": 15,
+        "XCLIP_MERGE_GAP_SECONDS": 2.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.32,
+          0.29,
+          0.265,
+          0.26,
+          0.24,
+          0.23
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.31,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.6,
+        "YOLO_MIN_THRESHOLD": 0.05,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.55,
+          0.4,
+          0.3,
+          0.2
+        ]
+      },
+      "hyperparameter_combo_key": "61fb2c3ee163031c68bd4b9fd0639372552d44e8",
+      "hyperparameter_combo_index": 16
+    }
+  ]
+}

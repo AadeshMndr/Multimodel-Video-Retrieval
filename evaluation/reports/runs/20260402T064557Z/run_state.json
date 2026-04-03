@@ -1,0 +1,11 @@
+{
+  "run_id": "20260402T064557Z",
+  "status": "running",
+  "started_utc": "20260402T064557Z",
+  "updated_utc": "2026-04-02T06:53:25.013896+00:00",
+  "completed_tasks": 18,
+  "total_tasks": 117,
+  "skipped_existing": 83,
+  "last_completed_sample_key": "50ecc869deb337118c8491f18f9e3ab7774d5d7a",
+  "last_error": null
+}

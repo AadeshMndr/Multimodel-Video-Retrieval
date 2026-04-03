@@ -1,0 +1,169 @@
+{
+  "run_id": "20260402T070331Z",
+  "started_utc": "20260402T070331Z",
+  "finished_utc": "2026-04-02T07:04:50.963586+00:00",
+  "status": "failed",
+  "last_error": {
+    "kind": "RateLimitError",
+    "message": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01kd2w4bwdetfb9mqrn6f4r8h7` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199230, Requested 2266. Please try again in 10m46.271999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'compound', 'code': 'rate_limit_exceeded'}}",
+    "at_task": {
+      "video": "Spiderman.mp4",
+      "prompt_id": "p1",
+      "hyperparameter_combo_index": 11,
+      "hyperparameter_combo_key": "3af54a2e871ca602fed1384e369f5144a689e862"
+    },
+    "traceback": "Traceback (most recent call last):\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/scripts/evaluate_retrieval.py\", line 961, in main\n    record = evaluate_task(\n        evaluation_task.prompt_task,\n    ...<5 lines>...\n        hyperparameter_combo_index=evaluation_task.hyperparameter_combo_index,\n    )\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/scripts/evaluate_retrieval.py\", line 760, in evaluate_task\n    final_state: Main_State = main_workflow.invoke(state)  # type: ignore\n                              ~~~~~~~~~~~~~~~~~~~~^^^^^^^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/pregel/main.py\", line 3071, in invoke\n    for chunk in self.stream(\n                 ~~~~~~~~~~~^\n        input,\n        ^^^^^^\n    ...<10 lines>...\n        **kwargs,\n        ^^^^^^^^^\n    ):\n    ^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/pregel/main.py\", line 2646, in stream\n    for _ in runner.tick(\n             ~~~~~~~~~~~^\n        [t for t in loop.tasks.values() if not t.writes],\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<2 lines>...\n        schedule_task=loop.accept_push,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ):\n    ^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/pregel/_runner.py\", line 167, in tick\n    run_with_retry(\n    ~~~~~~~~~~~~~~^\n        t,\n        ^^\n    ...<10 lines>...\n        },\n        ^^\n    )\n    ^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/pregel/_retry.py\", line 42, in run_with_retry\n    return task.proc.invoke(task.input, config)\n           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/_internal/_runnable.py\", line 656, in invoke\n    input = context.run(step.invoke, input, config, **kwargs)\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/_internal/_runnable.py\", line 400, in invoke\n    ret = self.func(*args, **kwargs)\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/router/logic_routes/yolo_logic.py\", line 22, in yolo_logic\n    llm_state = llm_for_yolo_workflow.invoke(llm_state) # type: ignore\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/pregel/main.py\", line 3071, in invoke\n    for chunk in self.stream(\n                 ~~~~~~~~~~~^\n        input,\n        ^^^^^^\n    ...<10 lines>...\n        **kwargs,\n        ^^^^^^^^^\n    ):\n    ^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/pregel/main.py\", line 2646, in stream\n    for _ in runner.tick(\n             ~~~~~~~~~~~^\n        [t for t in loop.tasks.values() if not t.writes],\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<2 lines>...\n        schedule_task=loop.accept_push,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ):\n    ^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/pregel/_runner.py\", line 167, in tick\n    run_with_retry(\n    ~~~~~~~~~~~~~~^\n        t,\n        ^^\n    ...<10 lines>...\n        },\n        ^^\n    )\n    ^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/pregel/_retry.py\", line 42, in run_with_retry\n    return task.proc.invoke(task.input, config)\n           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/_internal/_runnable.py\", line 656, in invoke\n    input = context.run(step.invoke, input, config, **kwargs)\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langgraph/_internal/_runnable.py\", line 400, in invoke\n    ret = self.func(*args, **kwargs)\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/service_layer/llm_service/node_functions.py\", line 391, in generate_synonyms\n    output: YOLO_OutputFormat = chain.invoke({\n                                ~~~~~~~~~~~~^^\n        \"user_prompt\": state[\"user_prompt\"],\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        \"max_num_of_similar_words\": settings.MAX_NUM_OF_SYNONYMS\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    })\n    ^^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langchain_core/runnables/base.py\", line 3153, in invoke\n    input_ = context.run(step.invoke, input_, config)\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langchain_core/language_models/chat_models.py\", line 402, in invoke\n    self.generate_prompt(\n    ~~~~~~~~~~~~~~~~~~~~^\n        [self._convert_input(input)],\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<6 lines>...\n        **kwargs,\n        ^^^^^^^^^\n    ).generations[0][0],\n    ^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langchain_core/language_models/chat_models.py\", line 1121, in generate_prompt\n    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)\n           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langchain_core/language_models/chat_models.py\", line 931, in generate\n    self._generate_with_cache(\n    ~~~~~~~~~~~~~~~~~~~~~~~~~^\n        m,\n        ^^\n    ...<2 lines>...\n        **kwargs,\n        ^^^^^^^^^\n    )\n    ^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langchain_core/language_models/chat_models.py\", line 1233, in _generate_with_cache\n    result = self._generate(\n        messages, stop=stop, run_manager=run_manager, **kwargs\n    )\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/langchain_groq/chat_models.py\", line 621, in _generate\n    response = self.client.create(messages=message_dicts, **params)\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/groq/resources/chat/completions.py\", line 461, in create\n    return self._post(\n           ~~~~~~~~~~^\n        \"/openai/v1/chat/completions\",\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<45 lines>...\n        stream_cls=Stream[ChatCompletionChunk],\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/groq/_base_client.py\", line 1242, in post\n    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))\n                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/aadeshmanandhar/home/projects/Multimodel-Video-Retrieval/myvenv/lib/python3.14/site-packages/groq/_base_client.py\", line 1044, in request\n    raise self._make_status_error_from_response(err.response) from None\ngroq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01kd2w4bwdetfb9mqrn6f4r8h7` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199230, Requested 2266. Please try again in 10m46.271999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'compound', 'code': 'rate_limit_exceeded'}}\nDuring task with name 'generate_synonyms_and_boolean_logic' and id '7a84f794-4451-f302-3b55-d56a7478abc2'\nDuring task with name 'yolo' and id '1105a9ca-1e95-bb1b-7eb9-b713460e2b64'\n"
+  },
+  "settings": {
+    "videos_dir": "evaluation/test_videos",
+    "labels_dir": "evaluation/test_labels",
+    "generate_video": false,
+    "force_recompute": false,
+    "max_prompts": null,
+    "recall_iou_threshold": 0.5,
+    "enable_random_search_cv": true,
+    "hyperparameter_search_space": "evaluation/hyperparameter_search_space.json",
+    "max_random_combinations": 20,
+    "random_seed": 42,
+    "keep_embeddings_between_combinations": false
+  },
+  "counts": {
+    "total_label_tasks": 10,
+    "selected_combinations": 20,
+    "planned_evaluations": 200,
+    "evaluated_new": 2,
+    "skipped_existing": 101
+  },
+  "summary": {
+    "prompt_count": 2,
+    "avg_best_iou": 0.4323076923076923,
+    "avg_mean_target_best_iou": 0.37230769230769234,
+    "avg_mean_predicted_best_iou": 0.33659340659340664,
+    "avg_recall": 0.0,
+    "avg_overlap_anywhere_recall": 1.0,
+    "avg_temporal_set_iou": 0.6153846153846154,
+    "avg_overlap_over_max": 0.6506410256410257,
+    "avg_duration_precision": 0.6506410256410257,
+    "avg_duration_recall": 0.9583333333333333,
+    "total_processing_seconds": 60.440210541011766,
+    "avg_processing_seconds": 30.220105270505883,
+    "total_predicted_total_duration_seconds": 73.0,
+    "unique_video_count": 1,
+    "unique_video_duration_seconds_total": 303.295,
+    "recall_iou_threshold": 0.5,
+    "path_counts": {
+      "yolo": 1,
+      "xclip": 1
+    }
+  },
+  "summary_by_path": [
+    {
+      "path_taken": "xclip",
+      "summary": {
+        "prompt_count": 1,
+        "avg_best_iou": 0.38461538461538464,
+        "avg_mean_target_best_iou": 0.38461538461538464,
+        "avg_mean_predicted_best_iou": 0.38461538461538464,
+        "avg_recall": 0.0,
+        "avg_overlap_anywhere_recall": 1.0,
+        "avg_temporal_set_iou": 0.38461538461538464,
+        "avg_overlap_over_max": 0.38461538461538464,
+        "avg_duration_precision": 0.38461538461538464,
+        "avg_duration_recall": 1.0,
+        "total_processing_seconds": 28.01363895801478,
+        "avg_processing_seconds": 28.01363895801478,
+        "total_predicted_total_duration_seconds": 13.0,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 303.295,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "xclip": 1
+        }
+      }
+    },
+    {
+      "path_taken": "yolo",
+      "summary": {
+        "prompt_count": 1,
+        "avg_best_iou": 0.48,
+        "avg_mean_target_best_iou": 0.36000000000000004,
+        "avg_mean_predicted_best_iou": 0.2885714285714286,
+        "avg_recall": 0.0,
+        "avg_overlap_anywhere_recall": 1.0,
+        "avg_temporal_set_iou": 0.8461538461538461,
+        "avg_overlap_over_max": 0.9166666666666666,
+        "avg_duration_precision": 0.9166666666666666,
+        "avg_duration_recall": 0.9166666666666666,
+        "total_processing_seconds": 32.426571582996985,
+        "avg_processing_seconds": 32.426571582996985,
+        "total_predicted_total_duration_seconds": 60.0,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 303.295,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "yolo": 1
+        }
+      }
+    }
+  ],
+  "summary_by_hyperparameter_combo": [
+    {
+      "hyperparameter_combo_key": "3af54a2e871ca602fed1384e369f5144a689e862",
+      "hyperparameters": {
+        "CLIP_REASSESSMENT_THRESHOLDS": [
+          0.25,
+          0.23,
+          0.21
+        ],
+        "CLIP_THRESHOLD": 0.23,
+        "FRAME_NEIGHBOUR_RANGE_AFTER": 20,
+        "FRAME_NEIGHBOUR_RANGE_BEFORE": 15,
+        "MAX_NUMBER_OF_MODIFIED_PROMPTS": 9,
+        "PHASH_SIMILARITY_THRESHOLD": 12,
+        "VIDEO_SAMPLING_RATE": 15,
+        "XCLIP_MERGE_GAP_SECONDS": 4.0,
+        "XCLIP_REASSESSMENT_THRESHOLDS": [
+          0.33,
+          0.3,
+          0.275,
+          0.26,
+          0.24,
+          0.22
+        ],
+        "XCLIP_STEP_SECONDS": 2.0,
+        "XCLIP_THRESHOLD": 0.35,
+        "XCLIP_WINDOW_SECONDS": 5.0,
+        "YOLO_MAX_USAGE_THRESHOLD": 0.55,
+        "YOLO_MIN_THRESHOLD": 0.08,
+        "YOLO_REASSESSMENT_THRESHOLDS": [
+          0.55,
+          0.4,
+          0.3,
+          0.2
+        ]
+      },
+      "summary": {
+        "prompt_count": 2,
+        "avg_best_iou": 0.4323076923076923,
+        "avg_mean_target_best_iou": 0.37230769230769234,
+        "avg_mean_predicted_best_iou": 0.33659340659340664,
+        "avg_recall": 0.0,
+        "avg_overlap_anywhere_recall": 1.0,
+        "avg_temporal_set_iou": 0.6153846153846154,
+        "avg_overlap_over_max": 0.6506410256410257,
+        "avg_duration_precision": 0.6506410256410257,
+        "avg_duration_recall": 0.9583333333333333,
+        "total_processing_seconds": 60.440210541011766,
+        "avg_processing_seconds": 30.220105270505883,
+        "total_predicted_total_duration_seconds": 73.0,
+        "unique_video_count": 1,
+        "unique_video_duration_seconds_total": 303.295,
+        "recall_iou_threshold": 0.5,
+        "path_counts": {
+          "yolo": 1,
+          "xclip": 1
+        }
+      }
+    }
+  ]
+}
