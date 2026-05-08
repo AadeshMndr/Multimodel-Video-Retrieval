@@ -249,7 +249,7 @@ def record_metrics(
 # Main evaluation (record = video)
 # ---------------------------------------------------------------------------
 
-def evaluate(limit: int | None = None, csv_path: str | None = None):
+def evaluate(limit: int | None = None, csv_path: str | None = None, offset: int = 0):
     logging.info("Loading Charades-STA dataset from HuggingFace …")
     ds = load_dataset(DATASET_NAME, split=DATASET_SPLIT)
 
@@ -265,10 +265,14 @@ def evaluate(limit: int | None = None, csv_path: str | None = None):
             "gt_end": float(gt_end),
         })
 
-    if limit is not None:
-        queries = queries[:limit]
-
-    logging.info("Total queries to evaluate: %d", len(queries))
+    total_in_dataset = len(queries)
+    offset = max(0, offset)
+    end = offset + limit if limit is not None else None
+    queries = queries[offset:end]
+    logging.info(
+        "Slice: offset=%d  limit=%s  -> evaluating %d / %d queries",
+        offset, str(limit), len(queries), total_in_dataset,
+    )
 
     queries_by_video: dict[str, list[dict]] = defaultdict(list)
     for q in queries:
@@ -490,7 +494,11 @@ def main():
         description="Charades-STA extended-metrics benchmark (per-video records)"
     )
     parser.add_argument("--limit", type=int, default=None,
-                        help="Evaluate only the first N queries")
+                        help="Evaluate only N queries (after offset)")
+    parser.add_argument("--offset", type=int, default=0,
+                        help="Skip the first N queries before applying --limit. "
+                             "Use with a different --offset in another process to run "
+                             "disjoint slices in parallel (e.g. offset=0 limit=500 vs offset=500 limit=500).")
     parser.add_argument("--csv", type=str, default=None,
                         help="Path to write per-record CSV results")
     parser.add_argument("--video-dir", type=str, default=None,
@@ -500,7 +508,7 @@ def main():
     if args.video_dir:
         VIDEO_BASE_PATH = args.video_dir
 
-    evaluate(limit=args.limit, csv_path=args.csv)
+    evaluate(limit=args.limit, csv_path=args.csv, offset=args.offset)
 
 
 if __name__ == "__main__":
