@@ -64,7 +64,7 @@ else:
     DATASET_NAME = "lmms-lab/charades_sta"
     DATASET_SPLIT = "test"
 
-VIDEO_BASE_PATH = "/home/aman/datasets/Charades_v1"
+VIDEO_BASE_PATH = "/Users/aadeshmanandhar/Downloads/Charades_v1_480"
 IOU_THRESHOLDS = [0.3, 0.5, 0.7]
 EPS = 1e-9
 

@@ -36,29 +36,25 @@ class Settings(BaseSettings):
     ############### Video config ######################
 
 
-    VIDEO_SAMPLING_RATE: int = 15
-    
-    # Lower number means more strict. 
+    VIDEO_SAMPLING_RATE: int = 24
+
+    # Lower number means more strict.
     # PHASH_SIMILARITY_THRESHOLD: int = 12
-    PHASH_SIMILARITY_THRESHOLD: int = 6
-    
+    PHASH_SIMILARITY_THRESHOLD: int = 4
+
     # How many neighbouring frames to consider when merging and making a video.
+    # With a lower sampling rate (fps) keep neighbour ranges reasonable.
     FRAME_NEIGHBOUR_RANGE_BEFORE: int = 30
-    # FRAME_NEIGHBOUR_RANGE_BEFORE: int = 15
-    FRAME_NEIGHBOUR_RANGE_AFTER: int = 30
-    # FRAME_NEIGHBOUR_RANGE_AFTER: int = 15
+    FRAME_NEIGHBOUR_RANGE_AFTER: int = 60
     
     
     
     ################## CLIP config ####################
     
 
-    CLIP_THRESHOLD: float = 0.250
-    # CLIP_THRESHOLD: float = 0.230
-    # CLIP_THRESHOLD: float = 0.192
-    
-    
-    CLIP_REASSESSMENT_THRESHOLDS: list[float] = [0.230, 210, 0.192]
+    CLIP_THRESHOLD: float = 0.28
+
+    CLIP_REASSESSMENT_THRESHOLDS: list[float] = [0.25, 0.23, 0.21]
 
     # above 90% (not including 90% though) (possible values: 0 to 8) -> 8 means: above 90%
     CLIP_REASSESSMENT_DECILE_NUMBER: int | None = 8
@@ -74,7 +70,7 @@ class Settings(BaseSettings):
     MODEL_NAME: str = "ViT-L/14" # has embedding dimension -> 768
     # MODEL_NAME: str = "ViT-B/32" # has embedding dimension -> 512
     
-    MAX_NUMBER_OF_MODIFIED_PROMPTS: int =  5  
+    MAX_NUMBER_OF_MODIFIED_PROMPTS: int = 9
     
     # This variable is not used by clip itself, but needs to be specified for Embedding to get stored.
     EMBEDDING_DIMENSION: int = 768 # Make sure this is correct as per the model choosen
@@ -83,12 +79,12 @@ class Settings(BaseSettings):
     ################## XCLIP config ####################
 
     XCLIP_MODEL_NAME: str = "microsoft/xclip-base-patch16"
-    XCLIP_THRESHOLD: float = 0.350
-    XCLIP_REASSESSMENT_THRESHOLDS: list[float] = [0.320, 0.290, 0.265, 0.260, 0.240, 0.230]
-    XCLIP_WINDOW_SECONDS: float = 5.0
-    XCLIP_STEP_SECONDS: float = 1.0
+    XCLIP_THRESHOLD: float = 0.40
+    XCLIP_REASSESSMENT_THRESHOLDS: list[float] = [0.34, 0.31, 0.285, 0.27, 0.25, 0.24]
+    XCLIP_WINDOW_SECONDS: float = 6.0
+    XCLIP_STEP_SECONDS: float = 2.0
     XCLIP_FRAMES_PER_CLIP: int = 8
-    XCLIP_MERGE_GAP_SECONDS: float = 2.0
+    XCLIP_MERGE_GAP_SECONDS: float = 3.0
     XCLIP_USE_REDUCED_FRAMES: bool = True
     ENABLE_XCLIP_EMBEDDING_STORAGE: bool = True
     XCLIP_EMBEDDING_STORE_FILEPATH: str = "xclip_embeddings"
@@ -105,23 +101,22 @@ class Settings(BaseSettings):
     ################# YOLO config ######################
     
     # This threshold is used for "conf" in the model itself for detecting items
-    YOLO_MIN_THRESHOLD: float = 0.100
-    
+    YOLO_MIN_THRESHOLD: float = 0.05
+
     # This threshold is used for filtering the detected items in the first pass
-    YOLO_MAX_USAGE_THRESHOLD: float = 0.700
-    
-    
-    
-    YOLO_REASSESSMENT_THRESHOLDS: list[float] = [0.500, 0.350, 0.250, 0.190]
-    
+    YOLO_MAX_USAGE_THRESHOLD: float = 0.7
+
+
+    YOLO_REASSESSMENT_THRESHOLDS: list[float] = [0.48, 0.33, 0.23, 0.16]
+
     YOLO_REASSESSMENT_DECILE_NUMBER: int | None = 4
-    
+
     YOLO_REASSESS_REJECT_THRESHOLD: float = 0.01
-    
-    
+
+
     YOLO_MODEL_NAME: str = "yoloe-26x-seg.pt"
     # YOLO_MODEL_NAME: str = "yoloe-11s-seg.pt"
-    YOLO_BATCH_SIZE: int = 64 if get_optimal_device() != "cpu" else 32
+    YOLO_BATCH_SIZE: int = 32 if get_optimal_device() != "cpu" else 16
     
     # YOLO_MAX_USAGE_THRESHOLD: float = 0.950
 
@@ -133,6 +128,8 @@ class Settings(BaseSettings):
     #################### LLM config ####################
     
     
+    # LLM_MODEL_NAME: str = "gemini-2.5-flash"
+    # GOOGLE_API_KEY: str = ""
     LLM_MODEL_NAME: str = "groq/compound"
     GROQ_API_KEY: str = ""
 
@@ -161,7 +158,7 @@ class Settings(BaseSettings):
     OCR_EASYOCR_BATCH: int = 8
     OCR_TOP_K: int = 10
     OCR_MERGE_GAP: float = 2.0
-    OCR_MIN_SCORE: float = 0.20
+    OCR_MIN_SCORE: float = 0.30
     OCR_FORCE_REINDEX: bool = False
     OCR_WRITE_TRANSCRIPT: bool = True
     CALCULATE_OCR_INDEX_ON_UPLOAD: bool = False
