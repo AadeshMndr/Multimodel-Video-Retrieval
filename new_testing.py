@@ -17,6 +17,9 @@ averaged across records (record = one video):
     - avg_duration_recall
     - total_predicted_total_duration_seconds  (SUM, not average)
 
+In addition, the script now computes query-level AP from the ranked sliding
+windows and reports mean AP (mAP) across IoU thresholds 0.3 / 0.5 / 0.7.
+
 Definitions
 -----------
 - Record               : one video (queries grouped by video).
@@ -141,6 +144,41 @@ def best_window_to_seconds(
     best_idx = max(range(len(scores)), key=lambda i: scores[i])
     sf, ef = frame_ranges[best_idx]
     return sf / fps, ef / fps
+
+
+def average_precision_at_iou(
+    frame_ranges: list[tuple[int, int]],
+    scores: list[float],
+    gt_start: float,
+    gt_end: float,
+    fps: float,
+    threshold: float,
+) -> float:
+    """Average precision for a single query at one IoU threshold.
+
+    Each sliding window is treated as a ranked prediction. A window is relevant
+    if its IoU with the ground-truth interval is at least `threshold`.
+    """
+    if not frame_ranges or not scores:
+        return 0.0
+
+    if fps <= 0:
+        return 0.0
+
+    ranked_indices = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)
+    relevant_total = 0
+    precision_sum = 0.0
+
+    for rank, idx in enumerate(ranked_indices, start=1):
+        window_start, window_end = frame_ranges[idx]
+        iou = compute_iou(window_start / fps, window_end / fps, gt_start, gt_end)
+        if iou >= threshold:
+            relevant_total += 1
+            precision_sum += relevant_total / rank
+
+    if relevant_total == 0:
+        return 0.0
+    return precision_sum / relevant_total
 
 
 def build_frame_factory(video_processor: Video_Processor):
@@ -289,6 +327,7 @@ def evaluate(limit: int | None = None, csv_path: str | None = None, offset: int 
 
     # R@1 globals (existing metric, kept exactly as in testing.py)
     hits: dict[float, int] = {t: 0 for t in IOU_THRESHOLDS}
+    ap_sums: dict[float, float] = {t: 0.0 for t in IOU_THRESHOLDS}
     total_queries = 0
     skipped = 0
 
@@ -321,10 +360,14 @@ def evaluate(limit: int | None = None, csv_path: str | None = None, offset: int 
             skipped += len(video_queries)
             continue
 
+        original_video_duration_seconds = vp.frame_count / fps
+
         frame_factory = build_frame_factory(vp)
 
         targets: list[tuple[float, float]] = []
         predictions: list[tuple[float, float]] | None = None
+        video_ap_sums: dict[float, float] = {t: 0.0 for t in IOU_THRESHOLDS}
+        video_query_count = 0
 
         for q in video_queries:
             caption = q["caption"]
@@ -348,7 +391,18 @@ def evaluate(limit: int | None = None, csv_path: str | None = None, offset: int 
             for t in IOU_THRESHOLDS:
                 if iou >= t:
                     hits[t] += 1
+                ap_value = average_precision_at_iou(
+                    frame_ranges,
+                    all_scores,
+                    gt_start,
+                    gt_end,
+                    fps,
+                    t,
+                )
+                ap_sums[t] += ap_value
+                video_ap_sums[t] += ap_value
             total_queries += 1
+            video_query_count += 1
 
             targets.append((gt_start, gt_end))
 
@@ -361,6 +415,10 @@ def evaluate(limit: int | None = None, csv_path: str | None = None, offset: int 
 
         rec = record_metrics(targets, predictions or [])
         rec["video"] = video_file
+        rec["original_video_duration_seconds"] = original_video_duration_seconds
+        for t in IOU_THRESHOLDS:
+            rec[f"ap_{t}"] = safe_div(video_ap_sums[t], video_query_count)
+        rec["mAP"] = sum(rec[f"ap_{t}"] for t in IOU_THRESHOLDS) / len(IOU_THRESHOLDS)
         record_rows.append(rec)
         total_predicted_total_duration_seconds += rec["predicted_total_duration_seconds"]
 
@@ -403,6 +461,10 @@ def evaluate(limit: int | None = None, csv_path: str | None = None, offset: int 
         "total_predicted_total_duration_seconds": total_predicted_total_duration_seconds,
     }
 
+    for t in IOU_THRESHOLDS:
+        summary[f"avg_ap_{t}"] = safe_div(ap_sums[t], total_queries)
+    summary["mAP"] = sum(summary[f"avg_ap_{t}"] for t in IOU_THRESHOLDS) / len(IOU_THRESHOLDS)
+
     wall_elapsed = time.time() - wall_start
     print("\n" + "=" * 64)
     print("Charades-STA Extended Evaluation (per-video records)")
@@ -419,6 +481,11 @@ def evaluate(limit: int | None = None, csv_path: str | None = None, offset: int 
     for t in IOU_THRESHOLDS:
         pct = (hits[t] / total_queries * 100) if total_queries else 0
         print(f"  R@1 IoU>={t:.1f}    : {hits[t]}/{total_queries}  =  {pct:.2f}%")
+    print("-" * 64)
+    print("mAP (query-level AP over ranked windows):")
+    for t in IOU_THRESHOLDS:
+        print(f"  AP@{t:.1f}                    : {summary[f'avg_ap_{t}']:.4f}")
+    print(f"  mAP                        : {summary['mAP']:.4f}")
     print("-" * 64)
     print("Extended metrics (averaged across records):")
     print(f"  avg_recall@0.3                  : {summary['avg_recall_0.3']:.4f}")
@@ -441,12 +508,13 @@ def evaluate(limit: int | None = None, csv_path: str | None = None, offset: int 
     # ------------------------------------------------------------------
     if csv_path:
         fieldnames = [
-            "video", "n_targets", "n_predictions",
+            "video", "original_video_duration_seconds", "n_targets", "n_predictions",
             "recall_0.3", "recall_0.5", "recall_0.7",
             "overlap_anywhere_recall",
             "best_iou", "mean_target_best_iou", "mean_predicted_best_iou",
             "temporal_set_iou", "overlap_over_max",
             "duration_precision", "duration_recall",
+            "ap_0.3", "ap_0.5", "ap_0.7", "mAP",
             "predicted_total_duration_seconds",
         ]
 
@@ -464,6 +532,7 @@ def evaluate(limit: int | None = None, csv_path: str | None = None, offset: int 
 
             summary_row = {f: "" for f in fieldnames}
             summary_row["video"] = "__SUMMARY__"
+            summary_row["original_video_duration_seconds"] = ""
             summary_row["recall_0.3"] = round(summary["avg_recall_0.3"], 6)
             summary_row["recall_0.5"] = round(summary["avg_recall_0.5"], 6)
             summary_row["recall_0.7"] = round(summary["avg_recall_0.7"], 6)
@@ -475,6 +544,10 @@ def evaluate(limit: int | None = None, csv_path: str | None = None, offset: int 
             summary_row["overlap_over_max"] = round(summary["avg_overlap_over_max"], 6)
             summary_row["duration_precision"] = round(summary["avg_duration_precision"], 6)
             summary_row["duration_recall"] = round(summary["avg_duration_recall"], 6)
+            summary_row["ap_0.3"] = round(summary["avg_ap_0.3"], 6)
+            summary_row["ap_0.5"] = round(summary["avg_ap_0.5"], 6)
+            summary_row["ap_0.7"] = round(summary["avg_ap_0.7"], 6)
+            summary_row["mAP"] = round(summary["mAP"], 6)
             summary_row["predicted_total_duration_seconds"] = round(
                 summary["total_predicted_total_duration_seconds"], 6
             )
