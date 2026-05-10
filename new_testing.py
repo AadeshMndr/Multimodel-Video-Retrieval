@@ -287,7 +287,7 @@ def record_metrics(
 # Main evaluation (record = video)
 # ---------------------------------------------------------------------------
 
-def evaluate(limit: int | None = None, csv_path: str | None = None, offset: int = 0):
+def evaluate(limit: int | None = None, csv_path: str | None = None, offset: int = 0, processing_csv: str | None = None):
     logging.info("Loading Charades-STA dataset from HuggingFace …")
     ds = load_dataset(DATASET_NAME, split=DATASET_SPLIT)
 
@@ -307,6 +307,9 @@ def evaluate(limit: int | None = None, csv_path: str | None = None, offset: int 
     offset = max(0, offset)
     end = offset + limit if limit is not None else None
     queries = queries[offset:end]
+    # assign a global prompt id (useful for tracking processing time rows)
+    for idx, q in enumerate(queries, start=offset):
+        q["prompt_id"] = idx
     logging.info(
         "Slice: offset=%d  limit=%s  -> evaluating %d / %d queries",
         offset, str(limit), len(queries), total_in_dataset,
@@ -324,6 +327,35 @@ def evaluate(limit: int | None = None, csv_path: str | None = None, offset: int 
         embedding_store=None,
         device=settings.DEVICE,
     )
+
+    # Prepare processing-time CSV (one per run) if not supplied
+    if processing_csv is None:
+        ts = int(time.time())
+        os.makedirs("Processing_time_results", exist_ok=True)
+        processing_csv = os.path.join("Processing_time_results", f"processing_time_{ts}.csv")
+    else:
+        # If the user supplied a path that already exists, create a new unique file
+        # by appending timestamp and pid to avoid accidental appends.
+        if os.path.exists(processing_csv):
+            base, ext = os.path.splitext(processing_csv)
+            ts = int(time.time())
+            processing_csv = f"{base}_{ts}_{os.getpid()}{ext}"
+        parent = os.path.dirname(processing_csv)
+        if parent:
+            os.makedirs(parent, exist_ok=True)
+
+    proc_fieldnames = [
+        "video",
+        "prompt_id",
+        "prompt_in_video_id",
+        "original_video_duration_seconds",
+        "processing_time_seconds",
+        "gt_start",
+        "gt_end",
+    ]
+    proc_file = open(processing_csv, "w", newline="", encoding="utf-8")
+    proc_writer = csv.DictWriter(proc_file, fieldnames=proc_fieldnames)
+    proc_writer.writeheader()
 
     # R@1 globals (existing metric, kept exactly as in testing.py)
     hits: dict[float, int] = {t: 0 for t in IOU_THRESHOLDS}
@@ -369,21 +401,23 @@ def evaluate(limit: int | None = None, csv_path: str | None = None, offset: int 
         video_ap_sums: dict[float, float] = {t: 0.0 for t in IOU_THRESHOLDS}
         video_query_count = 0
 
-        for q in video_queries:
+        for q_idx, q in enumerate(video_queries):
             caption = q["caption"]
             gt_start, gt_end = q["gt_start"], q["gt_end"]
 
+            start_pt = time.perf_counter()
             try:
                 frame_ranges, all_scores, _ = xclip_processor.compute_window_scores(
                     sampled_frames_factory=frame_factory,
                     texts=[caption],
                     fps=fps,
                 )
+                processing_time = time.perf_counter() - start_pt
             except Exception as exc:
                 logging.warning("Score computation failed for %s / '%s': %s",
                                 video_file, caption, exc)
                 skipped += 1
-                continue
+                processing_time = ""
 
             # R@1 (per-query, identical to testing.py)
             pred_start, pred_end = best_window_to_seconds(frame_ranges, all_scores, fps)
@@ -409,6 +443,17 @@ def evaluate(limit: int | None = None, csv_path: str | None = None, offset: int 
             # frame_ranges are caption-agnostic; capture once per video.
             if predictions is None and frame_ranges:
                 predictions = [(sf / fps, ef / fps) for sf, ef in frame_ranges]
+
+            # write processing-time row for this prompt
+            proc_writer.writerow({
+                "video": video_file,
+                "prompt_id": q.get("prompt_id"),
+                "prompt_in_video_id": q_idx,
+                "original_video_duration_seconds": original_video_duration_seconds,
+                "processing_time_seconds": processing_time,
+                "gt_start": gt_start,
+                "gt_end": gt_end,
+            })
 
         if not targets:
             continue
@@ -555,6 +600,12 @@ def evaluate(limit: int | None = None, csv_path: str | None = None, offset: int 
 
         print(f"Per-record results written to {csv_path}")
 
+    # Close processing-time CSV file (if opened)
+    try:
+        proc_file.close()
+    except Exception:
+        pass
+
 
 # ---------------------------------------------------------------------------
 # CLI
@@ -576,12 +627,14 @@ def main():
                         help="Path to write per-record CSV results")
     parser.add_argument("--video-dir", type=str, default=None,
                         help=f"Override video directory (default: {VIDEO_BASE_PATH})")
+    parser.add_argument("--processing-csv", type=str, default=None,
+                        help="Path to write per-prompt processing times CSV (default: Processing_time_results/processing_time_<ts>.csv)")
     args = parser.parse_args()
 
     if args.video_dir:
         VIDEO_BASE_PATH = args.video_dir
 
-    evaluate(limit=args.limit, csv_path=args.csv, offset=args.offset)
+    evaluate(limit=args.limit, csv_path=args.csv, offset=args.offset, processing_csv=args.processing_csv)
 
 
 if __name__ == "__main__":
