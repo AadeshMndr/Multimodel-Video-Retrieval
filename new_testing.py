@@ -333,16 +333,6 @@ def evaluate(limit: int | None = None, csv_path: str | None = None, offset: int 
         ts = int(time.time())
         os.makedirs("Processing_time_results", exist_ok=True)
         processing_csv = os.path.join("Processing_time_results", f"processing_time_{ts}.csv")
-    else:
-        # If the user supplied a path that already exists, create a new unique file
-        # by appending timestamp and pid to avoid accidental appends.
-        if os.path.exists(processing_csv):
-            base, ext = os.path.splitext(processing_csv)
-            ts = int(time.time())
-            processing_csv = f"{base}_{ts}_{os.getpid()}{ext}"
-        parent = os.path.dirname(processing_csv)
-        if parent:
-            os.makedirs(parent, exist_ok=True)
 
     proc_fieldnames = [
         "video",
